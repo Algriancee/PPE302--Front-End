@@ -1,0 +1,54 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Media } from '../Models/Medias.model';
+import { Observable , of } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MediasService {
+
+  private apiUrl = 'http://localhost:8080/Medias';
+
+  constructor(private http: HttpClient) {}
+
+  /** ➕ Ajouter un média */
+  create(media: Media): Observable<Media> {
+    return this.http.post<Media>(this.apiUrl, media);
+  }
+
+  /** 🔄 Modifier un média */
+  update(id: number, media: Media): Observable<Media> {
+    return this.http.put<Media>(`${this.apiUrl}/${id}`, media);
+  }
+
+  /** 📋 Lister tous les médias */
+  getAll(): Observable<Media[]> {
+    return this.http.get<Media[]>(this.apiUrl);
+  }
+
+  /** 🔍 Trouver un média par ID */
+  getById(id: number): Observable<Media> {
+    return this.http.get<Media>(`${this.apiUrl}/${id}`);
+  }
+
+  /** 🔍 Trouver tous les médias d’un joueur */
+  getByJoueurId(joueurId: number): Observable<Media[]> {
+    return this.http.get<Media[]>(`${this.apiUrl}/joueur/${joueurId}`);
+  }
+
+  /** 🔍 Trouver par type (ex: photo, vidéo, etc.) */
+  getByType(type: string): Observable<Media[]> {
+    return this.http.get<Media[]>(`${this.apiUrl}/type/${type}`);
+  }
+
+  /** ❌ Supprimer un média */
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  getMediasByEmail(email: string): Observable<Media[]> {
+    return this.http.get<Media[]>(`${this.apiUrl}/Medias/email/${email}`);
+  }
+  
+}

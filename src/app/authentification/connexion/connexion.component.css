@@ -1,0 +1,181 @@
+
+
+
+/* ====== HEADER ====== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(90deg, #004aad, #007bff);
+  color: white;
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.header-content {
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+}
+
+.logo {
+  height: 45px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links .active {
+  color: #ffca28;
+}
+
+/* ====== CONTENEUR PRINCIPAL ====== */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: 80px;
+  background: linear-gradient(135deg, #e0f2ff 0%, #ffffff 100%);
+  background-image: url("/assets/bg-football.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ====== FORMULAIRE ====== */
+.login-box {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-radius: 15px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: fadeIn 0.8s ease;
+}
+
+.login-header {
+  margin-bottom: 20px;
+}
+
+.small-logo {
+  width: 70px;
+  margin-bottom: 10px;
+}
+
+.login-header h2 {
+  color: #004aad;
+  margin-bottom: 5px;
+  font-size: 26px;
+}
+
+.login-header p {
+  color: #555;
+  font-size: 14px;
+}
+
+/* ====== CHAMPS ====== */
+.form-group {
+  margin-bottom: 18px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  border-color: #004aad;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 74, 173, 0.4);
+}
+
+/* ====== BOUTON ====== */
+button {
+  width: 100%;
+  background: #004aad;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: #00337a;
+  transform: scale(1.02);
+}
+
+/* ====== LIEN ====== */
+.register-text {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.register-text a {
+  color: #004aad;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-text a:hover {
+  text-decoration: underline;
+}
+
+/* ====== FOOTER ====== */
+.footer {
+  background-color: #004aad;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 14px;
+  position: relative;
+  margin-top: 40px;
+}
+
+/* ====== ANIMATION ====== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 480px) {
+  .login-box {
+    padding: 25px;
+  }
+
+  .login-header h2 {
+    font-size: 22px;
+  }
+
+  button {
+    font-size: 15px;
+  }
+}

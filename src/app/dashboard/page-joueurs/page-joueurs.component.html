@@ -1,0 +1,127 @@
+<div class="joueur-dashboard">
+
+  <!-- 🧭 Navigation entre les sections -->
+  <nav class="nav-section">
+    <button (click)="section = 'joueur'">👤 Informations Joueur</button>
+    <button (click)="section = 'profil'">📄 Profil Joueur</button>
+    <button (click)="section = 'medias'">🎥 Médias</button>
+  </nav>
+
+  <!-- 🧍 SECTION JOUEUR -->
+  <section *ngIf="section === 'joueur'" class="section-card">
+    <h2>Informations du Joueur</h2>
+
+    <form (ngSubmit)="joueurs.id ? updateJoueur() : createJoueur()" class="form-grid">
+      <div>
+        <label>Nom</label>
+        <input [(ngModel)]="joueurs.nom" name="nom" required />
+      </div>
+      <div>
+        <label>Prénoms</label>
+        <input [(ngModel)]="joueurs.prenoms" name="prenoms" required />
+      </div>
+      <div>
+        <label>Email</label>
+        <input [(ngModel)]="joueurs.email" name="email" required readonly />
+      </div>
+      <div>
+        <label>Téléphone</label>
+        <input [(ngModel)]="joueurs.telephone" name="telephone" />
+      </div>
+      <div>
+        <label>Poste</label>
+        <input [(ngModel)]="joueurs.poste" name="poste" />
+      </div>
+      <div>
+        <label>Nationalité</label>
+        <input [(ngModel)]="joueurs.nationalite" name="nationalite" />
+      </div>
+      <div>
+        <label>Taille (cm)</label>
+        <input type="number" [(ngModel)]="joueurs.taille" name="taille" />
+      </div>
+      <div>
+        <label>Poids (kg)</label>
+        <input type="number" [(ngModel)]="joueurs.poids" name="poids" />
+      </div>
+      <div>
+        <label>Pied fort</label>
+        <input [(ngModel)]="joueurs.piedFort" name="piedFort" />
+      </div>
+      <div>
+        <label>Niveau</label>
+        <input [(ngModel)]="joueurs.niveau" name="niveau" />
+      </div>
+
+      <button type="submit" class="btn-primary">
+        {{ joueurs.id ? 'Mettre à jour' : 'Créer' }}
+      </button>
+    </form>
+  </section>
+
+  <!-- 🧾 SECTION PROFIL -->
+  <section *ngIf="section === 'profil'" class="section-card">
+    <h2>Profil Joueur</h2>
+
+    <form (ngSubmit)="profil.id ? updateProfil() : createProfil()" class="form-column">
+      <div>
+        <label>Biographie</label>
+        <textarea [(ngModel)]="profil.biographie" name="biographie"></textarea>
+      </div>
+      <div>
+        <label>Parcours</label>
+        <textarea [(ngModel)]="profil.parcours" name="parcours"></textarea>
+      </div>
+      <div>
+        <label>Palmarès</label>
+        <textarea [(ngModel)]="profil.palmares" name="palmares"></textarea>
+      </div>
+
+      <div class="btn-group">
+        <button type="submit" class="btn-primary">
+          {{ profil.id ? 'Mettre à jour' : 'Créer le profil' }}
+        </button>
+        <button *ngIf="profil.id" type="button" class="btn-danger" (click)="deleteProfil()">Supprimer</button>
+      </div>
+    </form>
+
+    <div class="profil-affichage" *ngIf="profil.id">
+      <h3>Votre profil actuel :</h3>
+      <p><strong>Biographie :</strong> {{ profil.biographie }}</p>
+      <p><strong>Parcours :</strong> {{ profil.parcours }}</p>
+      <p><strong>Palmarès :</strong> {{ profil.palmares }}</p>
+    </div>
+  </section>
+
+  <!-- 🎬 SECTION MEDIAS -->
+  <section *ngIf="section === 'medias'" class="section-card">
+    <h2>Vos Médias</h2>
+
+    <form (ngSubmit)="createMedia()" class="form-grid">
+      <div>
+        <label>Type</label>
+        <input [(ngModel)]="mediaForm.type" name="type" placeholder="VIDEO, CV, etc." />
+      </div>
+      <div>
+        <label>URL</label>
+        <input [(ngModel)]="mediaForm.url" name="url" placeholder="https://..." />
+      </div>
+      <div>
+        <label>Description</label>
+        <input [(ngModel)]="mediaForm.description" name="description" />
+      </div>
+      <button type="submit" class="btn-primary">Ajouter Média</button>
+    </form>
+
+    <div class="media-list">
+      <div *ngFor="let media of medias" class="media-card">
+        <div class="media-info">
+          <strong>{{ media.type }}</strong>
+          <p>{{ media.description }}</p>
+          <a [href]="media.url" target="_blank">Voir</a>
+        </div>
+        <button class="btn-danger" (click)="deleteMedia(media.id!)">Supprimer</button>
+      </div>
+    </div>
+  </section>
+</div>

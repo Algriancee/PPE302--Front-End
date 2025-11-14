@@ -1,0 +1,59 @@
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-content">
+    <img src="assets/logo.png" alt="Logo" class="logo"  />
+    
+    <nav class="nav-links">
+      <a routerLink="/" routerLinkActive="active">Accueil</a>
+      <a routerLink="/inscription" routerLinkActive="active">Inscription</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== CONTENU PRINCIPAL ===== -->
+<div class="login-container">
+  <div class="login-box">
+    <div class="login-header">
+      <img src="assets/logo.png" alt="Logo" class="small-logo">
+      <h2>Connexion</h2>
+      <p>Heureux de vous revoir parmi nous !</p>
+    </div>
+
+    <form #loginForm="ngForm" (ngSubmit)="onLogin()">
+      <!-- Email -->
+      <div class="form-group">
+        <input
+          type="email"
+          placeholder="Adresse email"
+          name="email"
+          [(ngModel)]="email"
+          required
+        />
+      </div>
+
+      <!-- Mot de passe -->
+      <div class="form-group">
+        <input
+          type="password"
+          placeholder="Mot de passe"
+          name="password"
+          [(ngModel)]="password"
+          required
+        />
+      </div>
+
+      <!-- Bouton -->
+      <button type="submit">Se connecter</button>
+    </form>
+
+    <p class="register-text">
+      Pas encore de compte ? <a routerLink="/inscription">S'inscrire</a>
+    </p>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p>© 2025 RelatFoot. Tous droits réservés.</p>
+</footer>

@@ -1,0 +1,107 @@
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-content">
+    <img src="assets/logo.png" alt="Logo" class="logo" />
+    <nav class="nav-links">
+      <a routerLink="/accueil">Accueil</a>
+      <a routerLink="/connexion">Connexion</a>
+      <a routerLink="/inscription" class="active">Inscription</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== CONTENU PRINCIPAL ===== -->
+<main class="register-container">
+  <div class="register-box">
+    <div class="register-header">
+      <img src="assets/logo.png" alt="Logo" class="small-logo" />
+      <h2>Créer un compte</h2>
+      <p>Rejoignez notre plateforme dès aujourd’hui !</p>
+    </div>
+
+    <form #registerForm="ngForm" (ngSubmit)="onRegister()">
+      <div class="form-group">
+        <input
+          type="text"
+          placeholder="Nom"
+          name="nom"
+          [(ngModel)]="nom"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <input
+          type="text"
+          placeholder="Prénom"
+          name="prenom"
+          [(ngModel)]="prenom"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <input
+          type="email"
+          placeholder="Email"
+          name="email"
+          [(ngModel)]="email"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <input
+          type="tel"
+          placeholder="Téléphone"
+          name="telephone"
+          [(ngModel)]="telephone"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <input
+          type="password"
+          placeholder="Mot de passe"
+          name="password"
+          [(ngModel)]="password"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <input
+          type="password"
+          placeholder="Confirmer le mot de passe"
+          name="confirmPassword"
+          [(ngModel)]="confirmPassword"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <select name="role" [(ngModel)]="role" required>
+          <option value="" disabled selected>Choisir un rôle</option>
+          <option value="JOUEURS">Joueur</option>
+          <option value="AGENTS">Agent</option>
+          <option value="ADMIN">Admin</option>
+          <option value="USER">Utilisateur</option>
+        </select>
+      </div>
+
+      <button type="submit">S'inscrire</button>
+    </form>
+
+    <p *ngIf="message" class="success-message">{{ message }}</p>
+
+    <p class="login-text">
+      Déjà un compte ? <a routerLink="/connexion">Se connecter</a>
+    </p>
+  </div>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p>© 2025 RelatFoot – Tous droits réservés.</p>
+</footer>
