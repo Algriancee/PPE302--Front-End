@@ -7,5 +7,5 @@ export interface Media {
   url: string;
   description?: string;
   dateUpload?: string; // ISO date string
-  joueur?: Joueur;
+  joueur?: { id: number };
 }

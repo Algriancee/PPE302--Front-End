@@ -33,7 +33,7 @@ export class ProfilJoueursService {
   }
 
   /** 🔍 Trouver un profil par joueur ID */
-  getByJoueurId(joueurId: number): Observable<ProfilJoueur> {
+  getProfilByJoueurId(joueurId: number): Observable<ProfilJoueur> {
     return this.http.get<ProfilJoueur>(`${this.apiUrl}/joueur/${joueurId}`);
   }
 

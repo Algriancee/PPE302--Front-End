@@ -13,6 +13,6 @@ export interface Joueur extends User {
   adresse?: string;
   piedFort?: string;
   niveau?: string;
-  profil?: ProfilJoueur[];
+  profil?: ProfilJoueur;
   medias?: Media[];
 }

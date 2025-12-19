@@ -1,0 +1,295 @@
+
+
+
+body, * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  grid-template-rows: 70px 1fr 50px;
+  grid-template-areas:
+    "header header"
+    "sidebar content"
+    "footer footer";
+  height: 100vh;
+  background: #f3f6fb;
+}
+
+/* ================== HEADER ================== */
+
+.header {
+  grid-area: header;
+  background: #0a4dbf;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  height: 40px;
+}
+
+.brand {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  font-size: 14px;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #dce7ff;
+  object-fit: cover;
+}
+
+.logout-btn {
+  background: #e53935;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  background: #c62828;
+}
+
+/* ================== SIDEBAR ================== */
+
+.sidebar {
+  grid-area: sidebar;
+  background: white;
+  padding: 20px;
+  border-right: 1px solid #dce3f1;
+}
+
+.sidebar h3 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #0a4dbf;
+}
+
+.side-btn {
+  width: 100%;
+  padding: 12px;
+  background: #eef3ff;
+  border: 1px solid #bcccff;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  transition: 0.2s;
+  font-size: 15px;
+}
+
+.side-btn:hover {
+  background: #dbe6ff;
+}
+
+.side-btn.active {
+  background: #0a4dbf;
+  color: white;
+  border-color: #083a8a;
+  font-weight: bold;
+}
+
+/* ================== CONTENT ================== */
+
+.content {
+  grid-area: content;
+  padding: 25px;
+  overflow-y: auto;
+}
+
+h2 {
+  color: #0a4dbf;
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+/* Grid pour formulaire profil */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-top: 12px;
+  color: #1c2d4f;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cdd7eb;
+  border-radius: 6px;
+  margin-top: 4px;
+  background: white;
+}
+
+input:focus {
+  outline: 2px solid #0a4dbf;
+  border-color: #0a4dbf;
+}
+
+.save-btn {
+  margin-top: 18px;
+  padding: 12px 18px;
+  background: #0a4dbf;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.save-btn:hover {
+  background: #083a8a;
+}
+
+/* ================== TABLE JOUEURS ================== */
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.joueurs-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.joueurs-table th {
+  background: #0a4dbf;
+  color: white;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.joueurs-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e9f3;
+}
+
+.joueurs-table tr:hover {
+  background: #eef3ff;
+}
+
+.view-btn {
+  padding: 6px 12px;
+  background: #083a8a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.view-btn:hover {
+  background: #062c6c;
+}
+
+/* ================== DRAWER ================== */
+
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 998;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 420px;
+  height: 100%;
+  background: white;
+  padding: 25px;
+  box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+  animation: slide 0.25s ease-out;
+  z-index: 999;
+  overflow-y: auto;
+}
+
+@keyframes slide {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.close-btn {
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  float: right;
+  cursor: pointer;
+}
+
+.drawer h3 {
+  color: #0a4dbf;
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.drawer h4 {
+  margin-top: 20px;
+  font-size: 17px;
+  color: #083a8a;
+}
+
+.drawer p {
+  margin: 6px 0;
+}
+
+/* ================== FOOTER ================== */
+
+.footer {
+  grid-area: footer;
+  background: #0a4dbf;
+  color: white;
+  text-align: center;
+  padding-top: 12px;
+  font-size: 14px;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.15);
+}

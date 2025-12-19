@@ -1,1 +1,283 @@
-<p>page-agents works!</p>
+<div class="layout">
+
+  <!-- ============== SIDEBAR ============== -->
+  <aside class="sidebar">
+    <div class="sidebar-title">🧑‍💼 Agent Dashboard</div>
+
+    <nav>
+      <button class="sidebar-btn" (click)="activeSection = 'profil'">Mon Profil</button>
+      <button class="sidebar-btn" (click)="activeSection = 'joueurs'">Liste des joueurs</button>
+    </nav>
+  </aside>
+
+
+  <!-- ================= HEADER ================= -->
+  <header class="header">
+    <div class="logo-section">
+      <img src="/assets/logo.png" alt="Logo" class="logo" />
+      <span class="brand">RelatFoot</span>
+    </div>
+
+    <div class="user-section">
+      <div class="user-info">
+        <span><strong>Email :</strong> {{ agent.email }}</span>
+        <span><strong>Rôle :</strong> {{ agent.role }}</span>
+      </div>
+
+      <img src="/assets/avatar.png" alt="Avatar" class="avatar" />
+      <button class="logout-btn" routerLink="connexion" (click)="logout()">Déconnexion</button>
+    </div>
+  </header>
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+    <h3>Menu</h3>
+
+    <button 
+      class="side-btn" 
+      [class.active]="activeSection === 'profil'"
+      (click)="activeSection = 'profil'">
+      Profil Agent
+    </button>
+
+    <button 
+      class="side-btn"
+      [class.active]="activeSection === 'joueurs'"
+      (click)="activeSection = 'joueurs'">
+      Liste des joueurs
+    </button>
+  </aside>
+
+  <!-- ================= CONTENT ================= -->
+  <main class="content">
+
+    <!-- SECTION PROFIL AGENT -->
+    <section *ngIf="activeSection === 'profil'">
+
+      <h2>Profil Agent</h2>
+
+      <form>
+
+        <div class="grid">
+          <div>
+            <label>Nom</label>
+            <input type="text" [(ngModel)]="agent.nom" name="nom" />
+          </div>
+
+          <div>
+            <label>Prénoms</label>
+            <input type="text" [(ngModel)]="agent.prenoms" name="prenoms" />
+          </div>
+        </div>
+
+        <label>Téléphone</label>
+        <input type="text" [(ngModel)]="agent.telephone" name="telephone" />
+
+        <label>Nom de l'agence</label>
+        <input type="text" [(ngModel)]="agent.nomAgence" name="nomAgence" />
+
+        <label>Licence</label>
+        <input type="text" [(ngModel)]="agent.licence" name="licence" />
+
+        <label>Adresse agence</label>
+        <input type="text" [(ngModel)]="agent.adresseAgence" name="adresseAgence" />
+
+        <label>Pays agence</label>
+        <input type="text" [(ngModel)]="agent.paysAgence" name="paysAgence" />
+
+        <button 
+          class="save-btn"
+          *ngIf="isFirstTime"
+          (click)="createAgent()">
+          Créer mon profil
+        </button>
+
+        <button 
+          class="save-btn"
+          *ngIf="!isFirstTime"
+          (click)="updateAgent()">
+          Mettre à jour
+        </button>
+
+      </form>
+    </section>
+
+
+    <!-- SECTION LISTE JOUEURS -->
+    <section *ngIf="activeSection === 'joueurs'">
+
+      <h2>Liste des joueurs</h2>
+
+      <!-- Filtres -->
+      <div class="filters">
+
+        <input placeholder="Nom" [(ngModel)]="searchNom" (input)="applySearch()" />
+        <input placeholder="Prénoms" [(ngModel)]="searchprenoms" (input)="applySearch()" />
+        <input placeholder="Poste" [(ngModel)]="searchPoste" (input)="applySearch()" />
+        <input placeholder="Nationalité" [(ngModel)]="searchnationalite" (input)="applySearch()" />
+        <input placeholder="Niveau" [(ngModel)]="searchniveau" (input)="applySearch()" />
+        <input placeholder="Taille" [(ngModel)]="searchTaille" (input)="applySearch()" />
+
+      </div>
+
+      <!-- TABLE JOUEURS -->
+      <table class="joueurs-table">
+
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Prénoms</th>
+            <th>Poste</th>
+            <th>Nationalité</th>
+            <th>Niveau</th>
+            <th>Taille</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let j of filteredJoueurs">
+            <td>{{ j.nom }}</td>
+            <td>{{ j.prenoms }}</td>
+            <td>{{ j.poste }}</td>
+            <td>{{ j.nationalite }}</td>
+            <td>{{ j.niveau }}</td>
+            <td>{{ j.taille }} cm</td>
+            <td>
+              <button class="view-btn" (click)="openDrawer(j)">Voir</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    © 2025 RelatFoot — Plateforme de mise en relation joueurs / agents
+  </footer>
+
+
+
+  <!-- ============= DRAWER DETAILS JOUEUR ============= -->
+  <div class="drawer-overlay" *ngIf="drawerOpen()" (click)="closeDrawer()"></div>
+
+  <div class="drawer" *ngIf="drawerOpen()">
+    <button class="close-btn" (click)="closeDrawer()">✖</button>
+
+    <h3>Détails du joueur</h3>
+
+    <p><strong>Nom :</strong> {{ selectedJoueur?.nom }}</p>
+    <p><strong>Prénoms :</strong> {{ selectedJoueur?.prenoms }}</p>
+    <p><strong>Poste :</strong> {{ selectedJoueur?.poste }}</p>
+    <p><strong>Nationalité :</strong> {{ selectedJoueur?.nationalite }}</p>
+    <p><strong>Niveau :</strong> {{ selectedJoueur?.niveau }}</p>
+    <p><strong>Taille :</strong> {{ selectedJoueur?.taille }} cm</p>
+
+    <h4>Médias :</h4>
+    <div *ngFor="let m of selectedJoueur?.medias">
+      <video *ngIf="m.type === 'VIDEO'" width="100%" controls>
+        <source [src]="m.url" type="video/mp4" />
+      </video>
+
+      <img *ngIf="m.type === 'IMAGE'" [src]="m.url" width="100%" />
+    </div>
+  </div>
+
+</div>
+  <!-- ============== MAIN CONTENT ============== 
+  <main class="main">
+
+    <!-- ----------- PROFIL AGENT ----------- 
+    <section *ngIf="activeSection==='profil'" class="card">
+
+      <h2 class="section-title">Informations de l’agent</h2>
+
+      <div class="grid-2">
+
+        <div>
+          <label class="label">Nom Agence</label>
+          <input class="input" [(ngModel)]="agent.nomAgence">
+        </div>
+
+        <div>
+          <label class="label">Licence</label>
+          <input class="input" [(ngModel)]="agent.licence">
+        </div>
+
+        <div>
+          <label class="label">Adresse Agence</label>
+          <input class="input" [(ngModel)]="agent.adresseAgence">
+        </div>
+
+        <div>
+          <label class="label">Pays Agence</label>
+          <input class="input" [(ngModel)]="agent.paysAgence">
+        </div>
+
+      </div>
+
+      <div class="btn-right">
+        <button class="btn" (click)="createAgent()">
+          Enregistrer
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ----------- LISTE JOUEURS ----------- 
+    <section *ngIf="activeSection==='joueurs'">
+
+      <h2 class="section-title">Liste des joueurs</h2>
+
+      <!-- BARRE DE RECHERCHE 
+      <div class="grid-3">
+        <input class="input" placeholder="Nom" [(ngModel)]="searchNom" (input)="applySearch()">
+        <input class="input" placeholder="Poste" [(ngModel)]="searchPoste" (input)="applySearch()">
+        <input class="input" placeholder="Taille" [(ngModel)]="searchTaille" (input)="applySearch()">
+      </div>
+
+      <!-- GRILLE DES JOUEURS -
+      <div class="grid-cards">
+        <div *ngFor="let j of filteredJoueurs" class="card-player">
+          <div class="player-name">{{ j.nom }}</div>
+          <div class="player-info">{{ j.poste }}</div>
+          <div class="player-sub">Taille : {{ j.taille }} cm</div>
+
+          <button class="btn" (click)="openDrawer(j)">Voir</button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<!-- ============== DRAWER JOUEUR ============== -->
+
+<div *ngIf="drawerOpen()" class="drawer-overlay" (click)="closeDrawer()"></div>
+
+<div *ngIf="drawerOpen()" class="drawer">
+  <button class="drawer-close" (click)="closeDrawer()">✖</button>
+
+  <h2 class="drawer-title">Informations du joueur</h2>
+
+  <div *ngIf="selectedJoueur">
+
+    <p><strong>Nom :</strong> {{ selectedJoueur.nom }}</p>
+    <p><strong>Poste :</strong> {{ selectedJoueur.poste }}</p>
+    <p><strong>Taille :</strong> {{ selectedJoueur.taille }} cm</p>
+
+    <h3 class="drawer-subtitle">Profil</h3>
+    <pre class="profil-box">{{ selectedJoueur.profil | json }}</pre>
+
+    <h3 class="drawer-subtitle">Médias</h3>
+
+    <div class="medias-grid">
+      <img *ngFor="let m of selectedJoueur.medias" [src]="m.url">
+    </div>
+
+  </div>
+</div>

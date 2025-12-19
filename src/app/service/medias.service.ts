@@ -8,18 +8,18 @@ import { Observable , of } from 'rxjs';
 })
 export class MediasService {
 
-  private apiUrl = 'http://localhost:8080/Medias';
+  private apiUrl = 'http://localhost:8080/medias';
 
   constructor(private http: HttpClient) {}
 
   /** ➕ Ajouter un média */
-  create(media: Media): Observable<Media> {
-    return this.http.post<Media>(this.apiUrl, media);
+  create(medias: Media): Observable<Media> {
+    return this.http.post<Media>(this.apiUrl, medias);
   }
 
   /** 🔄 Modifier un média */
-  update(id: number, media: Media): Observable<Media> {
-    return this.http.put<Media>(`${this.apiUrl}/${id}`, media);
+  update(id: number, medias: Media): Observable<Media> {
+    return this.http.put<Media>(`${this.apiUrl}/${id}`, medias);
   }
 
   /** 📋 Lister tous les médias */
@@ -33,7 +33,7 @@ export class MediasService {
   }
 
   /** 🔍 Trouver tous les médias d’un joueur */
-  getByJoueurId(joueurId: number): Observable<Media[]> {
+  getMediasByJoueurId(joueurId: number): Observable<Media[]> {
     return this.http.get<Media[]>(`${this.apiUrl}/joueur/${joueurId}`);
   }
 

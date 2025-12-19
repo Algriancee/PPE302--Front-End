@@ -4,6 +4,7 @@ import { User } from '../Models/User.model';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { RegisterRequest } from '../Models/register-request.model'
 import { AuthenticationResponse } from '../Models/authentification -response.model'
 import { AuthenticationRequest } from '../Models/authentification-request.model'
@@ -20,6 +21,7 @@ export class AuthService {
   private userRole = new BehaviorSubject<string | null>(null);
   private currentUserSubject = new BehaviorSubject<{ email: string, role: string } | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
+   private jwtHelper = new JwtHelperService();
   
   constructor(private http: HttpClient, private router: Router ) {
     const email = localStorage.getItem('email');
@@ -56,9 +58,14 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/register`, data);
   }
 
-  logout(): void {
+  logout1(): void {
     localStorage.clear();
     this.userRole.next(null);
+    this.router.navigate(['/connexion']);
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
     this.router.navigate(['/connexion']);
   }
 
@@ -142,6 +149,14 @@ export class AuthService {
 
   updateUser(id: number, user: User): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/${id}`, user); // Crée un endpoint PUT côté backend
+  }
+
+   getUserEmail(): string | null {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    const decoded = this.jwtHelper.decodeToken(token);
+    return decoded?.sub || null;   // "sub" contient l’email dans la plupart des JWT
   }
 }
 

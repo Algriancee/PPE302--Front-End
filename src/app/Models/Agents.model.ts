@@ -6,5 +6,5 @@ export interface Agent extends User {
   licence?: string;
   adresseAgence?: string;
   paysAgence?: string;
-  recherches?: Recherche[];
+  //recherches?: Recherche[];
 }

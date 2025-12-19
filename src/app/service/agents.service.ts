@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class AgentsService {
 
-  private apiUrl = 'http://localhost:8080/api/agents';
+  private apiUrl = 'http://localhost:8080/Agents';
 
   constructor(private http: HttpClient) {}
 
@@ -34,5 +34,9 @@ export class AgentsService {
 
   searchBy(param: string, value: string): Observable<Agent[]> {
     return this.http.get<Agent[]>(`${this.apiUrl}/search?${param}=${value}`);
+  }
+
+  getByAgentEmail(email: string): Observable<Agent> {
+    return this.http.get<Agent>(`${this.apiUrl}/email/${encodeURIComponent(email)}`);
   }
 }

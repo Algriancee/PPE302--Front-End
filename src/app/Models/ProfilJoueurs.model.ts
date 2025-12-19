@@ -6,5 +6,5 @@ export interface ProfilJoueur {
   biographie?: string;
   parcours?: string;
   palmares?: string;
-  joueur?: Joueur;
+  joueur?: { id: number };
 }

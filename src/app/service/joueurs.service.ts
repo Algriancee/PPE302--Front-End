@@ -8,7 +8,7 @@ import { Observable , of } from 'rxjs';
 })
 export class JoueursService {
 
-  private apiUrl = 'http://localhost:8080/Joueurs';
+  private apiUrl = 'http://localhost:8080/joueurs';
 
   constructor(private http: HttpClient) {}
 
@@ -63,8 +63,8 @@ export class JoueursService {
   }
 
   getJoueurByEmail(email: string): Observable<Joueur> {
-    return this.http.get<Joueur>(`${this.apiUrl}/email/${email}`);
-  }
+  return this.http.get<Joueur>(`${this.apiUrl}/email/${encodeURIComponent(email)}`);
+}
 
 
 }

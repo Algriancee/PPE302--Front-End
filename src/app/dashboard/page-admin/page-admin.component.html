@@ -1,1 +1,196 @@
-<p>page-admin works!</p>
+<div class="admin-container">
+
+  <!-- HEADER -->
+  <header class="admin-header">
+    <div class="logo-section">
+      <img src="/assets/logo.png" class="logo" />
+      <h2 class="brand">RelatFoot — Administration</h2>
+    </div>
+
+    <div class="admin-info">
+      <p>{{ adminEmail }}</p>
+      <span class="role">{{ adminRole }}</span>
+    </div>
+  </header>
+
+  <div class="content-wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <h3>Menu</h3>
+
+      <button class="menu-btn" (click)="activeSection='list'">Gestion des utilisateurs</button>
+      <button class="menu-btn" (click)="activeSection='create'">Créer un utilisateur</button>
+      <button class="menu-btn">Statistiques</button>
+      <button class="menu-btn">Signalements</button>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- SECTION LISTE UTILISATEURS -->
+      <section *ngIf="activeSection === 'list'">
+        <h2>Liste des utilisateurs</h2>
+
+        <!-- FILTRES -->
+        <div class="filters">
+          <input type="text" placeholder="Recherche email..."
+                 [(ngModel)]="searchEmail" (input)="applyFilters()" />
+
+          <select [(ngModel)]="searchRole" (change)="applyFilters()">
+            <option value="ALL">Tous</option>
+            <option value="JOUEURS">Joueurs</option>
+            <option value="AGENTS">Agents</option>
+          </select>
+        </div>
+
+        <!-- TABLEAU -->
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom complet</th>
+              <th>Email</th>
+              <th>Rôle</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let u of filteredUsers" (click)="openDrawer(u)">
+              <td>{{ u.id }}</td>
+              <td>{{ u.nom }} {{ u.prenoms }}</td>
+              <td>{{ u.email }}</td>
+              <td>{{ u.role }}</td>
+              <td>
+                <button class="delete-btn"
+                        (click)="deleteUser(u); $event.stopPropagation()">
+                  Supprimer
+                </button>
+              </td>
+              <td>
+              <button class="view-btn" (click)="openDrawer(u)">Voir</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- MÉDIAS DU JOUEUR -->
+        <h3 *ngIf="medias.length > 0">Médias du joueur</h3>
+
+        <div class="medias-grid" *ngIf="medias.length > 0">
+          <div class="media-card" *ngFor="let m of medias">
+            <video *ngIf="m.type === 'video'" controls>
+              <source [src]="m.url" type="video/mp4">
+            </video>
+
+            <img *ngIf="m.type === 'image'" [src]="m.url" />
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION CRÉATION UTILISATEUR -->
+      <section *ngIf="activeSection === 'create'" class="create-section">
+        <h2>Créer un utilisateur</h2>
+
+        <form (ngSubmit)="createUser()">
+
+          <label>Nom</label>
+          <input type="text" [(ngModel)]="newUser.nom" name="nom" required />
+
+          <label>Prénoms</label>
+          <input type="text" [(ngModel)]="newUser.prenoms" name="prenoms" required />
+
+          <label>Email</label>
+          <input type="email" [(ngModel)]="newUser.email" name="email" required />
+
+          
+          <label>telephone</label>
+          <input type="telephone" [(ngModel)]="newUser.email" name="telephone" required />
+
+          <label>Mot de passe</label>
+          <input type="password" [(ngModel)]="newUser.password" name="password" required />
+
+          <label>Rôle</label>
+          <select [(ngModel)]="newUser.role" name="role" required>
+            <option value="JOUEURS">Joueur</option>
+            <option value="AGENTS">Agent</option>
+          </select>
+
+          <button class="create-btn" type="submit">Créer</button>
+        </form>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- ============= DRAWER UTILISATEUR ADMIN ============= -->
+
+<div 
+  class="drawer-overlay"
+  *ngIf="drawerOpen()"
+  (click)="closeDrawer()">
+</div>
+
+<div 
+  class="drawer"
+  [class.open]="drawerOpen()">
+
+  <button class="close-btn" (click)="closeDrawer()">✖</button>
+
+  <ng-container *ngIf="selectedUser">
+
+    <h3>Détails utilisateur</h3>
+
+    <p><strong>ID :</strong> {{ selectedUser.id }}</p>
+    <p><strong>Nom :</strong> {{ selectedUser.nom }} {{ selectedUser.prenoms }}</p>
+    <p><strong>Email :</strong> {{ selectedUser.email }}</p>
+    <p><strong>Rôle :</strong> {{ selectedUser.role }}</p>
+    <p><strong>Téléphone :</strong> {{ selectedUser.telephone || '—' }}</p>
+
+    <hr>
+
+    <!-- ================== JOUEUR ================== -->
+    <div *ngIf="selectedUser.role === 'JOUEURS'">
+
+      <h4>Profil Joueur</h4>
+
+      <p><strong>Poste :</strong> {{ selectedUser.poste }}</p>
+      <p><strong>Nationalité :</strong> {{ selectedUser.nationalite }}</p>
+      <p><strong>Niveau :</strong> {{ selectedUser.niveau }}</p>
+      <p><strong>Taille :</strong> {{ selectedUser.taille }} cm</p>
+
+      <hr>
+
+      <h4>Médias</h4>
+
+      <p *ngIf="medias.length === 0">Aucun média</p>
+
+      <div *ngFor="let m of medias">
+
+        <video *ngIf="m.type === 'VIDEO'" width="100%" controls>
+          <source [src]="m.url" type="video/mp4">
+        </video>
+
+        <img *ngIf="m.type === 'IMAGE'" [src]="m.url" width="100%">
+      </div>
+
+    </div>
+
+    <!-- ================== AGENT ================== -->
+    <div *ngIf="selectedUser.role === 'AGENTS'">
+
+      <h4>Profil Agent</h4>
+
+      <p><strong>Agence :</strong> {{ selectedUser.nomAgence || '—' }}</p>
+      <p><strong>Licence :</strong> {{ selectedUser.licence || '—' }}</p>
+      <p><strong>Pays :</strong> {{ selectedUser.paysAgence || '—' }}</p>
+      <p><strong>Adresse :</strong> {{ selectedUser.adresseAgence || '—' }}</p>
+
+    </div>
+
+  </ng-container>
+ </div>
+
+</div>
