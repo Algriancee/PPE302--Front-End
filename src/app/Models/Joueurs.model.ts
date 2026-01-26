@@ -4,7 +4,10 @@ import { ProfilJoueur } from './ProfilJoueurs.model';
 
 import { Media } from './Medias.model';
 
-export interface Joueur extends User {
+export interface Joueur  {
+  id?: number;
+  nom: string;
+  prenoms: string;
   dateNaissance?: string; // format ISO (ex: '2000-05-10')
   poste?: string;
   taille?: number;
@@ -15,4 +18,5 @@ export interface Joueur extends User {
   niveau?: string;
   profil?: ProfilJoueur;
   medias?: Media[];
+  user?: { id: number };
 }

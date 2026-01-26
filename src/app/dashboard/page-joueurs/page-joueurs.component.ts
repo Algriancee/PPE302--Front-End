@@ -20,10 +20,10 @@ import { FormsModule } from '@angular/forms';
 export class PageJoueursComponent implements OnInit{
   section: string = 'add-exercice';
 
-  joueurs: Joueur = { nom: '', prenoms: "", email: '', telephone: '', role: 'JOUEURS', poste: '' };
+  joueurs: Joueur = { nom: '', prenoms: "", poste: '' };
   profil: ProfilJoueur = {};
   medias: Media[] = [];
-  user: User = { nom: '', prenoms: "", email: '', telephone: '', role: 'JOUEURS',  };
+  user: User = { nomUtilisaeur: "", email: '', telephone: '', role: 'JOUEURS',  };
   mediaForm: Media = { type: '', url: '', description: '' };
 
   emailUtilisateur = '';
@@ -36,12 +36,23 @@ export class PageJoueursComponent implements OnInit{
     private mediasService: MediasService,
   ) {}
 
-  ngOnInit(): void {
+  /*ngOnInit(): void {
     this.emailUtilisateur = JSON.parse(localStorage.getItem('email') || '""');
     if (this.emailUtilisateur) this.loadJoueur();
+  }*/
+
+  ngOnInit(): void {
+    const userId = this.authService.getUserIdFromToken();
+    if (userId) {
+      this.loadJoueurById(userId);
+    } else {
+      console.error("ID utilisateur non trouvé dans le token. Redirection ou gestion d'erreur.");
+      // Optionnel : Rediriger vers connexion si token invalide
+    }
+    this.emailUtilisateur = JSON.parse(localStorage.getItem('email') || '""');
   }
 
-  /** 🔹 Charger le joueur connecté */
+  /** 🔹 Charger le joueur connecté 
   loadJoueur(): void {
     this.joueursService.getJoueurByEmail(this.emailUtilisateur).subscribe({
       next: (data) => {
@@ -56,8 +67,26 @@ export class PageJoueursComponent implements OnInit{
       },
       error: (err) => console.error("Erreur joueur :", err)
     });
+  }*/
+  loadJoueurById(id: number): void {
+    this.joueursService.getById(id).subscribe({
+      next: (data) => {
+        this.joueurs = data;
+        console.log("Joueur chargé :", data);
+        // Charger profil + médias si le joueur existe
+        if (data.id) {
+          this.loadProfil(data.id);
+          this.loadMedias(data.id);
+        
+        }
+      },
+      error: (err) => {
+        console.error("Erreur lors du chargement du joueur (peut-être un nouveau utilisateur) :", err);
+        // Pour nouveaux utilisateurs : laisser les champs vides pour remplissage manuel
+        this.joueurs = { nom: '', prenoms: '',  poste: '' };
+      }
+    });
   }
-
   /** 🔹 Charger profil par joueurId */
   loadProfil(joueurId: number): void {
     this.profilJoueursService.getProfilByJoueurId(joueurId).subscribe({
@@ -84,17 +113,35 @@ export class PageJoueursComponent implements OnInit{
     });
   }
 
-  /** 🔹 Créer un joueur */
+  /** 🔹 Créer un joueur 
   createJoueur(): void {
     this.joueursService.createJoueur(this.joueurs).subscribe({
       next: (data) => {
         alert('Joueur créé avec succès !');
         this.joueurs = data;
-        this.loadJoueur();
+        this.loadJoueurById(0);
       },
       error: (err) => console.error('Erreur création joueur :', err)
     });
-  }
+  }  */
+
+         /** 🔹 Créer un joueur */
+createJoueur(): void {
+  this.joueursService.createJoueur(this.joueurs).subscribe({
+    next: (data) => {
+      alert('Joueur créé avec succès !');
+      this.joueurs = data;
+      // Correction : Utiliser data.id au lieu de 0 pour recharger le joueur créé
+      if (data.id) {
+        this.loadJoueurById(data.id);
+      } else {
+        console.error("ID du joueur créé non trouvé. Vérifiez le backend.");
+      }
+    },
+    error: (err) => console.error('Erreur création joueur :', err)
+  });
+}       
+
 
   /** 🔹 Mettre à jour joueur */
   updateJoueur(): void {

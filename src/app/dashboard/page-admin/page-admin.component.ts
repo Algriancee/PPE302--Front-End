@@ -23,8 +23,8 @@ export class PageAdminComponent implements OnInit {
   drawerOpen = signal(false);
   selectedUser: any = null;
 
-  allUsers: (Agent | Joueur)[] = [];
-  filteredUsers: (Agent | Joueur)[] = [];
+  allUsers: User[] = [];
+  filteredUsers: User[] = [];
   medias: any[] = [];
   selectedRole:  | null = null;
 
@@ -34,8 +34,8 @@ export class PageAdminComponent implements OnInit {
   adminRole: string = '';
 
   newUser: User = {
-  nom: '',
-  prenoms: '',
+  nomUtilisaeur: '',
+  //prenoms: '',
   email: '',
   password: '',
   telephone: '',
@@ -63,13 +63,13 @@ export class PageAdminComponent implements OnInit {
     });
   }
 
-  /** Filtrer */
+  /** Filtrer 
   applyFilters() {
     this.filteredUsers = this.allUsers.filter(u =>
       (this.searchRole === 'ALL' || u.role === this.searchRole) &&
       (this.searchEmail === '' || u.email.toLowerCase().includes(this.searchEmail.toLowerCase()))
     );
-  }
+  }*/
 
   /** Supprimer */
   deleteUser(user: any) {
@@ -94,15 +94,15 @@ export class PageAdminComponent implements OnInit {
     });
   }
 
-  filterRole() {
+  /*filterRole() {
   if (this.selectedRole === "Tous") {
     this.filteredUsers = this.allUsers;
   } else {
     this.filteredUsers = this.allUsers.filter(u => u.role === this.selectedRole);
   }
- }
+ }*/
 
-    createUser() {
+  /*createUser() {
   this.authService.createUser(this.newUser).subscribe({
     next: () => {
       alert("Utilisateur créé !");
@@ -112,7 +112,7 @@ export class PageAdminComponent implements OnInit {
     },
     error: (err) => console.error(err)
   });
- }
+ }*/
 
   openDrawer(user: any) {
     this.selectedUser = user;
@@ -131,5 +131,9 @@ export class PageAdminComponent implements OnInit {
    this.selectedUser = null;
    this.medias = [];
  }
+ 
+  logout() {
+    this.authService.logout();
+  }
 }
  

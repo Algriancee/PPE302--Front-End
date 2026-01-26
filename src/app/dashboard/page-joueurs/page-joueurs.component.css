@@ -333,3 +333,80 @@ textarea {
   align-items: center;
   justify-content: center;
 }
+
+/* =======================
+   PLAYER CARD
+======================= */
+.player-card {
+  margin-top: 25px;
+  background: linear-gradient(135deg, #dee1e7, #80a4e2);
+  color: black;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* HEADER */
+.player-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.player-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #facc15;
+  color: #1e293b;
+  font-size: 30px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-main h2 {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.player-poste {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* GRID INFOS */
+.player-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+/* INFO ITEM */
+.info-item {
+  background: rgba(255, 255, 255, 0.12);
+  padding: 12px 14px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14.5px;
+}
+
+.info-item .icon {
+  font-size: 18px;
+}
+
+/* HOVER */
+.player-card:hover {
+  transform: translateY(-3px);
+  transition: transform 0.3s ease;
+}

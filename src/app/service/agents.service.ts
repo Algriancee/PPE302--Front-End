@@ -24,6 +24,14 @@ export class AgentsService {
     return this.http.post<Agent>(this.apiUrl, agent);
   }
 
+  create1(email: string, agent: Agent) {
+  return this.http.post<Agent>(
+    this.apiUrl,
+    agent,
+    { params: { email } }
+  );
+}
+
   update(id: number, agent: Agent): Observable<Agent> {
     return this.http.put<Agent>(`${this.apiUrl}/${id}`, agent);
   }
@@ -37,6 +45,7 @@ export class AgentsService {
   }
 
   getByAgentEmail(email: string): Observable<Agent> {
-    return this.http.get<Agent>(`${this.apiUrl}/email/${encodeURIComponent(email)}`);
+    return this.http.get<Agent>(`${this.apiUrl}/by-email`, {params: { email }});
   }
+
 }

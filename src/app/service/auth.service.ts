@@ -63,10 +63,10 @@ export class AuthService {
     this.userRole.next(null);
     this.router.navigate(['/connexion']);
   }
-
-  logout(): void {
-    localStorage.removeItem('token');
-    this.router.navigate(['/connexion']);
+ logout(): void {
+    localStorage.clear();
+    this.userRole.next(null);
+    this.router.navigate(['/Accueille']);
   }
 
   getToken(): string | null {
@@ -151,12 +151,25 @@ export class AuthService {
     return this.http.put<User>(`${this.apiUrl}/${id}`, user); // Crée un endpoint PUT côté backend
   }
 
-   getUserEmail(): string | null {
+  getUserEmail(): string | null {
     const token = localStorage.getItem('token');
     if (!token) return null;
 
     const decoded = this.jwtHelper.decodeToken(token);
     return decoded?.sub || null;   // "sub" contient l’email dans la plupart des JWT
+  }
+
+
+   getUserIdFromToken(): number | null {
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.id; // Assumer que 'id' est dans le payload du JWT
+    } catch (error) {
+      console.error("Erreur lors du décodage de l'ID du token :", error);
+      return null;
+    }
   }
 }
 

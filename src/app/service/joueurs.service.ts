@@ -63,7 +63,9 @@ export class JoueursService {
   }
 
   getJoueurByEmail(email: string): Observable<Joueur> {
-  return this.http.get<Joueur>(`${this.apiUrl}/email/${encodeURIComponent(email)}`);
+  return this.http.get<Joueur>(`${this.apiUrl}/by-email`, {
+  params: { email }
+});
 }
 
 

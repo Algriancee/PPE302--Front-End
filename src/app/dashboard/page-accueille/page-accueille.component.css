@@ -1,108 +1,159 @@
+/* ===============================
+   RESET & BASE
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
 
+/* ===============================
+   HERO SECTION
+================================ */
 .hero {
+  position: relative;
+  min-height: 100vh;
   background-image: url("/assets/bg-football.jpg");
   background-size: cover;
   background-position: center;
-  color: white;
-  height: 100vh;
-  position: relative;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Navbar */
-.navbar {
+/* Overlay sombre */
+.hero::before {
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1;
+}
+
+/* ===============================
+   NAVBAR
+================================ */
+.navbar {
+  position: relative;
+  z-index: 2;
   width: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  padding: 20px 8%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 60px;
+  background: rgba(0, 0, 0, 0.45);
 }
 
 .logo-section {
   display: flex;
   align-items: center;
+  gap: 10px;
 }
 
 .logo {
-  height: 50px;
-  margin-right: 10px;
+  height: 48px;
 }
 
 .brand {
+  color: #fff;
   font-size: 1.8rem;
   font-weight: bold;
-  letter-spacing: 1px;
 }
 
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 25px;
+  gap: 30px;
 }
 
 .nav-links a {
   color: white;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s;
+  position: relative;
 }
 
-.nav-links a:hover {
-  color: #00bcd4;
-}
-
-/* Contenu principal */
-.hero-content {
+.nav-links a::after {
+  content: "";
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: #00bcd4;
+  transition: width 0.3s;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* ===============================
+   HERO CONTENT
+================================ */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  padding: 0 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  width: 80%;
+  color: white;
 }
 
 .hero-content h1 {
-  font-size: 2.8rem;
+  font-size: 3rem;
   font-weight: 700;
-  margin-bottom: 10px;
-  text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.4);
+  margin-bottom: 15px;
 }
 
 .hero-content h2 {
   font-size: 1.4rem;
   font-weight: 400;
-  margin-bottom: 30px;
-  text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.4);
+  max-width: 900px;
+  margin-bottom: 35px;
 }
 
+/* ===============================
+   SEARCH BAR
+================================ */
 .search-bar {
   display: flex;
-  justify-content: center;
+  align-items: center;
   background: white;
-  border-radius: 30px;
+  border-radius: 50px;
   overflow: hidden;
-  max-width: 500px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
 .search-bar input {
+  flex: 1;
+  padding: 14px 22px;
+  font-size: 1rem;
   border: none;
   outline: none;
-  flex: 1;
-  padding: 12px 20px;
-  font-size: 1rem;
 }
 
 .search-bar button {
   background: #00bcd4;
   border: none;
-  padding: 0 20px;
+  padding: 0 26px;
+  font-size: 1.3rem;
   color: white;
-  font-size: 1.2rem;
   cursor: pointer;
 }
 
@@ -110,12 +161,13 @@
   background: #0097a7;
 }
 
-/* ----------- SECTION À PROPOS ----------- */
+/* ===============================
+   ABOUT SECTION
+================================ */
 .about {
   padding: 80px 10%;
+  background: #ffffff;
   text-align: center;
-  background: white;
-  color: #333;
 }
 
 .about h2 {
@@ -125,18 +177,19 @@
 }
 
 .about p {
+  max-width: 850px;
+  margin: auto;
   font-size: 1.1rem;
-  line-height: 1.7;
-  max-width: 800px;
-  margin: 0 auto;
 }
 
-/* ----------- CTA ----------- */
+/* ===============================
+   CTA SECTION
+================================ */
 .cta {
   background: #00bcd4;
   color: white;
+  padding: 70px 10%;
   text-align: center;
-  padding: 70px 20px;
 }
 
 .cta h2 {
@@ -146,37 +199,85 @@
 
 .cta p {
   font-size: 1.1rem;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
-.cta .btn {
+.cta button {
   background: white;
   color: #0097a7;
   border: none;
   padding: 12px 30px;
-  border-radius: 25px;
+  border-radius: 30px;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s;
 }
 
-.cta .btn:hover {
+.cta button:hover {
   background: #f1f1f1;
 }
 
-/* ----------- FOOTER ----------- */
+/* ===============================
+   AUTH SECTION
+================================ */
+.auth-section {
+  background: linear-gradient(135deg, #00bcd4, #007c91);
+  padding: 80px 10%;
+  text-align: center;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.auth-card {
+  background: white;
+  color: #333;
+  width: 320px;
+  padding: 40px 30px;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.auth-card h2 {
+  color: #0097a7;
+  margin-bottom: 10px;
+}
+
+.auth-card p {
+  margin-bottom: 25px;
+}
+
+.auth-card button {
+  background: #00bcd4;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.auth-card button:hover {
+  background: #0097a7;
+}
+
+/* ===============================
+   FOOTER
+================================ */
 .footer {
   background: #111;
   color: #ccc;
   padding: 60px 10%;
-  font-size: 0.95rem;
 }
 
 .footer-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   gap: 40px;
+  justify-content: space-between;
 }
 
 .footer-section {
@@ -196,20 +297,18 @@
 }
 
 .footer-logo span {
-  font-size: 1.3rem;
   color: white;
+  font-size: 1.3rem;
   font-weight: bold;
 }
 
 .footer-section h3 {
   color: white;
   margin-bottom: 15px;
-  font-size: 1.1rem;
 }
 
 .footer-section ul {
   list-style: none;
-  padding: 0;
 }
 
 .footer-section ul li {
@@ -219,7 +318,6 @@
 .footer-section ul a {
   text-decoration: none;
   color: #ccc;
-  transition: color 0.3s;
 }
 
 .footer-section ul a:hover {
@@ -227,80 +325,33 @@
 }
 
 .footer-bottom {
+  margin-top: 30px;
   text-align: center;
   border-top: 1px solid #333;
   padding-top: 20px;
-  margin-top: 30px;
   font-size: 0.9rem;
   color: #777;
 }
 
+/* ===============================
+   RESPONSIVE (CSS CLASSIQUE)
+================================ */
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+  }
 
-.auth-section {
-  background: linear-gradient(135deg, #00bcd4, #007c91);
-  padding: 80px 10%;
-  color: white;
-  text-align: center;
-}
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 
-.auth-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 40px;
-  margin-top: 30px;
-}
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
 
-.auth-card {
-  background: white;
-  color: #333;
-  padding: 40px 30px;
-  border-radius: 15px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-  width: 320px;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.auth-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-}
-
-.auth-card h2 {
-  font-size: 1.6rem;
-  margin-bottom: 10px;
-  color: #0097a7;
-}
-
-.auth-card p {
-  font-size: 1rem;
-  margin-bottom: 25px;
-}
-
-.auth-btn {
-  border: none;
-  border-radius: 25px;
-  padding: 12px 25px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-size: 1rem;
-}
-
-.login-btn {
-  background: #00bcd4;
-  color: white;
-}
-
-.login-btn:hover {
-  background: #0097a7;
-}
-
-.register-btn {
-  background: #0097a7;
-  color: white;
-}
-
-.register-btn:hover {
-  background: #00acc1;
+  .hero-content h2 {
+    font-size: 1.2rem;
+  }
 }

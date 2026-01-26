@@ -20,12 +20,12 @@
 
     <div class="user-section">
       <div class="user-info">
-        <span><strong>Email :</strong> {{ agent.email }}</span>
-        <span><strong>Rôle :</strong> {{ agent.role }}</span>
+        <span><strong>Email :</strong> {{ user.email }}</span>
+        <span><strong>Rôle :</strong> {{ user.role }}</span>
       </div>
 
       <img src="/assets/avatar.png" alt="Avatar" class="avatar" />
-      <button class="logout-btn" routerLink="connexion" (click)="logout()">Déconnexion</button>
+      <button class="logout-btn" routerLink="Accueille" (click)="logout()">Déconnexion</button>
     </div>
   </header>
 
@@ -70,8 +70,8 @@
           </div>
         </div>
 
-        <label>Téléphone</label>
-        <input type="text" [(ngModel)]="agent.telephone" name="telephone" />
+        <!--<label>Téléphone</label>
+        <input type="text" [(ngModel)]=".telephone" name="telephone" />-->
 
         <label>Nom de l'agence</label>
         <input type="text" [(ngModel)]="agent.nomAgence" name="nomAgence" />
@@ -108,7 +108,7 @@
 
       <h2>Liste des joueurs</h2>
 
-      <!-- Filtres -->
+      <!-- Filtres 
       <div class="filters">
 
         <input placeholder="Nom" [(ngModel)]="searchNom" (input)="applySearch()" />
@@ -118,7 +118,7 @@
         <input placeholder="Niveau" [(ngModel)]="searchniveau" (input)="applySearch()" />
         <input placeholder="Taille" [(ngModel)]="searchTaille" (input)="applySearch()" />
 
-      </div>
+      </div>-->
 
       <!-- TABLE JOUEURS -->
       <table class="joueurs-table">
@@ -161,7 +161,7 @@
 
 
 
-  <!-- ============= DRAWER DETAILS JOUEUR ============= -->
+  <!-- ============= DRAWER DETAILS JOUEUR ============= 
   <div class="drawer-overlay" *ngIf="drawerOpen()" (click)="closeDrawer()"></div>
 
   <div class="drawer" *ngIf="drawerOpen()">
@@ -184,7 +184,7 @@
 
       <img *ngIf="m.type === 'IMAGE'" [src]="m.url" width="100%" />
     </div>
-  </div>
+  </div>-->
 
 </div>
   <!-- ============== MAIN CONTENT ============== 
@@ -255,7 +255,7 @@
   </main>
 </div>
 
-<!-- ============== DRAWER JOUEUR ============== -->
+<!-- ============== DRAWER JOUEUR ============== 
 
 <div *ngIf="drawerOpen()" class="drawer-overlay" (click)="closeDrawer()"></div>
 
@@ -279,5 +279,69 @@
       <img *ngFor="let m of selectedJoueur.medias" [src]="m.url">
     </div>
 
-  </div>
+  </div>-->
+
+
+  <div class="modal-overlay" *ngIf="drawerOpen()" (click)="closeDrawer()"></div>
+
+<div class="modal-card" *ngIf="drawerOpen()">
+
+  <button class="close-btn" (click)="closeDrawer()">✖</button>
+
+  <section class="card">
+
+    <h2>Carte Joueur Complète</h2>
+
+    <div *ngIf="selectedJoueur.id" class="player-card">
+
+      <!-- En-tête -->
+      <div class="player-header">
+        <div class="player-avatar">
+          {{ selectedJoueur.nom.charAt(0) }}
+        </div>
+
+        <div class="player-main">
+          <h2>{{ selectedJoueur.nom }} {{ selectedJoueur.prenoms }}</h2>
+          <span class="player-poste">{{ selectedJoueur.poste }}</span>
+        </div>
+      </div>
+
+      <!-- Infos principales -->
+      <div class="player-info-grid">
+        <div class="info-item"><span class="icon">📧</span>{{ user.email }}</div>
+        <div class="info-item"><span class="icon">📞</span>{{ user.telephone }}</div>
+        <div class="info-item"><span class="icon">🌍</span>{{ selectedJoueur.nationalite }}</div>
+        <div class="info-item"><span class="icon">📏</span>{{ selectedJoueur.taille }} cm</div>
+        <div class="info-item"><span class="icon">⚖️</span>{{ selectedJoueur.poids }} kg</div>
+        <div class="info-item"><span class="icon">🦶</span>Pied fort : {{ selectedJoueur.piedFort }}</div>
+        <div class="info-item"><span class="icon">🎯</span>Niveau : {{ selectedJoueur.niveau }}</div>
+        <div class="info-item" *ngIf="selectedJoueur.dateNaissance">
+          <span class="icon">📅</span>{{ selectedJoueur.dateNaissance }}
+        </div>
+        <div class="info-item" *ngIf="selectedJoueur.adresse">
+          <span class="icon">🏠</span>{{ selectedJoueur.adresse }}
+        </div>
+      </div>
+
+      <!-- Profil -->
+      <div *ngIf="profil?.id" class="info-box">
+        <h3>Profil</h3>
+        <p><strong>Biographie :</strong> {{ profil.biographie }}</p>
+        <p><strong>Parcours :</strong> {{ profil.parcours }}</p>
+        <p><strong>Palmarès :</strong> {{ profil.palmares }}</p>
+      </div>
+
+      <!-- Médias -->
+      <div *ngIf="medias.length" class="media-list">
+        <h3>Médias</h3>
+        <div *ngFor="let media of medias" class="media-item">
+          <h4>{{ media.type }}</h4>
+          <p>{{ media.description }}</p>
+          <a [href]="media.url" target="_blank">Voir</a>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
 </div>

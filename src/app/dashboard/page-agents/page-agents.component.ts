@@ -8,6 +8,7 @@ import { RechercheService } from '../../service/recherche.service';
 import { Agent } from '../../Models/Agents.model';
 import { Joueur } from '../../Models/Joueurs.model';
 import { Router, RouterLink } from '@angular/router';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-page-agents',
@@ -81,21 +82,16 @@ export class PageAgentsComponent implements OnInit{
     });
   }*/
 
-activeSection: string = 'add-exercice';
-private router = inject(Router);
- user: { email: string; role: string } | null = null;
+ activeSection: string = 'add-exercice';
+ private router = inject(Router);
+ //user: { email: string; role: string } | null = null;
     
   
  /** --- PROFIL AGENT --- **/
   agent: Agent = {
     id: null as any,
-    nom: '',
+    nom:'',
     prenoms: '',
-    email: '',
-    telephone: '',
-    dateInscription: '',
-    status: 'ONLINE',
-    role: 'AGENTS',
     nomAgence: '',
     licence: '',
     adresseAgence: '',
@@ -108,6 +104,9 @@ private router = inject(Router);
   /** --- JOUEURS --- **/
   joueurs: Joueur[] = [];
   filteredJoueurs: Joueur[] = [];
+  user: any = {};
+  profil: any = {};
+  medias: any[] = [];
 
   // Champs recherche
   searchNom = '';
@@ -118,11 +117,12 @@ private router = inject(Router);
   searchTaille = '';
 
   drawerOpen = signal(false);
-  selectedJoueur: Joueur | null = null;
+  selectedJoueur: Joueur = { nom: '', prenoms: "", poste: '' };
 
   constructor(
     private joueursService: JoueursService,
     private agentService: AgentsService,
+    private userService: UserService,
     private rechercheService: RechercheService,
     private authService: AuthService
   ) {}
@@ -132,7 +132,7 @@ private router = inject(Router);
     this.loadAgentInfo(); // <--- automatique à la connexion
   }
 
-  /**  CHARGER L’AGENT (email JWT)*/
+  /**  CHARGER L’AGENT (email JWT)
 
   loadAgentInfo(): void {
     const email = this.authService.getUserEmail();
@@ -160,15 +160,35 @@ private router = inject(Router);
         this.isFirstTime = true;
       }
     });
+  }*/
+
+    loadAgentInfo(): void {
+  const userId = this.authService.getUserIdFromToken();
+
+  if (!userId) {
+    console.error("ID utilisateur introuvable dans le JWT");
+    return;
   }
+
+  this.agentService.getById(userId).subscribe({
+    next: (data) => {
+      this.agent = data;
+      this.isFirstTime = false;
+    },
+    error: () => {
+      this.isFirstTime = true;
+      console.warn("Profil agent inexistant → création requise");
+    }
+  });
+}
 
   /**  CRÉER LE PROFIL AGENT*/
 
   createAgent() {
     this.agentService.create(this.agent).subscribe({
-      next: (res) => {
+      next: (data) => {
         alert("Profil agent créé avec succès !");
-        this.agent = res;
+        this.agent = data;
         this.isFirstTime = false;
       },
       error: (err) => console.error("Erreur création agent :", err)
@@ -208,21 +228,34 @@ private router = inject(Router);
     );
   }
 
-  /** 🪟 DRAWER DETAILS JOUEUR*/
+  /** 🪟 DRAWER DETAILS JOUEUR
 
   openDrawer(joueur: Joueur) {
     this.selectedJoueur = joueur;
     this.drawerOpen.set(true);
-  }
+  }*/
+
+  openDrawer(joueur: Joueur) {
+  this.selectedJoueur = joueur;
+  this.drawerOpen.set(true);
+
+  // 🔥 charger le USER lié au joueur
+  this.userService.getById(joueur.id!).subscribe({
+    next: (data) => this.user = data,
+    error: () => console.error("User joueur introuvable")
+  });
+
+  // (optionnel) charger profil / médias si séparés
+}
 
   closeDrawer() {
     this.drawerOpen.set(false);
-    this.selectedJoueur = null;
+    //this.selectedJoueur = null;
   }
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/connexion']);
+    //this.router.navigate(['/connexion']);
   }
 }
 

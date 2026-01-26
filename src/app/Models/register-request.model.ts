@@ -1,8 +1,8 @@
 
 export interface RegisterRequest {
   //id?: number;
-  nom: string;
-  prenoms: string;
+  nomUtilisateur: string;
+  //prenoms: string;
   email: string;
   password?: string;
   telephone: string;

@@ -35,7 +35,7 @@ export class InscriptionComponent {
   //constructor(private router: Router) {}
 
   onRegister() {
-    if (!this.nom || !this.prenom || !this.email || !this.password || !this.confirmPassword || !this.role) {
+    if (!this.nom ||  !this.email || !this.password || !this.confirmPassword || !this.role) {
       alert('Tous les champs sont requis ');
       return;
     }
@@ -49,8 +49,8 @@ export class InscriptionComponent {
     }*/
   
     const user: RegisterRequest = {
-      nom: this.nom,
-      prenoms: this.prenom,
+      nomUtilisateur: this.nom,
+      //prenoms: this.prenom,
       email: this.email,
       password: this.password,
       telephone: this.telephone,
