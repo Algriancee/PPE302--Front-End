@@ -1,38 +1,31 @@
 <div class="layout">
 
   <!-- ================= HEADER ================= -->
-  <header class="header">
+  <header class="app-header">
+    <div class="header-left">
+      <img src="/assets/logo.png" class="logo" alt="RelatFoot">
+      <span class="brand">RelatFoot</span>
+    </div>
 
-    <nav class="navbar">
 
-      <!-- LOGO -->
-      <div class="logo-section">
-        <img src="/assets/logo.png" alt="Logo" class="logo" />
-        <span class="brand">RelatFoot</span>
+
+    <div class="header-right">
+      <button class="chat-btn" (click)="openChat()">
+           💬 Messages
+      </button>
+      <div class="avatar">
+        {{ getInitial() }}
       </div>
 
-      <!-- MENU 
-      <ul class="nav-links">
-        <li><a routerLink="/Accueille">Accueil</a></li>
-        <li><a routerLink="/Inscription">S'inscrire</a></li>
-        <li><a routerLink="/Page-joueurs">Joueurs</a></li>
-        <li><a routerLink="/page-Agents">Agents</a></li>
-        <li><a routerLink="/Connexion">Contact</a></li>
-      </ul>-->
-
-      <!-- USER INFO -->
-      <div class="user-box" *ngIf="user">
-        <div class="avatar">{{ user.email.charAt(0).toUpperCase() }}</div>
-
-        <div class="user-details">
-          <span class="email">{{ user.email }}</span>
-          <span class="role">{{ user.role }}</span>
-        </div>
-
-        <button class="logout-btn" (click)="logout()">Déconnexion</button>
+      <div class="user-info">
+        <span class="email">{{ email }}</span>
+        <span class="role">{{ role }}</span>
       </div>
 
-    </nav>
+      <button class="logout-btn" (click)="logout()">
+        Déconnexion
+      </button>
+    </div>
   </header>
 
   <!-- ================= SIDEBAR ================= -->
@@ -348,5 +341,39 @@
   <footer class="footer">
     © 2025 RelatFoot — Espace Joueur
   </footer>
+
+  <!-- ================= CHAT DRAWER ================= -->
+
+<div class="modal-overlay" *ngIf="chatOpen" (click)="closeChat()"></div>
+
+<div class="chat-drawer" *ngIf="chatOpen">
+
+  <div class="chat-header">
+    <h3>Messagerie</h3>
+    <button (click)="closeChat()">✖</button>
+  </div>
+
+  <div class="chat-messages">
+    <div
+      *ngFor="let msg of messages"
+      
+      class="message"
+    >
+      <div class="bubble">
+        {{ msg.content }}
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="chat-input">
+    <input
+      [(ngModel)]="newMessage"
+      placeholder="Écrire un message..."
+      (keydown.enter)="sendMessage()"
+    />
+    <button (click)="sendMessage()">➤</button>
+  </div>-->
+
+  </div>
 
 </div>

@@ -12,22 +12,27 @@
 
 
   <!-- ================= HEADER ================= -->
-  <header class="header">
-    <div class="logo-section">
-      <img src="/assets/logo.png" alt="Logo" class="logo" />
-      <span class="brand">RelatFoot</span>
+ <header class="app-header">
+  <div class="header-left">
+    <img src="/assets/logo.png" class="logo" alt="RelatFoot">
+    <span class="brand">RelatFoot</span>
+  </div>
+
+  <div class="header-right">
+    <div class="avatar">
+      {{ getInitial() }}
     </div>
 
-    <div class="user-section">
-      <div class="user-info">
-        <span><strong>Email :</strong> {{ user.email }}</span>
-        <span><strong>Rôle :</strong> {{ user.role }}</span>
-      </div>
-
-      <img src="/assets/avatar.png" alt="Avatar" class="avatar" />
-      <button class="logout-btn" routerLink="Accueille" (click)="logout()">Déconnexion</button>
+    <div class="user-info">
+      <span class="email">{{ email }}</span>
+      <span class="role">{{ role }}</span>
     </div>
-  </header>
+
+    <button class="logout-btn" (click)="logout()">
+      Déconnexion
+    </button>
+  </div>
+</header>
 
   <!-- ================= SIDEBAR ================= -->
   <aside class="sidebar">
@@ -108,17 +113,17 @@
 
       <h2>Liste des joueurs</h2>
 
-      <!-- Filtres 
+      <h3>Recherche</h3>
       <div class="filters">
 
         <input placeholder="Nom" [(ngModel)]="searchNom" (input)="applySearch()" />
-        <input placeholder="Prénoms" [(ngModel)]="searchprenoms" (input)="applySearch()" />
+        <!--<input placeholder="Prénoms" [(ngModel)]="searchprenoms" (input)="applySearch()" />-->
         <input placeholder="Poste" [(ngModel)]="searchPoste" (input)="applySearch()" />
         <input placeholder="Nationalité" [(ngModel)]="searchnationalite" (input)="applySearch()" />
         <input placeholder="Niveau" [(ngModel)]="searchniveau" (input)="applySearch()" />
-        <input placeholder="Taille" [(ngModel)]="searchTaille" (input)="applySearch()" />
+        <!--<input placeholder="Taille" [(ngModel)]="searchTaille" (input)="applySearch()" />-->
 
-      </div>-->
+      </div>
 
       <!-- TABLE JOUEURS -->
       <table class="joueurs-table">
@@ -132,6 +137,7 @@
             <th>Niveau</th>
             <th>Taille</th>
             <th>Actions</th>
+            <th>Contacter Par E-mail </th>
           </tr>
         </thead>
 
@@ -145,6 +151,11 @@
             <td>{{ j.taille }} cm</td>
             <td>
               <button class="view-btn" (click)="openDrawer(j)">Voir</button>
+            </td>
+            <td>
+              <button class="email-btn" (click)="contactByEmail()">
+              ✉️ Contacter le joueur
+              </button>
             </td>
           </tr>
         </tbody>
@@ -281,18 +292,36 @@
 
   </div>-->
 
+  
+
 
   <div class="modal-overlay" *ngIf="drawerOpen()" (click)="closeDrawer()"></div>
 
-<div class="modal-card" *ngIf="drawerOpen()">
+  <div class="modal-card" *ngIf="drawerOpen()">
 
   <button class="close-btn" (click)="closeDrawer()">✖</button>
+    <!--<div class="card-actions">
+    <button class="pdf-btn" (click)="exportPdf()">
+    📄 Exporter en PDF
+    </button>-->
+    <div class="card-actions">
+    <button class="pdf-btn" (click)="exportPdf()">📄 Export PDF</button>
+    <!--<button class="email-btn" (click)="contactByEmail()">✉️ Contacter</button>-->
+    </div>
 
-  <section class="card">
+  
 
-    <h2>Carte Joueur Complète</h2>
+  <section class="card" id="playerCardPdf" >
+    
+    <!-- <h2> Curriculum Vitae </h2> -->
 
     <div *ngIf="selectedJoueur.id" class="player-card">
+
+       <!-- LOGO 
+      <div class="pdf-header">
+        <img src="assets/logo.png" class="pdf-logo">
+        <h2>FICHE JOUEUR</h2>
+      </div>-->
 
       <!-- En-tête -->
       <div class="player-header">
@@ -324,7 +353,7 @@
       </div>
 
       <!-- Profil -->
-      <div *ngIf="profil?.id" class="info-box">
+      <div *ngIf="profil.id" class="info-box">
         <h3>Profil</h3>
         <p><strong>Biographie :</strong> {{ profil.biographie }}</p>
         <p><strong>Parcours :</strong> {{ profil.parcours }}</p>
@@ -337,7 +366,8 @@
         <div *ngFor="let media of medias" class="media-item">
           <h4>{{ media.type }}</h4>
           <p>{{ media.description }}</p>
-          <a [href]="media.url" target="_blank">Voir</a>
+          <!--<a [href]="media.url" target="_blank">Voir</a>-->
+          <h6>{{ media.url }}</h6>
         </div>
       </div>
 

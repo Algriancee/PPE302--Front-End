@@ -1,3 +1,6 @@
+
+
+(window as any).global = window;
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 
@@ -6,6 +9,8 @@ import { AppComponent } from './app/app.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './app/authentification/auth.interceptor';
+
+
 
 bootstrapApplication(AppComponent, {
   providers: [

@@ -9,6 +9,7 @@ import { Agent } from '../../Models/Agents.model';
 import { Joueur } from '../../Models/Joueurs.model';
 import { Router, RouterLink } from '@angular/router';
 import { User } from '../../Models/User.model';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-page-admin',
@@ -18,20 +19,35 @@ import { User } from '../../Models/User.model';
 })
 export class PageAdminComponent implements OnInit {
 
-  activeSection: string = 'list';
+  //activeSection: string = 'list';
+  activeSection: 'joueurs' | 'agents' | 'create' = 'joueurs';
 
   drawerOpen = signal(false);
   selectedUser: any = null;
 
+  selectedJoueur: any;
+  selectedAgent: any;
+  selectedType: 'joueur' | 'agent' | null = null;
+
+
   allUsers: User[] = [];
   filteredUsers: User[] = [];
+  filteredJoueurs: any[] = [];
+  filteredAgents: any[] = [];
   medias: any[] = [];
+  joueurs: any[] = [];
+  agents: any[] = [];
+  profil: any = {};
+  user: User = { nomUtilisaeur: "", email: '', telephone: '', role: 'JOUEURS',  };
   selectedRole:  | null = null;
 
   searchEmail: string = '';
   searchRole: string = 'ALL';
   adminEmail: string = '';
   adminRole: string = '';
+  
+  email: string = '';
+  role: string = '';
 
   newUser: User = {
   nomUtilisaeur: '',
@@ -46,13 +62,17 @@ export class PageAdminComponent implements OnInit {
     private agentsService: AgentsService,
     private joueursService: JoueursService,
     private authService: AuthService,
+    private userService: UserService,
     private mediasService: MediasService
   ) {}
 
   ngOnInit(): void {
     this.loadAllUsers();
-    this.adminEmail = localStorage.getItem('email') || '';
-    this.adminRole = localStorage.getItem('role') || '';
+    this.email = localStorage.getItem('email') || '';
+    this.role = localStorage.getItem('role') || '';
+    this.loadJoueurs();
+    this.loadAgents();
+
   }
 
   /** Charger tous les utilisateurs */
@@ -60,6 +80,20 @@ export class PageAdminComponent implements OnInit {
     this.authService.getAllUsers().subscribe(users => {
       this.allUsers = users;
       this.filteredUsers = users;
+    });
+  }
+
+  loadJoueurs() {
+    this.joueursService.getAll().subscribe(data => {
+      this.joueurs = data;
+      this.filteredJoueurs = data;
+    });
+  }
+
+  loadAgents() {
+    this.agentsService.getAll().subscribe(data => {
+      this.agents = data;
+      this.filteredAgents = data;
     });
   }
 
@@ -114,17 +148,7 @@ export class PageAdminComponent implements OnInit {
   });
  }*/
 
-  openDrawer(user: any) {
-    this.selectedUser = user;
-    this.drawerOpen.set(true);
-
-   // Charger médias seulement si joueur
-   if (user.role === 'JOUEURS') {
-     this.loadMedias(user);
-   } else {
-     this.medias = [];
-   }
-  }
+  
 
  closeDrawer() {
    this.drawerOpen.set(false);
@@ -135,5 +159,86 @@ export class PageAdminComponent implements OnInit {
   logout() {
     this.authService.logout();
   }
+  getInitial(): string {
+    return this.email ? this.email.charAt(1).toUpperCase() : '?';
+  }
+
+  deleteJoueur(id: number) {
+    if (!confirm('Supprimer ce joueur ?')) return;
+    this.joueursService.deleteJoueur(id).subscribe(() => this.loadJoueurs());
+  }
+
+  deleteAgent(id: number) {
+    if (!confirm('Supprimer cet agent ?')) return;
+    this.agentsService.delete(id).subscribe(() => this.loadAgents());
+  }
+
+  createUser() {
+  this.authService.createUser(this.newUser).subscribe({
+    next: () => {
+      alert('Utilisateur créé avec succès');
+      this.newUser = {
+        nomUtilisaeur: '',
+        email: '',
+        password: '',
+        telephone: '',
+        role: 'USER'
+      };
+    },
+    error: err => console.error('Erreur création user', err)
+  });
+}
+
+/*openJoueur(joueur: any) {
+  this.selectedType = 'joueur';
+  this.selectedJoueur = joueur;
+  this.selectedAgent = null;
+  this.drawerOpen.set(true);
+
+  this.userService.getById(joueur.id).subscribe(u => this.user = u);
+  this.loadMedias(joueur);
+}*/
+
+/*openAgent(agent: any) {
+  this.selectedType = 'agent';
+  this.selectedAgent = agent;
+  this.selectedJoueur = null;
+  this.drawerOpen.set(true);
+
+  this.userService.getById(agent.id).subscribe(u => this.user = u);
+}*/
+
+openJoueur(joueur: Joueur) {
+  this.selectedType = 'joueur';
+  this.selectedJoueur = joueur;
+  this.selectedAgent = null;
+
+  this.drawerOpen.set(true);
+
+  // Charger le user lié
+  this.userService.getById(joueur.id!).subscribe({
+    next: u => this.user = u,
+    error: () => console.error('User joueur introuvable')
+  });
+
+  // Charger médias
+  this.mediasService.getMediasByJoueurId(joueur.id!).subscribe({
+    next: data => this.medias = data,
+    error: () => this.medias = []
+  });
+}
+
+openAgent(agent: Agent) {
+  this.selectedType = 'agent';
+  this.selectedAgent = agent;
+  this.selectedJoueur = null;
+
+  this.drawerOpen.set(true);
+
+  this.userService.getById(agent.id!).subscribe({
+    next: u => this.user = u,
+    error: () => console.error('User agent introuvable')
+  });
+}
 }
  

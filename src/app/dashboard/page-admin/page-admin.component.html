@@ -1,137 +1,160 @@
 <div class="admin-container">
 
   <!-- ================= HEADER ================= -->
-  <header class="admin-header">
-    <div class="header-left">
-      <img src="/assets/logo.png" class="logo">
-      <span class="brand">RelatFoot Admin</span>
+  <header class="app-header">
+  <div class="header-left">
+    <img src="/assets/logo.png" class="logo" alt="RelatFoot">
+    <span class="brand">RelatFoot</span>
+  </div>
+
+  <div class="header-right">
+    <div class="avatar">
+      {{ getInitial() }}
     </div>
 
-    <div class="header-right">
-      <div class="admin-avatar">
-        {{ adminEmail.charAt(0).toUpperCase() }}
-      </div>
-      <div class="admin-meta">
-        <span class="email">{{ adminEmail }}</span>
-        <span class="role">ADMIN</span>
-        <button class="logout-btn" (click)="logout()">Déconnexion</button>
-      </div>
+    <div class="user-info">
+      <span class="email">{{ email }}</span>
+      <span class="role">{{ role }}</span>
     </div>
-  </header>
+
+    <button class="logout-btn" (click)="logout()">
+      Déconnexion
+    </button>
+  </div>
+</header>
 
   <!-- ================= BODY ================= -->
   <div class="content-wrapper">
 
     <!-- SIDEBAR -->
+     <!-- SIDEBAR -->
     <aside class="sidebar">
-      <h3>Menu</h3>
-
-      <button class="menu-btn active">👥 Utilisateurs</button>
-      <button class="menu-btn">➕ Créer</button>
-      <button class="menu-btn">📊 Statistiques</button>
-      <button class="menu-btn">🚩 Signalements</button>
+      <h2>Admin</h2>
+      <button (click)="activeSection='joueurs'">Joueurs</button>
+      <button (click)="activeSection='agents'">Agents</button>
+      <button (click)="activeSection='create'">Créer User</button>
     </aside>
 
     <!-- MAIN -->
-    <main class="main-content">
-
-      <h2>Liste des utilisateurs</h2>
-      
-        <!-- FILTRES 
-        <div class="filters">
-          <input type="text" placeholder="Recherche email..."
-                 [(ngModel)]="searchEmail" (input)="applyFilters()" />
-
-          <select [(ngModel)]="searchRole" (change)="applyFilters()">
-            <option value="ALL">Tous</option>
-            <option value="JOUEURS">Joueurs</option>
-            <option value="AGENTS">Agents</option>
-          </select>
-        </div>-->
-
-      <!-- TABLE -->
-      <table class="user-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Rôle</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <!--<tbody>
-          <tr *ngFor="let u of filteredUsers">
-            <td>{{ u.id }}</td>
-            <td>{{ u.nom }} {{ u.prenoms }}</td>
-            <td>{{ u.email }}</td>
-            <td>{{ u.role }}</td>
-            <td>
-              <button class="view-btn" (click)="openDrawer(u)">Voir</button>
-              <button class="delete-btn" (click)="deleteUser(u)">Supprimer</button>
-            </td>
-          </tr>
-        </tbody>-->
+    <!-- JOUEURS -->
+    <section *ngIf="activeSection==='joueurs'">
+      <h2>Liste des joueurs</h2>
+      <table>
+        <tr>
+          <th>Nom</th><!--<th>Email</th>--><th>Poste</th><th>Actions</th>
+        </tr>
+        <tr *ngFor="let j of filteredJoueurs">
+          <td>{{ j.nom }} {{ j.prenoms }}</td>
+          <!--<td>{{ j.email }}</td>-->
+          <td>{{ j.poste }}</td>
+          <td>
+            <button (click)="openJoueur(j)">Voir</button>
+            <button class="danger" (click)="deleteJoueur(j.id)">Supprimer</button>
+          </td>
+        </tr>
       </table>
+    </section>
 
-    </main>
+    <!-- AGENTS -->
+    <section *ngIf="activeSection==='agents'">
+      <h2>Liste des agents</h2>
+      <table>
+        <tr>
+          <th>Agence</th><!--<th>Email</th>--><th>Pays</th><th>Actions</th>
+        </tr>
+        <tr *ngFor="let a of filteredAgents">
+          <td>{{ a.nomAgence }}</td>
+          <!--<td>{{ user.email }}</td>-->
+          <td>{{ a.paysAgence }}</td>
+          <td>
+            <button (click)="openAgent(a)">Voir</button>
+            <button class="danger" (click)="deleteAgent(a.id)">Supprimer</button>
+          </td>
+        </tr>
+      </table>
+    </section>
+    <section *ngIf="activeSection==='create'" class="card">
+      <h2>Créer un utilisateur</h2>
+
+      <label>Nom utilisateur</label>
+      <input [(ngModel)]="newUser.nomUtilisaeur" placeholder="Nom utilisateur">
+
+      <label>Email</label>
+      <input [(ngModel)]="newUser.email" placeholder="Email">
+
+      <label>Mot de passe</label>
+      <input type="password" [(ngModel)]="newUser.password" placeholder="Mot de passe">
+
+      <label>Téléphone</label>
+      <input [(ngModel)]="newUser.telephone" placeholder="Téléphone">
+
+      <label>Rôle</label>
+      <select [(ngModel)]="newUser.role">
+        <option value="USER">USER</option>
+        <option value="JOUEURS">JOUEUR</option>
+        <option value="AGENTS">AGENT</option>
+        <option value="ADMIN">ADMIN</option>
+      </select>
+
+      <button class="save-btn" (click)="createUser()">Créer</button>
+    </section>
   </div>
-
   <!-- ================= MODAL UTILISATEUR ================= -->
   <div class="modal-overlay" *ngIf="drawerOpen()" (click)="closeDrawer()"></div>
 
-  <div class="modal-box" *ngIf="drawerOpen()">
+  <div class="modal-card" *ngIf="drawerOpen()">
+      <button class="close-btn" (click)="closeDrawer()">✖</button>
 
-    <button class="close-btn" (click)="closeDrawer()">✖</button>
+      <!-- ======= JOUEUR ======= -->
+      <ng-container *ngIf="selectedType==='joueur' && selectedJoueur">
+        <h2>Profil Joueur</h2>
 
-    <h3>Détails utilisateur</h3>
+        <div class="header">
+          <div class="avatar">{{ selectedJoueur.nom.charAt(0) }}</div>
+          <div>
+            <h3>{{ selectedJoueur.nom }} {{ selectedJoueur.prenoms }}</h3>
+            <span class="badge">{{ selectedJoueur.poste }}</span>
+          </div>
+        </div>
 
-    <div class="modal-section">
-      <p><strong>ID :</strong> {{ selectedUser.id }}</p>
-      <p><strong>Nom :</strong> {{ selectedUser.nom }} {{ selectedUser.prenoms }}</p>
-      <p><strong>Email :</strong> {{ selectedUser.email }}</p>
-      <p><strong>Rôle :</strong> {{ selectedUser.role }}</p>
-      <p><strong>Téléphone :</strong> {{ selectedUser.telephone || '—' }}</p>
-    </div>
+        <div class="grid">
+          <div>📧 {{ user.email }}</div>
+          <div>📞 {{ user.telephone }}</div>
+          <div>🌍 {{ selectedJoueur.nationalite }}</div>
+          <div>📏 {{ selectedJoueur.taille }} cm</div>
+          <div>⚖️ {{ selectedJoueur.poids }} kg</div>
+          <div>🎯 {{ selectedJoueur.niveau }}</div>
+        </div>
 
-    <hr>
+        <div *ngIf="medias.length" class="box">
+          <h4>Médias</h4>
+          <a *ngFor="let m of medias" [href]="m.url" target="_blank">▶ {{ m.type }}</a>
+        </div>
+      </ng-container>
 
-    <!-- JOUEUR -->
-    <div *ngIf="selectedUser.role === 'JOUEURS'" class="modal-section">
-      <h4>Profil Joueur</h4>
+      <!-- ======= AGENT ======= -->
+      <ng-container *ngIf="selectedType==='agent' && selectedAgent">
+        <h2>Profil Agent</h2>
 
-      <p>⚽ Poste : {{ selectedUser.poste }}</p>
-      <p>🌍 Nationalité : {{ selectedUser.nationalite }}</p>
-      <p>📏 Taille : {{ selectedUser.taille }} cm</p>
-      <p>🎯 Niveau : {{ selectedUser.niveau }}</p>
-      
+        <div class="header">
+          <div class="avatar">{{ selectedAgent.nom.charAt(0) }}</div>
+          <div>
+            <h3>{{ selectedAgent.nom }} {{ selectedAgent.prenoms }}</h3>
+            <span class="badge agent">AGENT</span>
+          </div>
+        </div>
 
-    </div>
-
-    <!-- AGENT -->
-    <div *ngIf="selectedUser.role === 'AGENTS'" class="modal-section">
-      <h4>Profil Agent</h4>
-
-      <p>🏢 Agence : {{ selectedUser.nomAgence }}</p>
-      <p>📄 Licence : {{ selectedUser.licence }}</p>
-      <p>🌍 Pays : {{ selectedUser.paysAgence }}</p>
-    </div>
-
+        <div class="grid">
+          <div>📧 {{ user.email }}</div>
+          <div>📞 {{ user.telephone }}</div>
+          <div *ngIf="selectedAgent.nomAgence">🏢 {{ selectedAgent.nomAgence }}</div>
+          <div *ngIf="selectedAgent.paysAgence">🌍 {{ selectedAgent.paysAgence }}</div>
+          <div *ngIf="selectedAgent.licence">📄 {{ selectedAgent.licence }}</div>
+        </div>
+      </ng-container>
   </div>
 
 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+  

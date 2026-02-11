@@ -4,10 +4,13 @@ import { Joueur } from '../../Models/Joueurs.model';
 import { ProfilJoueur } from '../../Models/ProfilJoueurs.model';
 import { Media } from '../../Models/Medias.model';
 import { User } from '../../Models/User.model';
+import { ChatMessage } from '../../Models/ChatMessage.model';
 import { JoueursService } from '../../service/joueurs.service';
 import { AuthService } from '../../service/auth.service';
 import { ProfilJoueursService } from '../../service/profil-joueurs.service';
 import { MediasService } from '../../service/medias.service';
+import { UserService } from '../../service/user.service';
+import { ChatService } from '../../service/chat.service';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
 
@@ -28,12 +31,27 @@ export class PageJoueursComponent implements OnInit{
 
   emailUtilisateur = '';
   //emailUtilisateur = JSON.parse(localStorage.getItem('email') || '""');
+  email: string = '';
+  role: string = '';
+  
+  
+
+  // 🔥 CHAT
+  messages: ChatMessage[] = [];
+  messageContent = '';
+  currentUserId!: string;
+  selectedAgentId!: string;
+  chatOpen = false;
+  
+  newMessage = '';
 
   constructor(
     private joueursService: JoueursService,
     private authService: AuthService,
     private profilJoueursService: ProfilJoueursService,
+    private userService: UserService,
     private mediasService: MediasService,
+    private chatService: ChatService
   ) {}
 
   /*ngOnInit(): void {
@@ -45,11 +63,35 @@ export class PageJoueursComponent implements OnInit{
     const userId = this.authService.getUserIdFromToken();
     if (userId) {
       this.loadJoueurById(userId);
+      this.loadUser(userId); 
+      //this.chatService.connect(userId);   
     } else {
       console.error("ID utilisateur non trouvé dans le token. Redirection ou gestion d'erreur.");
       // Optionnel : Rediriger vers connexion si token invalide
     }
     this.emailUtilisateur = JSON.parse(localStorage.getItem('email') || '""');
+    
+  
+  /*if (userId) {
+    this.chatService.connect(userId);
+  }
+    
+    const userIdStr = String(userId);
+    this.chatService.connect(userIdStr);
+
+      this.email = localStorage.getItem('email') || '';
+      this.role = localStorage.getItem('role') || '';
+
+       // 🔌 STOMP
+    this.chatService.connect(this.currentUserId);
+
+    this.chatService.getMessages().subscribe(msgs => {
+      this.messages = msgs.filter(
+        m =>
+          m.senderId === this.selectedAgentId ||
+          m.recipientId === this.selectedAgentId
+      );
+    });*/
   }
 
   /** 🔹 Charger le joueur connecté 
@@ -228,5 +270,49 @@ createJoueur(): void {
   logout() {
     this.authService.logout();
   }
+
+
+  getInitial(): string {
+    return this.email ? this.email.charAt(1).toUpperCase() : '?';
+  }
+
+  /** 🔹 Charger le USER connecté */
+  loadUser(userId: number): void {
+    this.userService.getById(userId).subscribe({
+      next: (data) => {
+        this.user = data;
+        console.log('User chargé :', data);
+      },
+      error: (err) => {
+        console.error('Erreur chargement user :', err);
+        this.user = { nomUtilisaeur: '', email: '', telephone: '', role: 'JOUEURS' };
+      }
+    });
+  }
+
+  /*sendMessage() {
+    if (!this.messageContent || !this.selectedAgentId) return;
+
+    this.chatService.sendMessage({
+      senderId: this.currentUserId,
+      recipientId: this.selectedAgentId,
+      content: this.messageContent
+    });
+
+    this.messageContent = '';
+  }*/
+
+  openChat() {
+  this.chatOpen = true;
+}
+
+closeChat() {
+  this.chatOpen = false;
+}
+
+
+
+ 
+
   
 }
