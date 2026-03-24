@@ -1,0 +1,57 @@
+<div class="validation-wrapper">
+  <div class="validation-card">
+
+    <!-- Icône -->
+    <div class="icon-container">
+      <div class="icon-circle">
+        <span class="icon">✉️</span>
+      </div>
+    </div>
+
+    <!-- Titre -->
+    <h2>Vérifiez votre email</h2>
+    <p class="subtitle">
+      Un code à 6 chiffres a été envoyé à votre adresse email.<br>
+      <strong>Il expire dans 10 minutes.</strong>
+    </p>
+
+    <!-- Formulaire -->
+  <form (ngSubmit)="onValider()">
+  <div class="code-inputs">
+    <input id="code-0" type="text" maxlength="1" class="code-box"
+      inputmode="numeric" autocomplete="off"
+      (keyup)="onKey(0, $event)" />
+    <input id="code-1" type="text" maxlength="1" class="code-box"
+      inputmode="numeric" autocomplete="off"
+      (keyup)="onKey(1, $event)" />
+    <input id="code-2" type="text" maxlength="1" class="code-box"
+      inputmode="numeric" autocomplete="off"
+      (keyup)="onKey(2, $event)" />
+    <input id="code-3" type="text" maxlength="1" class="code-box"
+      inputmode="numeric" autocomplete="off"
+      (keyup)="onKey(3, $event)" />
+    <input id="code-4" type="text" maxlength="1" class="code-box"
+      inputmode="numeric" autocomplete="off"
+      (keyup)="onKey(4, $event)" />
+    <input id="code-5" type="text" maxlength="1" class="code-box"
+      inputmode="numeric" autocomplete="off"
+      (keyup)="onKey(5, $event)" />
+  </div>
+
+  <div class="message erreur" *ngIf="erreur">⚠️ {{ erreur }}</div>
+  <div class="message succes" *ngIf="message">{{ message }}</div>
+
+  <button type="submit" class="btn-valider" [disabled]="chargement">
+    <span *ngIf="!chargement">Valider mon compte</span>
+    <span *ngIf="chargement">⏳ Validation...</span>
+  </button>
+  </form>
+
+    <!-- Lien retour -->
+    <p class="retour">
+      Vous n'avez pas reçu le code ?
+      <a routerLink="/inscription">Se réinscrire</a>
+    </p>
+
+  </div>
+</div>

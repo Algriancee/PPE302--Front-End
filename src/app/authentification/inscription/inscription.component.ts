@@ -62,9 +62,9 @@ export class InscriptionComponent {
 
     this.authService.register(user).subscribe({
       next: () => {
-        this.message = "Inscription réussie ! Vous allez être redirigé(e) vers la page de connexion.";
+        this.message = "Inscription réussie ! Veillez confirmer le code a 6 chiffres recu par email.";
         setTimeout(() => {
-          this.router.navigate(['/Connexion']);
+          this.router.navigate(['/Validation']);
         }, 2500); // attend 2.5 secondes avant de rediriger
       },
       error: (err) => {
@@ -72,6 +72,10 @@ export class InscriptionComponent {
         this.message = "Erreur pendant l'inscription. Veuillez réessayer.";
       }
     });
+
+    
   }
+
+  
 
 }

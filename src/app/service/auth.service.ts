@@ -171,6 +171,10 @@ export class AuthService {
       return null;
     }
   }
+
+  validerCode(code: string): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/activation`, { code });
+  }
 }
 
 

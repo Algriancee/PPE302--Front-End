@@ -1,6 +1,7 @@
 
 
 (window as any).global = window;
+
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 

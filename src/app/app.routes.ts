@@ -5,6 +5,7 @@ import { PageAgentsComponent } from './dashboard/page-agents/page-agents.compone
 import { PageJoueursComponent } from './dashboard/page-joueurs/page-joueurs.component';
 import { ConnexionComponent } from './authentification/connexion/connexion.component';
 import { InscriptionComponent } from './authentification/inscription/inscription.component';
+import { ValidationComponent } from './authentification/validation/validation.component';
 import { roleGuard } from './guards/role.guard';
 
 
@@ -16,6 +17,7 @@ export const routes: Routes = [
     { path: 'Page-Admins', component: PageAdminComponent },
     { path: 'Connexion', component: ConnexionComponent },
     { path: 'Inscription', component: InscriptionComponent },
+    { path: 'Validation', component: ValidationComponent },
 
 
      
