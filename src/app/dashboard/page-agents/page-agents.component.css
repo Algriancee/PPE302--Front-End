@@ -22,68 +22,107 @@ body, * {
 
 /* ================== HEADER ================== */
 
-.header {
+.app-header {
   grid-area: header;
-  background: #0a4dbf;
+  height: 70px;
+  background: linear-gradient(90deg, #0b3c5d, #0f5fa8);
   color: white;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 25px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+
+  padding: 0 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  z-index: 100;
 }
 
-.logo-section {
+/* =======================
+   HEADER LEFT
+======================= */
+.header-left {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
 .logo {
-  height: 40px;
+  height: 42px;
+  width: auto;
 }
 
 .brand {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
-.user-section {
+/* =======================
+   HEADER RIGHT
+======================= */
+.header-right {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 16px;
 }
 
-.user-info {
-  display: flex;
-  flex-direction: column;
-  text-align: right;
-  font-size: 14px;
-}
-
+/* Avatar */
 .avatar {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: white;
-  border: 2px solid #dce7ff;
-  object-fit: cover;
+  background: #facc15;
+  color: #1e293b;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+  font-weight: 800;
 }
 
-.logout-btn {
-  background: #e53935;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  cursor: pointer;
-  border-radius: 5px;
+/* User info */
+.user-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.user-info .email {
+  font-size: 14px;
   font-weight: 600;
-  transition: 0.2s;
+}
+
+.user-info .role {
+  font-size: 12px;
+  opacity: 0.85;
+  text-transform: uppercase;
+}
+
+/* Logout button */
+.logout-btn {
+  margin-left: 10px;
+  background: #dc2626;
+  border: none;
+  color: white;
+
+  padding: 8px 14px;
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
 }
 
 .logout-btn:hover {
-  background: #c62828;
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+.logout-btn:active {
+  transform: translateY(0);
 }
 
 /* ================== SIDEBAR ================== */
@@ -151,6 +190,29 @@ label {
   font-weight: 600;
   margin-top: 12px;
   color: #1c2d4f;
+}
+
+input,
+textarea {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  font-size: 15px;
+}
+select {                          /* ← select ajouté ici */
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  font-size: 15px;
+  width: 100%;
+  font-family: inherit;
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
 }
 
 input {

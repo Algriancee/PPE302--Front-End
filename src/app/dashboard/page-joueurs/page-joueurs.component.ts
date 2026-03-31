@@ -70,6 +70,9 @@ export class PageJoueursComponent implements OnInit{
       // Optionnel : Rediriger vers connexion si token invalide
     }
     this.emailUtilisateur = JSON.parse(localStorage.getItem('email') || '""');
+
+    this.email = localStorage.getItem('email') || '';
+    this.role = localStorage.getItem('role') || '';
     
   
   /*if (userId) {

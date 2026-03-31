@@ -103,20 +103,260 @@
           <input [(ngModel)]="joueurs.telephone" name="telephone" required />
         </div>-->
 
-         <div class="form-group">
-          <label>Adresse</label>
+        <div class="form-group">
+            <label>Nationalité</label>
+  <select [(ngModel)]="joueurs.nationalite" name="nationalite" required>
+    <option value="" disabled selected>Choisir une nationalité</option>
+    
+    <!-- Afrique -->
+    <optgroup label="🌍 Afrique">
+      <option value="Algérien(ne)">🇩🇿 Algérie</option>
+      <option value="Angolais(e)">🇦🇴 Angola</option>
+      <option value="Béninois(e)">🇧🇯 Bénin</option>
+      <option value="Botswanais(e)">🇧🇼 Botswana</option>
+      <option value="Burkinabé">🇧🇫 Burkina Faso</option>
+      <option value="Burundais(e)">🇧🇮 Burundi</option>
+      <option value="Camerounais(e)">🇨🇲 Cameroun</option>
+      <option value="Cap-Verdien(ne)">🇨🇻 Cap-Vert</option>
+      <option value="Centrafricain(e)">🇨🇫 Centrafrique</option>
+      <option value="Comorien(ne)">🇰🇲 Comores</option>
+      <option value="Congolais(e)">🇨🇬 Congo</option>
+      <option value="Congolais(e) RDC">🇨🇩 Congo RDC</option>
+      <option value="Ivoirien(ne)">🇨🇮 Côte d'Ivoire</option>
+      <option value="Djiboutien(ne)">🇩🇯 Djibouti</option>
+      <option value="Égyptien(ne)">🇪🇬 Égypte</option>
+      <option value="Érythréen(ne)">🇪🇷 Érythrée</option>
+      <option value="Éthiopien(ne)">🇪🇹 Éthiopie</option>
+      <option value="Gabonais(e)">🇬🇦 Gabon</option>
+      <option value="Gambien(ne)">🇬🇲 Gambie</option>
+      <option value="Ghanéen(ne)">🇬🇭 Ghana</option>
+      <option value="Guinéen(ne)">🇬🇳 Guinée</option>
+      <option value="Guinéen(ne) Bissau">🇬🇼 Guinée-Bissau</option>
+      <option value="Équato-Guinéen(ne)">🇬🇶 Guinée Équatoriale</option>
+      <option value="Kenyan(e)">🇰🇪 Kenya</option>
+      <option value="Lesothan(e)">🇱🇸 Lesotho</option>
+      <option value="Libérien(ne)">🇱🇷 Libéria</option>
+      <option value="Libyen(ne)">🇱🇾 Libye</option>
+      <option value="Malgache">🇲🇬 Madagascar</option>
+      <option value="Malawien(ne)">🇲🇼 Malawi</option>
+      <option value="Malien(ne)">🇲🇱 Mali</option>
+      <option value="Mauritanien(ne)">🇲🇷 Mauritanie</option>
+      <option value="Mauricien(ne)">🇲🇺 Maurice</option>
+      <option value="Marocain(e)">🇲🇦 Maroc</option>
+      <option value="Mozambicain(e)">🇲🇿 Mozambique</option>
+      <option value="Namibien(ne)">🇳🇦 Namibie</option>
+      <option value="Nigérien(ne)">🇳🇪 Niger</option>
+      <option value="Nigérian(e)">🇳🇬 Nigéria</option>
+      <option value="Ougandais(e)">🇺🇬 Ouganda</option>
+      <option value="Rwandais(e)">🇷🇼 Rwanda</option>
+      <option value="Sao-Toméen(ne)">🇸🇹 Sao Tomé-et-Príncipe</option>
+      <option value="Sénégalais(e)">🇸🇳 Sénégal</option>
+      <option value="Seychellois(e)">🇸🇨 Seychelles</option>
+      <option value="Sierra-Léonais(e)">🇸🇱 Sierra Leone</option>
+      <option value="Somalien(ne)">🇸🇴 Somalie</option>
+      <option value="Soudanais(e)">🇸🇩 Soudan</option>
+      <option value="Sud-Soudanais(e)">🇸🇸 Soudan du Sud</option>
+      <option value="Sud-Africain(e)">🇿🇦 Afrique du Sud</option>
+      <option value="Swazilan(e)">🇸🇿 Eswatini</option>
+      <option value="Tanzanien(ne)">🇹🇿 Tanzanie</option>
+      <option value="Tchadien(ne)">🇹🇩 Tchad</option>
+      <option value="Togolais(e)">🇹🇬 Togo</option>
+      <option value="Tunisien(ne)">🇹🇳 Tunisie</option>
+      <option value="Zambien(ne)">🇿🇲 Zambie</option>
+      <option value="Zimbabwéen(ne)">🇿🇼 Zimbabwe</option>
+    </optgroup>
+
+    <!-- Europe -->
+    <optgroup label="🌍 Europe">
+      <option value="Albanais(e)">🇦🇱 Albanie</option>
+      <option value="Allemand(e)">🇩🇪 Allemagne</option>
+      <option value="Andorran(e)">🇦🇩 Andorre</option>
+      <option value="Autrichien(ne)">🇦🇹 Autriche</option>
+      <option value="Belge">🇧🇪 Belgique</option>
+      <option value="Bosniaque">🇧🇦 Bosnie-Herzégovine</option>
+      <option value="Bulgare">🇧🇬 Bulgarie</option>
+      <option value="Chypriote">🇨🇾 Chypre</option>
+      <option value="Croate">🇭🇷 Croatie</option>
+      <option value="Danois(e)">🇩🇰 Danemark</option>
+      <option value="Espagnol(e)">🇪🇸 Espagne</option>
+      <option value="Estonien(ne)">🇪🇪 Estonie</option>
+      <option value="Finlandais(e)">🇫🇮 Finlande</option>
+      <option value="Français(e)">🇫🇷 France</option>
+      <option value="Grec(que)">🇬🇷 Grèce</option>
+      <option value="Hongrois(e)">🇭🇺 Hongrie</option>
+      <option value="Irlandais(e)">🇮🇪 Irlande</option>
+      <option value="Islandais(e)">🇮🇸 Islande</option>
+      <option value="Italien(ne)">🇮🇹 Italie</option>
+      <option value="Letton(ne)">🇱🇻 Lettonie</option>
+      <option value="Liechtensteinois(e)">🇱🇮 Liechtenstein</option>
+      <option value="Lituanien(ne)">🇱🇹 Lituanie</option>
+      <option value="Luxembourgeois(e)">🇱🇺 Luxembourg</option>
+      <option value="Maltais(e)">🇲🇹 Malte</option>
+      <option value="Moldave">🇲🇩 Moldavie</option>
+      <option value="Monégasque">🇲🇨 Monaco</option>
+      <option value="Monténégrin(e)">🇲🇪 Monténégro</option>
+      <option value="Norvégien(ne)">🇳🇴 Norvège</option>
+      <option value="Néerlandais(e)">🇳🇱 Pays-Bas</option>
+      <option value="Polonais(e)">🇵🇱 Pologne</option>
+      <option value="Portugais(e)">🇵🇹 Portugal</option>
+      <option value="Roumain(e)">🇷🇴 Roumanie</option>
+      <option value="Britannique">🇬🇧 Royaume-Uni</option>
+      <option value="Russe">🇷🇺 Russie</option>
+      <option value="Serbe">🇷🇸 Serbie</option>
+      <option value="Slovaque">🇸🇰 Slovaquie</option>
+      <option value="Slovène">🇸🇮 Slovénie</option>
+      <option value="Suédois(e)">🇸🇪 Suède</option>
+      <option value="Suisse">🇨🇭 Suisse</option>
+      <option value="Tchèque">🇨🇿 Tchéquie</option>
+      <option value="Ukrainien(ne)">🇺🇦 Ukraine</option>
+    </optgroup>
+
+    <!-- Amérique -->
+    <optgroup label="🌎 Amérique">
+      <option value="Américain(e)">🇺🇸 États-Unis</option>
+      <option value="Argentin(e)">🇦🇷 Argentine</option>
+      <option value="Bolivien(ne)">🇧🇴 Bolivie</option>
+      <option value="Brésilien(ne)">🇧🇷 Brésil</option>
+      <option value="Canadien(ne)">🇨🇦 Canada</option>
+      <option value="Chilien(ne)">🇨🇱 Chili</option>
+      <option value="Colombien(ne)">🇨🇴 Colombie</option>
+      <option value="Costaricien(ne)">🇨🇷 Costa Rica</option>
+      <option value="Cubain(e)">🇨🇺 Cuba</option>
+      <option value="Dominicain(e)">🇩🇴 République Dominicaine</option>
+      <option value="Équatorien(ne)">🇪🇨 Équateur</option>
+      <option value="Guatémaltèque">🇬🇹 Guatemala</option>
+      <option value="Haïtien(ne)">🇭🇹 Haïti</option>
+      <option value="Hondurien(ne)">🇭🇳 Honduras</option>
+      <option value="Jamaïcain(e)">🇯🇲 Jamaïque</option>
+      <option value="Mexicain(e)">🇲🇽 Mexique</option>
+      <option value="Nicaraguayen(ne)">🇳🇮 Nicaragua</option>
+      <option value="Panaméen(ne)">🇵🇦 Panama</option>
+      <option value="Paraguayen(ne)">🇵🇾 Paraguay</option>
+      <option value="Péruvien(ne)">🇵🇪 Pérou</option>
+      <option value="Salvadorien(ne)">🇸🇻 Salvador</option>
+      <option value="Trinidadien(ne)">🇹🇹 Trinité-et-Tobago</option>
+      <option value="Uruguayen(ne)">🇺🇾 Uruguay</option>
+      <option value="Vénézuélien(ne)">🇻🇪 Venezuela</option>
+    </optgroup>
+
+    <!-- Asie -->
+    <optgroup label="🌏 Asie">
+      <option value="Afghan(e)">🇦🇫 Afghanistan</option>
+      <option value="Saoudien(ne)">🇸🇦 Arabie Saoudite</option>
+      <option value="Arménien(ne)">🇦🇲 Arménie</option>
+      <option value="Azerbaïdjanais(e)">🇦🇿 Azerbaïdjan</option>
+      <option value="Bahreïni(e)">🇧🇭 Bahreïn</option>
+      <option value="Bangladais(e)">🇧🇩 Bangladesh</option>
+      <option value="Cambodgien(ne)">🇰🇭 Cambodge</option>
+      <option value="Chinois(e)">🇨🇳 Chine</option>
+      <option value="Nord-Coréen(ne)">🇰🇵 Corée du Nord</option>
+      <option value="Sud-Coréen(ne)">🇰🇷 Corée du Sud</option>
+      <option value="Émirati(e)">🇦🇪 Émirats Arabes Unis</option>
+      <option value="Géorgien(ne)">🇬🇪 Géorgie</option>
+      <option value="Indien(ne)">🇮🇳 Inde</option>
+      <option value="Indonésien(ne)">🇮🇩 Indonésie</option>
+      <option value="Irakien(ne)">🇮🇶 Irak</option>
+      <option value="Iranien(ne)">🇮🇷 Iran</option>
+      <option value="Israélien(ne)">🇮🇱 Israël</option>
+      <option value="Japonais(e)">🇯🇵 Japon</option>
+      <option value="Jordanien(ne)">🇯🇴 Jordanie</option>
+      <option value="Kazakhstanais(e)">🇰🇿 Kazakhstan</option>
+      <option value="Koweïtien(ne)">🇰🇼 Koweït</option>
+      <option value="Kirghiz(e)">🇰🇬 Kirghizistan</option>
+      <option value="Laotien(ne)">🇱🇦 Laos</option>
+      <option value="Libanais(e)">🇱🇧 Liban</option>
+      <option value="Malaisien(ne)">🇲🇾 Malaisie</option>
+      <option value="Maldivien(ne)">🇲🇻 Maldives</option>
+      <option value="Mongol(e)">🇲🇳 Mongolie</option>
+      <option value="Birman(e)">🇲🇲 Myanmar</option>
+      <option value="Népalais(e)">🇳🇵 Népal</option>
+      <option value="Omanais(e)">🇴🇲 Oman</option>
+      <option value="Ouzbek(e)">🇺🇿 Ouzbékistan</option>
+      <option value="Pakistanais(e)">🇵🇰 Pakistan</option>
+      <option value="Palestinien(ne)">🇵🇸 Palestine</option>
+      <option value="Philippine">🇵🇭 Philippines</option>
+      <option value="Qatari(e)">🇶🇦 Qatar</option>
+      <option value="Singapourien(ne)">🇸🇬 Singapour</option>
+      <option value="Sri-Lankais(e)">🇱🇰 Sri Lanka</option>
+      <option value="Syrien(ne)">🇸🇾 Syrie</option>
+      <option value="Tadjik(e)">🇹🇯 Tadjikistan</option>
+      <option value="Taïwanais(e)">🇹🇼 Taïwan</option>
+      <option value="Thaïlandais(e)">🇹🇭 Thaïlande</option>
+      <option value="Turc(que)">🇹🇷 Turquie</option>
+      <option value="Turkmène">🇹🇲 Turkménistan</option>
+      <option value="Vietnamien(ne)">🇻🇳 Vietnam</option>
+      <option value="Yéménite">🇾🇪 Yémen</option>
+    </optgroup>
+
+    <!-- Océanie -->
+    <optgroup label="🌏 Océanie">
+      <option value="Australien(ne)">🇦🇺 Australie</option>
+      <option value="Fidjien(ne)">🇫🇯 Fidji</option>
+      <option value="Néo-Zélandais(e)">🇳🇿 Nouvelle-Zélande</option>
+      <option value="Papouasien(ne)">🇵🇬 Papouasie-Nouvelle-Guinée</option>
+      <option value="Samoan(e)">🇼🇸 Samoa</option>
+      <option value="Tongien(ne)">🇹🇴 Tonga</option>
+      <option value="Vanuatais(e)">🇻🇺 Vanuatu</option>
+    </optgroup>
+
+  </select>
+        </div>
+
+        <div class="form-group">
+          <label>Adresse-Ville-Quartier</label>
           <input [(ngModel)]="joueurs.adresse" name="adresse" />
         </div>
 
         <div class="form-group">
-          <label>Poste</label>
-          <input [(ngModel)]="joueurs.poste" name="poste" required />
-        </div>
+  <label>Poste</label>
+  <select [(ngModel)]="joueurs.poste" name="poste" required>
+    <option value="" disabled selected>Choisir un poste</option>
 
-        <div class="form-group">
-          <label>Nationalité</label>
-          <input [(ngModel)]="joueurs.nationalite" name="nationalite" required  />
-        </div>
+    <optgroup label="🧤 Gardien">
+      <option value="Gardien de but">🧤 Gardien de but</option>
+    </optgroup>
+
+    <optgroup label="🛡️ Défenseurs">
+      <option value="Défenseur central">🛡️ Défenseur central</option>
+      <option value="Arrière droit">➡️ Arrière droit</option>
+      <option value="Arrière gauche">⬅️ Arrière gauche</option>
+      <option value="Libéro">🔒 Libéro</option>
+      <option value="Stoppeur">🚧 Stoppeur</option>
+    </optgroup>
+
+    <optgroup label="⚙️ Milieux">
+      <option value="Milieu défensif">🛡️ Milieu défensif</option>
+      <option value="Milieu central">⚙️ Milieu central</option>
+      <option value="Milieu offensif">🔥 Milieu offensif</option>
+      <option value="Milieu droit">➡️ Milieu droit</option>
+      <option value="Milieu gauche">⬅️ Milieu gauche</option>
+      <option value="Milieu relayeur">🔄 Milieu relayeur</option>
+      <option value="Sentinelle">6️⃣ Sentinelle</option>
+      <option value="Box to box">📦 Box to box</option>
+      <option value="Meneur de jeu">🎯 Meneur de jeu</option>
+      <option value="Numéro 10">🔟 Numéro 10</option>
+    </optgroup>
+
+    <optgroup label="💨 Ailiers">
+      <option value="Ailier droit">💨 Ailier droit</option>
+      <option value="Ailier gauche">💨 Ailier gauche</option>
+      <option value="Piston droit">🔩 Piston droit</option>
+      <option value="Piston gauche">🔩 Piston gauche</option>
+    </optgroup>
+
+    <optgroup label="⚽ Attaquants">
+      <option value="Avant-centre">⚽ Avant-centre</option>
+      <option value="Attaquant de pointe">🎯 Attaquant de pointe</option>
+      <option value="Second attaquant">🔥 Second attaquant</option>
+      <option value="Faux 9">9️⃣ Faux 9</option>
+      <option value="Numéro 9">9️⃣ Numéro 9</option>
+      <option value="Attaquant polyvalent">🌟 Attaquant polyvalent</option>
+    </optgroup>
+
+  </select>
+</div>
+
+       
 
         <div class="form-group">
           <label>Taille (cm)</label>
@@ -129,14 +369,48 @@
         </div>
 
         <div class="form-group">
-          <label>Pied fort</label>
-          <input [(ngModel)]="joueurs.piedFort" name="piedFort" required />
-        </div>
+  <label>Pied fort</label>
+  <select [(ngModel)]="joueurs.piedFort" name="piedFort" required>
+    <option value="" disabled selected>Choisir le pied fort</option>
+    
+    <option value="Droit">🦵 Droit</option>
+    <option value="Gauche">🦵 Gauche</option>
+    <option value="Les deux">⚽ Les deux pieds</option>
+  </select>
+</div>
 
         <div class="form-group">
-          <label>Niveau</label>
-          <input [(ngModel)]="joueurs.niveau" name="niveau" required />
-        </div>
+  <label>Niveau ou Categorie </label>
+  <select [(ngModel)]="joueurs.niveau" name="niveau" required>
+    <option value="" disabled selected>Choisir un niveau</option>
+
+    <optgroup label="🌱 Jeunes">
+      <option value="U7">U7 (5-6 ans)</option>
+      <option value="U8">U8 (7 ans)</option>
+      <option value="U9">U9 (8 ans)</option>
+      <option value="U10">U10 (9 ans)</option>
+      <option value="U11">U11 (10 ans)</option>
+      <option value="U12">U12 (11 ans)</option>
+      <option value="U13">U13 (12 ans)</option>
+      <option value="U14">U14 (13 ans)</option>
+      <option value="U15">U15 (14 ans)</option>
+      <option value="U16">U16 (15 ans)</option>
+      <option value="U17">U17 (16 ans)</option>
+      <option value="U18">U18 (17 ans)</option>
+      <option value="U19">U19 (18 ans)</option>
+      <option value="U21">U21 (19-21 ans)</option>
+      <option value="U23">U23 (22-23 ans)</option>
+      <option value="Débutant">🌱 Débutant</option>
+      <option value="Intermédiaire">📈 Intermédiaire</option>
+      <option value="Amateur">⚽ Amateur</option>
+      <option value="Amateur confirmé">🏅 Amateur confirmé</option>
+      <option value="Semi-professionnel">🌟 Semi-professionnel</option>
+      <option value="Professionnel">💼 Professionnel</option>
+    </optgroup>
+
+
+  </select>
+</div>
 
         <button class="btn-primary full">
           {{ joueurs.id ? 'Mettre à jour' : 'Créer mon profil joueur' }}

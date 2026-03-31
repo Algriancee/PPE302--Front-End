@@ -81,14 +81,219 @@
         <label>Nom de l'agence</label>
         <input type="text" [(ngModel)]="agent.nomAgence" name="nomAgence" />
 
-        <label>Licence</label>
-        <input type="text" [(ngModel)]="agent.licence" name="licence" />
+        <label class="label"> Status d'Agent</label>
+  <select class="input" [(ngModel)]="agent.licence" name="licence" required>
+    <option value="" disabled selected>Choisir une licence</option>
 
-        <label>Adresse agence</label>
+    <optgroup label="Status">
+      <option value="Agent agréé FIFA actif">✅ Agent Licencié agréé FIFA actif</option>
+      <option value="Intermédiaire FIFA enregistré">📝 Agent Intermédiaire FIFA enregistré</option>
+      <option value="Agent en cours de certification">⏳ En cours de certification</option>
+      <option value="Agent indépendant non licencié">⚠️ Indépendant non licencié</option>
+    </optgroup>
+
+  </select>
+         
+          <label> localité de l'Agence</label>
+  <select [(ngModel)]="agent.paysAgence" name="paysAgence" required>
+    <option value="" disabled selected>Choisir le Pays dans le quelle se trouve l'agence </option>
+    
+    <!-- Afrique -->
+    <optgroup label="🌍 Afrique">
+      <option value="Algérien(ne)">🇩🇿 Algérie</option>
+      <option value="Angolais(e)">🇦🇴 Angola</option>
+      <option value="Béninois(e)">🇧🇯 Bénin</option>
+      <option value="Botswanais(e)">🇧🇼 Botswana</option>
+      <option value="Burkinabé">🇧🇫 Burkina Faso</option>
+      <option value="Burundais(e)">🇧🇮 Burundi</option>
+      <option value="Camerounais(e)">🇨🇲 Cameroun</option>
+      <option value="Cap-Verdien(ne)">🇨🇻 Cap-Vert</option>
+      <option value="Centrafricain(e)">🇨🇫 Centrafrique</option>
+      <option value="Comorien(ne)">🇰🇲 Comores</option>
+      <option value="Congolais(e)">🇨🇬 Congo</option>
+      <option value="Congolais(e) RDC">🇨🇩 Congo RDC</option>
+      <option value="Ivoirien(ne)">🇨🇮 Côte d'Ivoire</option>
+      <option value="Djiboutien(ne)">🇩🇯 Djibouti</option>
+      <option value="Égyptien(ne)">🇪🇬 Égypte</option>
+      <option value="Érythréen(ne)">🇪🇷 Érythrée</option>
+      <option value="Éthiopien(ne)">🇪🇹 Éthiopie</option>
+      <option value="Gabonais(e)">🇬🇦 Gabon</option>
+      <option value="Gambien(ne)">🇬🇲 Gambie</option>
+      <option value="Ghanéen(ne)">🇬🇭 Ghana</option>
+      <option value="Guinéen(ne)">🇬🇳 Guinée</option>
+      <option value="Guinéen(ne) Bissau">🇬🇼 Guinée-Bissau</option>
+      <option value="Équato-Guinéen(ne)">🇬🇶 Guinée Équatoriale</option>
+      <option value="Kenyan(e)">🇰🇪 Kenya</option>
+      <option value="Lesothan(e)">🇱🇸 Lesotho</option>
+      <option value="Libérien(ne)">🇱🇷 Libéria</option>
+      <option value="Libyen(ne)">🇱🇾 Libye</option>
+      <option value="Malgache">🇲🇬 Madagascar</option>
+      <option value="Malawien(ne)">🇲🇼 Malawi</option>
+      <option value="Malien(ne)">🇲🇱 Mali</option>
+      <option value="Mauritanien(ne)">🇲🇷 Mauritanie</option>
+      <option value="Mauricien(ne)">🇲🇺 Maurice</option>
+      <option value="Marocain(e)">🇲🇦 Maroc</option>
+      <option value="Mozambicain(e)">🇲🇿 Mozambique</option>
+      <option value="Namibien(ne)">🇳🇦 Namibie</option>
+      <option value="Nigérien(ne)">🇳🇪 Niger</option>
+      <option value="Nigérian(e)">🇳🇬 Nigéria</option>
+      <option value="Ougandais(e)">🇺🇬 Ouganda</option>
+      <option value="Rwandais(e)">🇷🇼 Rwanda</option>
+      <option value="Sao-Toméen(ne)">🇸🇹 Sao Tomé-et-Príncipe</option>
+      <option value="Sénégalais(e)">🇸🇳 Sénégal</option>
+      <option value="Seychellois(e)">🇸🇨 Seychelles</option>
+      <option value="Sierra-Léonais(e)">🇸🇱 Sierra Leone</option>
+      <option value="Somalien(ne)">🇸🇴 Somalie</option>
+      <option value="Soudanais(e)">🇸🇩 Soudan</option>
+      <option value="Sud-Soudanais(e)">🇸🇸 Soudan du Sud</option>
+      <option value="Sud-Africain(e)">🇿🇦 Afrique du Sud</option>
+      <option value="Swazilan(e)">🇸🇿 Eswatini</option>
+      <option value="Tanzanien(ne)">🇹🇿 Tanzanie</option>
+      <option value="Tchadien(ne)">🇹🇩 Tchad</option>
+      <option value="Togolais(e)">🇹🇬 Togo</option>
+      <option value="Tunisien(ne)">🇹🇳 Tunisie</option>
+      <option value="Zambien(ne)">🇿🇲 Zambie</option>
+      <option value="Zimbabwéen(ne)">🇿🇼 Zimbabwe</option>
+    </optgroup>
+
+    <!-- Europe -->
+    <optgroup label="🌍 Europe">
+      <option value="Albanais(e)">🇦🇱 Albanie</option>
+      <option value="Allemand(e)">🇩🇪 Allemagne</option>
+      <option value="Andorran(e)">🇦🇩 Andorre</option>
+      <option value="Autrichien(ne)">🇦🇹 Autriche</option>
+      <option value="Belge">🇧🇪 Belgique</option>
+      <option value="Bosniaque">🇧🇦 Bosnie-Herzégovine</option>
+      <option value="Bulgare">🇧🇬 Bulgarie</option>
+      <option value="Chypriote">🇨🇾 Chypre</option>
+      <option value="Croate">🇭🇷 Croatie</option>
+      <option value="Danois(e)">🇩🇰 Danemark</option>
+      <option value="Espagnol(e)">🇪🇸 Espagne</option>
+      <option value="Estonien(ne)">🇪🇪 Estonie</option>
+      <option value="Finlandais(e)">🇫🇮 Finlande</option>
+      <option value="Français(e)">🇫🇷 France</option>
+      <option value="Grec(que)">🇬🇷 Grèce</option>
+      <option value="Hongrois(e)">🇭🇺 Hongrie</option>
+      <option value="Irlandais(e)">🇮🇪 Irlande</option>
+      <option value="Islandais(e)">🇮🇸 Islande</option>
+      <option value="Italien(ne)">🇮🇹 Italie</option>
+      <option value="Letton(ne)">🇱🇻 Lettonie</option>
+      <option value="Liechtensteinois(e)">🇱🇮 Liechtenstein</option>
+      <option value="Lituanien(ne)">🇱🇹 Lituanie</option>
+      <option value="Luxembourgeois(e)">🇱🇺 Luxembourg</option>
+      <option value="Maltais(e)">🇲🇹 Malte</option>
+      <option value="Moldave">🇲🇩 Moldavie</option>
+      <option value="Monégasque">🇲🇨 Monaco</option>
+      <option value="Monténégrin(e)">🇲🇪 Monténégro</option>
+      <option value="Norvégien(ne)">🇳🇴 Norvège</option>
+      <option value="Néerlandais(e)">🇳🇱 Pays-Bas</option>
+      <option value="Polonais(e)">🇵🇱 Pologne</option>
+      <option value="Portugais(e)">🇵🇹 Portugal</option>
+      <option value="Roumain(e)">🇷🇴 Roumanie</option>
+      <option value="Britannique">🇬🇧 Royaume-Uni</option>
+      <option value="Russe">🇷🇺 Russie</option>
+      <option value="Serbe">🇷🇸 Serbie</option>
+      <option value="Slovaque">🇸🇰 Slovaquie</option>
+      <option value="Slovène">🇸🇮 Slovénie</option>
+      <option value="Suédois(e)">🇸🇪 Suède</option>
+      <option value="Suisse">🇨🇭 Suisse</option>
+      <option value="Tchèque">🇨🇿 Tchéquie</option>
+      <option value="Ukrainien(ne)">🇺🇦 Ukraine</option>
+    </optgroup>
+
+    <!-- Amérique -->
+    <optgroup label="🌎 Amérique">
+      <option value="Américain(e)">🇺🇸 États-Unis</option>
+      <option value="Argentin(e)">🇦🇷 Argentine</option>
+      <option value="Bolivien(ne)">🇧🇴 Bolivie</option>
+      <option value="Brésilien(ne)">🇧🇷 Brésil</option>
+      <option value="Canadien(ne)">🇨🇦 Canada</option>
+      <option value="Chilien(ne)">🇨🇱 Chili</option>
+      <option value="Colombien(ne)">🇨🇴 Colombie</option>
+      <option value="Costaricien(ne)">🇨🇷 Costa Rica</option>
+      <option value="Cubain(e)">🇨🇺 Cuba</option>
+      <option value="Dominicain(e)">🇩🇴 République Dominicaine</option>
+      <option value="Équatorien(ne)">🇪🇨 Équateur</option>
+      <option value="Guatémaltèque">🇬🇹 Guatemala</option>
+      <option value="Haïtien(ne)">🇭🇹 Haïti</option>
+      <option value="Hondurien(ne)">🇭🇳 Honduras</option>
+      <option value="Jamaïcain(e)">🇯🇲 Jamaïque</option>
+      <option value="Mexicain(e)">🇲🇽 Mexique</option>
+      <option value="Nicaraguayen(ne)">🇳🇮 Nicaragua</option>
+      <option value="Panaméen(ne)">🇵🇦 Panama</option>
+      <option value="Paraguayen(ne)">🇵🇾 Paraguay</option>
+      <option value="Péruvien(ne)">🇵🇪 Pérou</option>
+      <option value="Salvadorien(ne)">🇸🇻 Salvador</option>
+      <option value="Trinidadien(ne)">🇹🇹 Trinité-et-Tobago</option>
+      <option value="Uruguayen(ne)">🇺🇾 Uruguay</option>
+      <option value="Vénézuélien(ne)">🇻🇪 Venezuela</option>
+    </optgroup>
+
+    <!-- Asie -->
+    <optgroup label="🌏 Asie">
+      <option value="Afghan(e)">🇦🇫 Afghanistan</option>
+      <option value="Saoudien(ne)">🇸🇦 Arabie Saoudite</option>
+      <option value="Arménien(ne)">🇦🇲 Arménie</option>
+      <option value="Azerbaïdjanais(e)">🇦🇿 Azerbaïdjan</option>
+      <option value="Bahreïni(e)">🇧🇭 Bahreïn</option>
+      <option value="Bangladais(e)">🇧🇩 Bangladesh</option>
+      <option value="Cambodgien(ne)">🇰🇭 Cambodge</option>
+      <option value="Chinois(e)">🇨🇳 Chine</option>
+      <option value="Nord-Coréen(ne)">🇰🇵 Corée du Nord</option>
+      <option value="Sud-Coréen(ne)">🇰🇷 Corée du Sud</option>
+      <option value="Émirati(e)">🇦🇪 Émirats Arabes Unis</option>
+      <option value="Géorgien(ne)">🇬🇪 Géorgie</option>
+      <option value="Indien(ne)">🇮🇳 Inde</option>
+      <option value="Indonésien(ne)">🇮🇩 Indonésie</option>
+      <option value="Irakien(ne)">🇮🇶 Irak</option>
+      <option value="Iranien(ne)">🇮🇷 Iran</option>
+      <option value="Israélien(ne)">🇮🇱 Israël</option>
+      <option value="Japonais(e)">🇯🇵 Japon</option>
+      <option value="Jordanien(ne)">🇯🇴 Jordanie</option>
+      <option value="Kazakhstanais(e)">🇰🇿 Kazakhstan</option>
+      <option value="Koweïtien(ne)">🇰🇼 Koweït</option>
+      <option value="Kirghiz(e)">🇰🇬 Kirghizistan</option>
+      <option value="Laotien(ne)">🇱🇦 Laos</option>
+      <option value="Libanais(e)">🇱🇧 Liban</option>
+      <option value="Malaisien(ne)">🇲🇾 Malaisie</option>
+      <option value="Maldivien(ne)">🇲🇻 Maldives</option>
+      <option value="Mongol(e)">🇲🇳 Mongolie</option>
+      <option value="Birman(e)">🇲🇲 Myanmar</option>
+      <option value="Népalais(e)">🇳🇵 Népal</option>
+      <option value="Omanais(e)">🇴🇲 Oman</option>
+      <option value="Ouzbek(e)">🇺🇿 Ouzbékistan</option>
+      <option value="Pakistanais(e)">🇵🇰 Pakistan</option>
+      <option value="Palestinien(ne)">🇵🇸 Palestine</option>
+      <option value="Philippine">🇵🇭 Philippines</option>
+      <option value="Qatari(e)">🇶🇦 Qatar</option>
+      <option value="Singapourien(ne)">🇸🇬 Singapour</option>
+      <option value="Sri-Lankais(e)">🇱🇰 Sri Lanka</option>
+      <option value="Syrien(ne)">🇸🇾 Syrie</option>
+      <option value="Tadjik(e)">🇹🇯 Tadjikistan</option>
+      <option value="Taïwanais(e)">🇹🇼 Taïwan</option>
+      <option value="Thaïlandais(e)">🇹🇭 Thaïlande</option>
+      <option value="Turc(que)">🇹🇷 Turquie</option>
+      <option value="Turkmène">🇹🇲 Turkménistan</option>
+      <option value="Vietnamien(ne)">🇻🇳 Vietnam</option>
+      <option value="Yéménite">🇾🇪 Yémen</option>
+    </optgroup>
+
+    <!-- Océanie -->
+    <optgroup label="🌏 Océanie">
+      <option value="Australien(ne)">🇦🇺 Australie</option>
+      <option value="Fidjien(ne)">🇫🇯 Fidji</option>
+      <option value="Néo-Zélandais(e)">🇳🇿 Nouvelle-Zélande</option>
+      <option value="Papouasien(ne)">🇵🇬 Papouasie-Nouvelle-Guinée</option>
+      <option value="Samoan(e)">🇼🇸 Samoa</option>
+      <option value="Tongien(ne)">🇹🇴 Tonga</option>
+      <option value="Vanuatais(e)">🇻🇺 Vanuatu</option>
+    </optgroup>
+
+  </select>
+        
+        <label>Adresse agence -Ville - Quartier</label>
         <input type="text" [(ngModel)]="agent.adresseAgence" name="adresseAgence" />
 
-        <label>Pays agence</label>
-        <input type="text" [(ngModel)]="agent.paysAgence" name="paysAgence" />
 
         <button 
           class="save-btn"
@@ -214,9 +419,8 @@
         </div>
 
         <div>
-          <label class="label">Licence</label>
-          <input class="input" [(ngModel)]="agent.licence">
-        </div>
+  
+</div>
 
         <div>
           <label class="label">Adresse Agence</label>

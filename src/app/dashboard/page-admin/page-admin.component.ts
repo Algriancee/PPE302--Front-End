@@ -173,7 +173,7 @@ export class PageAdminComponent implements OnInit {
     this.agentsService.delete(id).subscribe(() => this.loadAgents());
   }
 
-  createUser() {
+  createUser1() {
   this.authService.createUser(this.newUser).subscribe({
     next: () => {
       alert('Utilisateur créé avec succès');
@@ -186,6 +186,34 @@ export class PageAdminComponent implements OnInit {
       };
     },
     error: err => console.error('Erreur création user', err)
+  });
+}
+
+  createUser() {
+  // Vérifications
+  if (!this.newUser.nomUtilisaeur || !this.newUser.email || 
+      !this.newUser.password || !this.newUser.telephone) {
+    alert('Tous les champs sont requis');
+    return;
+  }
+
+  this.authService.createUser(this.newUser).subscribe({
+    next: () => {
+      alert('✅ Utilisateur créé avec succès');
+      this.loadAllUsers(); // ← recharger la liste
+      // Réinitialiser le formulaire
+      this.newUser = {
+        nomUtilisaeur: '',
+        email: '',
+        password: '',
+        telephone: '',
+        role: 'JOUEURS'
+      };
+    },
+    error: (err) => {
+      alert(err.error?.message || 'Erreur lors de la création');
+      console.error('Erreur création user', err);
+    }
   });
 }
 
