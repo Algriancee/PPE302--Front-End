@@ -13,10 +13,11 @@ import { UserService } from '../../service/user.service';
 import { ChatService } from '../../service/chat.service';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
+import { ChatComponent } from '../../chat/chat.component';
 
 @Component({
   selector: 'app-page-joueurs',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,ChatComponent],
   templateUrl: './page-joueurs.component.html',
   styleUrl: './page-joueurs.component.css'
 })
@@ -26,7 +27,7 @@ export class PageJoueursComponent implements OnInit{
   joueurs: Joueur = { nom: '', prenoms: "", poste: '' };
   profil: ProfilJoueur = {};
   medias: Media[] = [];
-  user: User = { nomUtilisaeur: "", email: '', telephone: '', role: 'JOUEURS',  };
+  user: User = { nomUtilisateur: "", email: '', telephone: '', role: 'JOUEURS',  };
   mediaForm: Media = { type: '', url: '', description: '' };
 
   emailUtilisateur = '';
@@ -288,7 +289,7 @@ createJoueur(): void {
       },
       error: (err) => {
         console.error('Erreur chargement user :', err);
-        this.user = { nomUtilisaeur: '', email: '', telephone: '', role: 'JOUEURS' };
+        this.user = { nomUtilisateur: '', email: '', telephone: '', role: 'JOUEURS' };
       }
     });
   }

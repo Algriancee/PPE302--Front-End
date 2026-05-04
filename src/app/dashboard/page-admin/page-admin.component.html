@@ -29,7 +29,7 @@
     <!-- SIDEBAR -->
      <!-- SIDEBAR -->
     <aside class="sidebar">
-      <h2>Admin</h2>
+      <h2> MENU </h2>
       <button (click)="activeSection='joueurs'">Joueurs</button>
       <button (click)="activeSection='agents'">Agents</button>
       <button (click)="activeSection='create'">Créer User</button>
@@ -77,7 +77,7 @@
       <h2>Créer un utilisateur</h2>
 
       <label>Nom utilisateur</label>
-      <input [(ngModel)]="newUser.nomUtilisaeur" placeholder="Nom utilisateur">
+      <input [(ngModel)]="newUser.nomUtilisateur" placeholder="Nom utilisateur">
 
       <label>Email</label>
       <input [(ngModel)]="newUser.email" placeholder="Email">
@@ -96,7 +96,7 @@
         <option value="ADMIN">ADMIN</option>
       </select>
 
-      <button class="save-btn" (click)="createUser()">Créer</button>
+      <button class="save-btn" (click)="createUser2()">Créer</button>
     </section>
   </div>
   <!-- ================= MODAL UTILISATEUR ================= -->

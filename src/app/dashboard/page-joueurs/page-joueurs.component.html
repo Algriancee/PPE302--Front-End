@@ -1,4 +1,7 @@
+
+<app-chat></app-chat>
 <div class="layout">
+  
 
   <!-- ================= HEADER ================= -->
   <header class="app-header">
@@ -10,9 +13,9 @@
 
 
     <div class="header-right">
-      <button class="chat-btn" (click)="openChat()">
+      <!--<button class="chat-btn" (click)="openChat()"> 
            💬 Messages
-      </button>
+      </button>-->
       <div class="avatar">
         {{ getInitial() }}
       </div>
@@ -31,7 +34,7 @@
   <!-- ================= SIDEBAR ================= -->
   <aside class="sidebar">
 
-    <h2 class="sidebar-title">Mon Espace Joueur</h2>
+    <h2 class="sidebar-title"> MENU </h2>
 
     <nav class="sidebar-menu">
 
@@ -560,7 +563,7 @@
 
         <!-- ================= NOUVELLE SECTION CARTE JOUEUR ================= -->
     <section *ngIf="section === 'carte'" class="card">
-      <h2>Carte Joueur Complète</h2>
+      <h2>Carte Complète</h2>
       <div *ngIf="joueurs.id" class="player-card">
         <!-- En-tête -->
         <div class="player-header">

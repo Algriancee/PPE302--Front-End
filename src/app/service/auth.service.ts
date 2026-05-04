@@ -58,6 +58,14 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/register`, data);
   }
 
+  createUserByAdmin(user: RegisterRequest): Observable<AuthenticationResponse> {
+    return this.http.post<AuthenticationResponse>(
+      `${this.apiUrl}/admin/create-user`, 
+      user
+    );
+  }
+  
+
   logout1(): void {
     localStorage.clear();
     this.userRole.next(null);

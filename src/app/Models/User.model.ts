@@ -3,7 +3,7 @@ import { Joueur } from "./Joueurs.model";
 
 export interface User {
   id?: number;
-  nomUtilisaeur: string;
+  nomUtilisateur: string;
   email: string;
   password?: string;
   telephone: string;

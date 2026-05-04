@@ -38,7 +38,7 @@ export class PageAdminComponent implements OnInit {
   joueurs: any[] = [];
   agents: any[] = [];
   profil: any = {};
-  user: User = { nomUtilisaeur: "", email: '', telephone: '', role: 'JOUEURS',  };
+  user: User = { nomUtilisateur: "", email: '', telephone: '', role: 'JOUEURS',  };
   selectedRole:  | null = null;
 
   searchEmail: string = '';
@@ -50,7 +50,7 @@ export class PageAdminComponent implements OnInit {
   role: string = '';
 
   newUser: User = {
-  nomUtilisaeur: '',
+  nomUtilisateur: '',
   //prenoms: '',
   email: '',
   password: '',
@@ -178,7 +178,7 @@ export class PageAdminComponent implements OnInit {
     next: () => {
       alert('Utilisateur créé avec succès');
       this.newUser = {
-        nomUtilisaeur: '',
+        nomUtilisateur: '',
         email: '',
         password: '',
         telephone: '',
@@ -191,7 +191,7 @@ export class PageAdminComponent implements OnInit {
 
   createUser() {
   // Vérifications
-  if (!this.newUser.nomUtilisaeur || !this.newUser.email || 
+  if (!this.newUser.nomUtilisateur || !this.newUser.email || 
       !this.newUser.password || !this.newUser.telephone) {
     alert('Tous les champs sont requis');
     return;
@@ -203,7 +203,7 @@ export class PageAdminComponent implements OnInit {
       this.loadAllUsers(); // ← recharger la liste
       // Réinitialiser le formulaire
       this.newUser = {
-        nomUtilisaeur: '',
+        nomUtilisateur: '',
         email: '',
         password: '',
         telephone: '',
@@ -268,5 +268,36 @@ openAgent(agent: Agent) {
     error: () => console.error('User agent introuvable')
   });
 }
+
+createUser2(): void {
+  if (!this.newUser.nomUtilisateur || !this.newUser.email || 
+      !this.newUser.password || !this.newUser.telephone) {
+    alert('Tous les champs sont requis');
+    return;
+  }
+
+  this.authService.createUserByAdmin(this.newUser).subscribe({
+    next: (res) => {
+      alert('✅ Utilisateur créé avec succès !');
+      this.loadAllUsers(); // ← recharger la liste
+      // Réinitialiser le formulaire
+      this.newUser = {
+        nomUtilisateur: '',
+        email: '',
+        password: '',
+        telephone: '',
+        role: 'JOUEURS'
+      };
+    },
+    error: (err) => {
+      alert(err.error?.message || 'Erreur lors de la création');
+      console.error('Erreur:', err);
+    }
+  });
+}
+
+
+
+   
 }
  

@@ -19,8 +19,7 @@ import { NgForm } from '@angular/forms';
 })
 export class InscriptionComponent {
 
-  nom = '';
-  prenom = '';
+  nomUtilisateur='';
   email = '';
   password = '';
   confirmPassword = '';
@@ -28,14 +27,17 @@ export class InscriptionComponent {
   dateInscription = '';
   role = 'eleve';
 
-  constructor(private authService: AuthService) {}
+
+  constructor(private authService: AuthService
+    
+  ) {}
   private router = inject(Router);
   message: string | null = null;
   
   //constructor(private router: Router) {}
 
   onRegister() {
-    if (!this.nom ||  !this.email || !this.password || !this.confirmPassword || !this.role) {
+    if (!this.nomUtilisateur ||  !this.email || !this.password || !this.confirmPassword || !this.role) {
       alert('Tous les champs sont requis ');
       return;
     }
@@ -49,7 +51,7 @@ export class InscriptionComponent {
     }*/
   
     const user: RegisterRequest = {
-      nomUtilisateur: this.nom,
+      nomUtilisateur: this.nomUtilisateur,
       //prenoms: this.prenom,
       email: this.email,
       password: this.password,

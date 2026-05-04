@@ -1,0 +1,82 @@
+<div class="chat-wrapper">
+
+  <!-- 🔔 Bouton flottant avec badge -->
+  <div class="chat-fab" (click)="chatOuvert = !chatOuvert">
+    💬
+    <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+  </div>
+
+  <!-- 💬 Fenêtre chat -->
+  <div class="chat-window" *ngIf="chatOuvert">
+
+    <!-- Header -->
+    <div class="chat-header">
+      <span *ngIf="!selectedUser">💬 Messagerie</span>
+      <span *ngIf="selectedUser">
+        {{ selectedUser.nomUtilisateur }}
+        <small class="status-dot online"></small>
+      </span>
+      <div class="chat-header-actions">
+        <button *ngIf="selectedUser" (click)="selectedUser = null" class="btn-back">←</button>
+        <button (click)="fermerChat()" class="btn-close">✕</button>
+      </div>
+    </div>
+
+    <!-- Liste utilisateurs -->
+    <div class="users-list" *ngIf="!selectedUser">
+      <div class="search-bar">
+        <input type="text" placeholder="🔍 Rechercher..." />
+      </div>
+      <div
+        class="user-item"
+        *ngFor="let user of connectedUsers"
+        (click)="ouvrirChat(user)">
+        <div class="user-avatar">{{ user.nomUtilisateur?.charAt(0) | uppercase }}</div>
+        <div class="user-info">
+          <span class="user-name">{{ user.nomUtilisateur }}</span>
+          <span class="user-role">{{ user.role }}</span>
+        </div>
+        <span class="notif-badge" *ngIf="getNotifCount(user) > 0">
+          {{ getNotifCount(user) }}
+        </span>
+        <span class="status-dot" [class.online]="user.status === 'ONLINE'"></span>
+      </div>
+
+      <div class="empty-state" *ngIf="connectedUsers.length === 0">
+        Aucun utilisateur connecté
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="messages-container" #messagesContainer *ngIf="selectedUser">
+      <div
+        *ngFor="let msg of messages"
+        class="message"
+        [class.sent]="msg.senderId === currentUserId"
+        [class.received]="msg.senderId !== currentUserId">
+        <div class="message-bubble">{{ msg.content }}</div>
+        <div class="message-time">
+          {{ msg.timestamp | date:'HH:mm' }}
+        </div>
+      </div>
+
+      <div class="empty-state" *ngIf="messages.length === 0">
+        Commencez la conversation 👋
+      </div>
+    </div>
+
+    <!-- Input message -->
+    <div class="chat-input" *ngIf="selectedUser">
+      <textarea
+        [(ngModel)]="newMessage"
+        (keydown)="onKeyEnter($event)"
+        placeholder="Écrire un message..."
+        rows="1">
+      </textarea>
+      <button (click)="envoyerMessage()" [disabled]="!newMessage.trim()">
+        ➤
+      </button>
+    </div>
+
+  </div>
+</div>

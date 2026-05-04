@@ -18,11 +18,13 @@ import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../service/user.service';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { ChatComponent } from '../../chat/chat.component';
+
 
 
 @Component({
   selector: 'app-page-agents',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink,ChatComponent],
   templateUrl: './page-agents.component.html',
   styleUrl: './page-agents.component.css'
 })
@@ -115,7 +117,7 @@ export class PageAgentsComponent implements OnInit{
   /** --- JOUEURS --- **/
   joueurs: Joueur[] = [];
   filteredJoueurs: Joueur[] = [];
-  user: User = { nomUtilisaeur: "", email: '', telephone: '', role: 'JOUEURS',  };
+  user: User = { nomUtilisateur: "", email: '', telephone: '', role: 'JOUEURS',  };
 
   profil: ProfilJoueur = {};
   medias: Media[] = [];
