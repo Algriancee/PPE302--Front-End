@@ -1,72 +1,131 @@
-
-
-
-<!-- PAGE D’ACCUEIL - RelatFoot -->
+<!-- PAGE D'ACCUEIL - RelatFoot -->
 
 <!-- SECTION HERO -->
 <div class="hero">
+
   <!-- Navbar -->
   <nav class="navbar">
     <div class="logo-section">
-      <img src="/assets/logo.png" alt="Logo" class="logo" />
+      <img src="/assets/logo.png" alt="Logo RelatFoot" class="logo" />
       <span class="brand">RelatFoot</span>
     </div>
     <ul class="nav-links">
-        <li><a routerLink="/Accueille">Accueil</a></li>
-        <li><a routerLink="/Inscription">S'Inscrire</a></li>
-        <!--<li><a routerLink="/Page-joueurs">Joueurs</a></li>
-        <li><a routerLink="/page-Agents">Agents</a></li>-->
-        <li><a routerLink="/Connexion"> Connexion</a></li>
+      <li><a routerLink="/Accueille">Accueil</a></li>
+      <li><a routerLink="/Inscription">S'inscrire</a></li>
+      <li><a routerLink="/Connexion">Connexion</a></li>
     </ul>
   </nav>
 
   <!-- Contenu principal -->
   <div class="hero-content">
-    <h1>Plateforme Numérique de Mise en Relation</h1>
-    <h1> Entre Joueurs de Football et Agents Sportifs</h1>
+
+
+    <h1>
+      Connectez les <span>Talents</span> aux<br />
+      Agents Sportifs Professionnels
+    </h1>
+
+    <p>
+      RelatFoot facilite la mise en relation entre joueurs de football
+      et agents sportifs. Faites décoller votre carrière dès aujourd'hui.
+    </p>
 
     <div class="search-bar">
       <input
         type="text"
         placeholder="Rechercher un joueur ou un agent..."
       />
-      <button>🔍</button>
+      <button>🔍 Rechercher</button>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <strong>500+</strong>
+        <span>Joueurs</span>
+      </div>
+      <div class="stat-item">
+        <strong>120+</strong>
+        <span>Agents</span>
+      </div>
+      <div class="stat-item">
+        <strong>15+</strong>
+        <span>Pays</span>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- SECTION À PROPOS -->
 <section class="about">
-  <h2>À propos de RelatFoot</h2>
+  <span class="section-label">À propos</span>
+  <h2>Une plateforme pensée pour le football africain</h2>
   <p>
     RelatFoot est une plateforme numérique innovante qui facilite la mise en relation
     entre les <strong>joueurs de football</strong> et les <strong>agents sportifs</strong>.
-    Notre mission est d’aider les talents à se faire repérer tout en offrant aux agents
+    Notre mission est d'aider les talents à se faire repérer tout en offrant aux agents
     une base de données complète et actualisée de profils de joueurs.
   </p>
+
+  <!-- Features -->
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">👤</span>
+      <h3>Profil Joueur</h3>
+      <p>Créez un profil complet avec vos statistiques, vidéos et palmarès.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🤝</span>
+      <h3>Mise en relation</h3>
+      <p>Connectez-vous directement avec des agents certifiés.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">💬</span>
+      <h3>Messagerie</h3>
+      <p>Échangez en temps réel avec les agents et recruteurs.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🌍</span>
+      <h3>International</h3>
+      <p>Accédez à des opportunités dans plus de 15 pays d'Afrique et d'Europe.</p>
+    </div>
+  </div>
 </section>
 
 <!-- SECTION CTA -->
 <section class="cta">
-  <h2>Rejoignez la Communauté RelatFoot</h2>
+  <h2>Prêt à lancer votre carrière ?</h2>
   <p>
-    Créez votre profil, connectez-vous à des agents ou des joueurs, et faites décoller votre carrière.
+    Rejoignez des centaines de joueurs et d'agents déjà inscrits sur RelatFoot.
+    Créez votre profil gratuitement et commencez à vous faire repérer.
   </p>
-  <button routerLink="/Inscription">Commencer maintenant</button>
+  <div class="cta-buttons">
+    <button class="btn-primary" routerLink="/Inscription">
+      Créer mon profil gratuitement
+    </button>
+    <button class="btn-outline" routerLink="/Connexion">
+      Se connecter
+    </button>
+  </div>
 </section>
 
-<!-- 🆕 SECTION CONNEXION / INSCRIPTION -->
+<!-- SECTION CONNEXION / INSCRIPTION -->
 <section class="auth-section">
+  <span class="section-label">Accès rapide</span>
+  <h2>Rejoignez la communauté</h2>
+  <p>Choisissez votre espace et accédez à toutes les fonctionnalités.</p>
+
   <div class="auth-container">
     <div class="auth-card">
+      <span class="auth-card-icon">🔑</span>
       <h2>Déjà membre ?</h2>
-      <p>Connectez-vous pour accéder à votre espace personnel.</p>
-      <button routerLink="/Connexion"> Se connecter </button>
+      <p>Connectez-vous pour accéder à votre espace personnel et gérer votre profil.</p>
+      <button routerLink="/Connexion">Se connecter</button>
     </div>
     <div class="auth-card">
+      <span class="auth-card-icon">🚀</span>
       <h2>Nouveau sur RelatFoot ?</h2>
-      <p>Rejoignez la communauté des joueurs et agents dès aujourd’hui.</p>
-      <button routerLink="/Inscription">S'Inscrire </button>
+      <p>Rejoignez la communauté des joueurs et agents dès aujourd'hui. C'est gratuit !</p>
+      <button routerLink="/Inscription">S'inscrire gratuitement</button>
     </div>
   </div>
 </section>
@@ -74,25 +133,24 @@
 <!-- FOOTER -->
 <footer class="footer">
   <div class="footer-container">
+
     <div class="footer-section">
       <div class="footer-logo">
-        <img src="/assets/logo.png" alt="Logo" /> 
+        <img src="/assets/logo.png" alt="Logo RelatFoot" />
         <span>RelatFoot</span>
       </div>
       <p>
         Votre passerelle entre les talents du football et les agents professionnels.
-        Ensemble, bâtissons le futur du sport.
+        Ensemble, bâtissons le futur du sport africain.
       </p>
     </div>
 
     <div class="footer-section">
-      <h3>Liens rapides</h3>
+      <h3>Navigation</h3>
       <ul>
-        <li><a routerLink="/Accueille">Accueille</a></li>
-        <li><a routerLink="/Connexion">Se Connecter </a></li>
-        <!--<li><a routerLink="/Page-joueurs">Joueurs</a></li>
-        <li><a routerLink="/page-Agents">Agents</a></li>-->
-        <li><a routerLink="/Inscription">S'inscrire</a></li>
+        <li><a routerLink="/Accueille">🏠 Accueil</a></li>
+        <li><a routerLink="/Connexion">🔑 Se connecter</a></li>
+        <li><a routerLink="/Inscription">✍️ S'inscrire</a></li>
       </ul>
     </div>
 
@@ -101,11 +159,14 @@
       <ul>
         <li>📧 brightviglo&#64;gmail.com</li>
         <li>📞 +228 96 54 69 50</li>
-        <li>📍 Lomé, Togo </li>
+        <li>📍 Lomé, Togo</li>
       </ul>
     </div>
+
   </div>
+
   <div class="footer-bottom">
-    © 2025 RelatFoot. Tous droits réservés.
+    <span>© 2025 RelatFoot. Tous droits réservés.</span>
+    <span>Fait avec ❤️ au Togo 🇹🇬</span>
   </div>
 </footer>

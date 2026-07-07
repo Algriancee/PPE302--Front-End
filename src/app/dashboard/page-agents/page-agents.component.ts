@@ -19,6 +19,10 @@ import { UserService } from '../../service/user.service';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { ChatComponent } from '../../chat/chat.component';
+import { FileService } from '../../service/file.service';
+import { FileModel } from '../../Models/file.model';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
 
 
 
@@ -30,75 +34,18 @@ import { ChatComponent } from '../../chat/chat.component';
 })
 export class PageAgentsComponent implements OnInit{
 
-  /**joueurs: Joueur[] = [];
-  filteredJoueurs: Joueur[] = [];
-
-  agentForm!: FormGroup;
-
-  selectedJoueur: Joueur | null = null;
-
-  constructor(
-    private joueursService: JoueursService,
-    private agentsService: AgentsService,
-    private fb: FormBuilder
-  ) {}
-
-  ngOnInit(): void {
-    this.loadJoueurs();
-    this.buildAgentForm();
-  }
-
-  /** Charger tous les joueurs 
-  loadJoueurs() {
-    this.joueursService.getAll().subscribe((data) => {
-      this.joueurs = data;
-      this.filteredJoueurs = data;
-    });
-  }
-
-  /** Formulaire infos agent 
-  buildAgentForm() {
-    this.agentForm = this.fb.group({
-      nomAgence: [''],
-      licence: [''],
-      adresseAgence: [''],
-      paysAgence: ['']
-    });
-  }
-
-  /** Recherche intelligente 
-  searchJoueurs(event: any) {
-    const query = event.target.value.toLowerCase().trim();
-
-    this.filteredJoueurs = this.joueurs.filter(j =>
-      j.nom.toLowerCase().includes(query) ||
-      j.poste?.toLowerCase().includes(query) ||
-      j.prenoms?.toString().includes(query) ||
-      j.nationalite?.toString().includes(query) ||
-      j.dateNaissance?.toLowerCase().includes(query) ||
-      j.niveau?.toString().includes(query) 
-    );
-  }
-
-  /** Voir les détails d’un joueur 
-  voirDetails(joueur: Joueur) {
-    this.selectedJoueur = joueur;
-  }
-
-  /** Enregistrer les informations de l’agent 
-  saveAgent() {
-    const agentData: Agent = this.agentForm.value;
-
-    this.agentsService.create(agentData).subscribe(() => {
-      alert('Informations de l’agent enregistrées !');
-    });
-  }*/
-
- activeSection: string = 'add-exercice';
+  
+ activeSection: string = 'profil';
  private router = inject(Router);
- //user: { email: string; role: string } | null = null;
   email: string = '';
   role: string = '';
+  videosJoueur: FileModel[] = [];
+  loadingVideo: number | null = null;
+  activeVideoId: number | null = null;
+  blobUrls: Map<number, SafeUrl> = new Map();
+  videoPlayerVisible: boolean = false;
+  activeVideoName: string = '';
+  isMinimized: boolean = false;
   
  /** --- PROFIL AGENT --- **/
   agent: Agent = {
@@ -121,6 +68,9 @@ export class PageAgentsComponent implements OnInit{
 
   profil: ProfilJoueur = {};
   medias: Media[] = [];
+  videoRowJoueurId: number | null = null;   
+  loadingVideosRow: boolean = false;         
+  videoCountMap: Map<number, number> = new Map(); 
 
   // Champs recherche
   searchNom = '';
@@ -147,7 +97,9 @@ export class PageAgentsComponent implements OnInit{
     private profilJoueursService: ProfilJoueursService,
     private MediasService: MediasService,
     private authService: AuthService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private fileService: FileService,       // ← ajouter
+    private sanitizer: DomSanitizer 
   ) {}
 
   ngOnInit(): void {
@@ -156,46 +108,10 @@ export class PageAgentsComponent implements OnInit{
     this.email = localStorage.getItem('email') || '';
     this.role = localStorage.getItem('role') || '';
 
-    /*this.chatService.connect(this.currentUserId);
-
-    this.chatService.getMessages().subscribe(msgs => {
-      this.messages = msgs.filter(
-        m =>
-          m.senderId === this.selectedJoueurId ||
-          m.recipientId === this.selectedJoueurId
-      );
-    });*/
+    
   }
 
-  /**  CHARGER L’AGENT (email JWT)
-
-  loadAgentInfo(): void {
-    const email = this.authService.getUserEmail();
-    if (!email) {
-      console.error("Impossible d'obtenir l'email depuis le JWT");
-      return;
-    }
-
-    this.agent.email = email; // stocké pour la création si nouvel agent
-
-    this.agentService.getByAgentEmail(email).subscribe({
-      next: (data) => {
-        if (!data || !data.id) {
-          // ➜ Première connexion : aucun profil trouvé
-          this.isFirstTime = true;
-          console.warn("Aucun profil agent trouvé. Mode création activé.");
-        } else {
-          // ➜ Agent déjà existant : remplir les données
-          this.agent = data;
-          this.isFirstTime = false;
-        }
-      },
-      error: () => {
-        console.warn("Profil agent introuvable. Mode création activé.");
-        this.isFirstTime = true;
-      }
-    });
-  }*/
+  
 
   loadAgentInfo(): void {
   const userId = this.authService.getUserIdFromToken();
@@ -244,10 +160,19 @@ export class PageAgentsComponent implements OnInit{
   /**  👥 CHARGER JOUEURS*/
 
   loadJoueurs() {
-    this.joueursService.getAll().subscribe((data) => {
-      this.joueurs = data;
-      this.filteredJoueurs = data;
+  this.joueursService.getAll().subscribe((data) => {
+    this.joueurs = data;
+    this.filteredJoueurs = data;
+
+    // ← Compter les vidéos de chaque joueur
+    data.forEach(j => {
+      if (j.id) {
+        this.fileService.getVideosByJoueur(j.id).subscribe(videos => {
+          this.videoCountMap.set(j.id!, videos.length);
+        });
+      }
     });
+  });
   }
 
   /** 🔍 RECHERCHE AVANCÉE*/
@@ -263,14 +188,9 @@ export class PageAgentsComponent implements OnInit{
     );
   }
 
-  /** 🪟 DRAWER DETAILS JOUEUR
+ 
 
-  openDrawer(joueur: Joueur) {
-    this.selectedJoueur = joueur;
-    this.drawerOpen.set(true);
-  }*/
-
-  openDrawer(joueur: Joueur) {
+  openDrawer1(joueur: Joueur) {
     this.selectedJoueur = joueur;
     this.drawerOpen.set(true);
   
@@ -291,7 +211,7 @@ export class PageAgentsComponent implements OnInit{
     });
   }
 
-    closeDrawer() {
+    closeDrawer1() {
       this.drawerOpen.set(false);
       //this.selectedJoueur = null;
     }
@@ -305,30 +225,7 @@ export class PageAgentsComponent implements OnInit{
     return this.email ? this.email.charAt(1).toUpperCase() : '?';
   }
 
-  /** 
-  exportPdf() {
-    const element = document.getElementById('playerCardPdf');
-
-    if (!element) {
-      console.error("Carte joueur introuvable");
-      return;
-    }
-
-    html2canvas(element, { scale: 2 }).then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
-
-      const pdf = new jsPDF('p', 'mm', 'a4');
-
-      const imgWidth = 190;
-      const pageHeight = 295;
-      const imgHeight = canvas.height * imgWidth / canvas.width;
-
-      let position = 10;
-
-      pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-      pdf.save(`carte-joueur-${this.selectedJoueur?.nom}.pdf`);
-    });
-  }*/
+  
 
   exportPdf() {
   const element = document.getElementById('playerCardPdf');
@@ -372,17 +269,125 @@ export class PageAgentsComponent implements OnInit{
     this.selectedJoueurId = String(joueurId);
   }
 
-  /*sendMessage() {
-    if (!this.messageContent || !this.selectedJoueurId) return;
+  // ← Modifier openDrawer() pour charger aussi les vidéos
+openDrawer(joueur: Joueur) {
+  this.selectedJoueur = joueur;
+  this.drawerOpen.set(true);
+  this.videosJoueur = [];
+  this.activeVideoId = null;
 
-    this.chatService.sendMessage({
-      senderId: this.currentUserId,
-      recipientId: this.selectedJoueurId,
-      content: this.messageContent
-    });
+  this.userService.getById(joueur.id!).subscribe({
+    next: (data) => this.user = data,
+    error: () => console.error("User joueur introuvable")
+  });
 
-    this.messageContent = '';
-  }*/
+  this.profilJoueursService.getProfilByJoueurId(joueur.id!).subscribe({
+    next: (data) => this.profil = data
+  });
+
+  this.MediasService.getMediasByJoueurId(joueur.id!).subscribe({
+    next: (data) => this.medias = data
+  });
+
+  // ← Charger les vidéos du joueur
+  this.fileService.getVideosByJoueur(joueur.id!).subscribe({
+    next: (videos) => {
+      this.videosJoueur = videos;
+      console.log('Vidéos du joueur:', videos);
+    },
+    error: (err) => console.error('Erreur chargement vidéos:', err)
+  });
+}
+
+     
+// ← Lire une vidéo
+lireVideoJoueur(id: number, fileName: string): void {
+  // Si déjà chargée → juste afficher/cacher
+  if (this.blobUrls.has(id)) {
+    if (this.activeVideoId === id) {
+      this.videoPlayerVisible = false;
+      this.activeVideoId = null;
+    } else {
+      this.activeVideoId = id;
+      this.activeVideoName = fileName;
+      this.videoPlayerVisible = true;
+      this.isMinimized = false;
+    }
+    return;
+  }
+
+  this.loadingVideo = id;
+
+  this.fileService.streamVideo(id).subscribe({
+    next: (blob) => {
+      const objectUrl = URL.createObjectURL(blob);
+      const safeUrl = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+      this.blobUrls.set(id, safeUrl);
+      this.activeVideoId = id;
+      this.activeVideoName = fileName;
+      this.loadingVideo = null;
+      this.videoPlayerVisible = true;
+      this.isMinimized = false;
+    },
+    error: (err) => {
+      console.error('Erreur streaming:', err);
+      this.loadingVideo = null;
+    }
+  });
+}
+
+fermerVideo(): void {
+  this.videoPlayerVisible = false;
+  this.activeVideoId = null;
+}
+
+toggleMinimize(): void {
+  this.isMinimized = !this.isMinimized;
+}
+
+
+
+
+// ← Télécharger la vidéo
+telechargerVideo(video: FileModel): void {
+  this.fileService.triggerDownload(video.id, video.originalFileName);
+}
+
+// ← Modifier closeDrawer pour libérer les blobs
+closeDrawer() {
+  this.drawerOpen.set(false);
+  this.activeVideoId = null;
+  this.blobUrls.forEach((url) => URL.revokeObjectURL(url as any));
+  this.blobUrls.clear();
+}
+
+toggleVideosJoueur(joueur: Joueur): void {
+  // Déjà ouvert pour ce joueur → fermer
+  if (this.videoRowJoueurId === joueur.id) {
+    this.videoRowJoueurId = null;
+    this.videosJoueur = [];
+    return;
+  }
+
+  // Ouvrir pour ce joueur
+  this.videoRowJoueurId = joueur.id!;
+  this.videosJoueur = [];
+  this.loadingVideosRow = true;
+
+  this.fileService.getVideosByJoueur(joueur.id!).subscribe({
+    next: (videos) => {
+      this.videosJoueur = videos;
+      this.loadingVideosRow = false;
+      console.log('Vidéos joueur', joueur.id, ':', videos.length);
+    },
+    error: (err) => {
+      console.error('Erreur vidéos:', err);
+      this.videosJoueur = [];
+      this.loadingVideosRow = false;
+    }
+  });
+}
+
 }
 
 

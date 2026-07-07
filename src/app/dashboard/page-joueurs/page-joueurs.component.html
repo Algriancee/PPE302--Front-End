@@ -41,24 +41,24 @@
       <button class="side-btn"
               [class.active]="section === 'joueur'"
               (click)="section = 'joueur'">
-        👤 Informations Joueur
+         Informations Joueur
       </button>
 
       <button class="side-btn"
               [class.active]="section === 'profil'"
               (click)="section = 'profil'">
-        📄 Profil Joueur
+        Profil Joueur
       </button>
 
       <button class="side-btn"
-              [class.active]="section === 'medias'"
-              (click)="section = 'medias'">
-        🎥 Médias
+        [class.active]="section === 'medias'"
+        (click)="section = 'medias'; joueurs.id && loadMesVideos(joueurs.id); joueurs.id && loadMesPdfs(joueurs.id)">
+           Médias
       </button>
 
        <!-- Nouvelle section Carte Joueur -->
       <button class="side-btn" [class.active]="section === 'carte'" (click)="section = 'carte'">
-        🃏 Carte Joueur
+        Carte Joueur
       </button>
 
     </nav>
@@ -67,12 +67,7 @@
   <!-- ================= CONTENT ================= -->
   <main class="content">
 
-    <!-- MINI HEADER DU CONTENT 
-    <div class="content-header">
-      <h1>Profil Joueur</h1>
-      <button class="logout-btn small" (click)="logout()">Déconnexion</button>
-    </div>
-    </div> -->
+
 
     <!-- ================= SECTION INFO ================= -->
     <section *ngIf="section === 'joueur'" class="card">
@@ -96,15 +91,7 @@
           <input type="date" [(ngModel)]="joueurs.dateNaissance" name="dateNaissance" />
         </div>
 
-        <!--<div class="form-group">
-          <label>Email</label>
-          <input [(ngModel)]="joueurs.email" name="email" readonly />
-        </div>
-
-        <div class="form-group">
-          <label>Téléphone</label>
-          <input [(ngModel)]="joueurs.telephone" name="telephone" required />
-        </div>-->
+        
 
         <div class="form-group">
             <label>Nationalité</label>
@@ -315,45 +302,45 @@
   <select [(ngModel)]="joueurs.poste" name="poste" required>
     <option value="" disabled selected>Choisir un poste</option>
 
-    <optgroup label="🧤 Gardien">
-      <option value="Gardien de but">🧤 Gardien de but</option>
+    <optgroup label="Gardien">
+      <option value="Gardien de but">Gardien de but</option>
     </optgroup>
 
-    <optgroup label="🛡️ Défenseurs">
-      <option value="Défenseur central">🛡️ Défenseur central</option>
-      <option value="Arrière droit">➡️ Arrière droit</option>
-      <option value="Arrière gauche">⬅️ Arrière gauche</option>
-      <option value="Libéro">🔒 Libéro</option>
-      <option value="Stoppeur">🚧 Stoppeur</option>
+    <optgroup label="Défenseurs">
+      <option value="Défenseur central"> Défenseur central</option>
+      <option value="Arrière droit">Arrière droit</option>
+      <option value="Arrière gauche"> Arrière gauche</option>
+      <option value="Libéro">Libéro</option>
+      <option value="Stoppeur"> Stoppeur</option>
     </optgroup>
 
-    <optgroup label="⚙️ Milieux">
-      <option value="Milieu défensif">🛡️ Milieu défensif</option>
-      <option value="Milieu central">⚙️ Milieu central</option>
-      <option value="Milieu offensif">🔥 Milieu offensif</option>
-      <option value="Milieu droit">➡️ Milieu droit</option>
-      <option value="Milieu gauche">⬅️ Milieu gauche</option>
-      <option value="Milieu relayeur">🔄 Milieu relayeur</option>
-      <option value="Sentinelle">6️⃣ Sentinelle</option>
-      <option value="Box to box">📦 Box to box</option>
-      <option value="Meneur de jeu">🎯 Meneur de jeu</option>
-      <option value="Numéro 10">🔟 Numéro 10</option>
+    <optgroup label=" Milieux">
+      <option value="Milieu défensif">Milieu défensif</option>
+      <option value="Milieu central"> Milieu central</option>
+      <option value="Milieu offensif"> Milieu offensif</option>
+      <option value="Milieu droit"> Milieu droit</option>
+      <option value="Milieu gauche"> Milieu gauche</option>
+      <option value="Milieu relayeur"> Milieu relayeur</option>
+      <option value="Sentinelle"> Sentinelle</option>
+      <option value="Box to box"> Box to box</option>
+      <option value="Meneur de jeu"> Meneur de jeu</option>
+      <option value="Numéro 10"> Numéro 10</option>
     </optgroup>
 
-    <optgroup label="💨 Ailiers">
-      <option value="Ailier droit">💨 Ailier droit</option>
-      <option value="Ailier gauche">💨 Ailier gauche</option>
-      <option value="Piston droit">🔩 Piston droit</option>
-      <option value="Piston gauche">🔩 Piston gauche</option>
+    <optgroup label=" Ailiers">
+      <option value="Ailier droit"> Ailier droit</option>
+      <option value="Ailier gauche"> Ailier gauche</option>
+      <option value="Piston droit"> Piston droit</option>
+      <option value="Piston gauche"> Piston gauche</option>
     </optgroup>
 
-    <optgroup label="⚽ Attaquants">
-      <option value="Avant-centre">⚽ Avant-centre</option>
-      <option value="Attaquant de pointe">🎯 Attaquant de pointe</option>
-      <option value="Second attaquant">🔥 Second attaquant</option>
-      <option value="Faux 9">9️⃣ Faux 9</option>
-      <option value="Numéro 9">9️⃣ Numéro 9</option>
-      <option value="Attaquant polyvalent">🌟 Attaquant polyvalent</option>
+    <optgroup label=" Attaquants">
+      <option value="Avant-centre"> Avant-centre</option>
+      <option value="Attaquant de pointe"> Attaquant de pointe</option>
+      <option value="Second attaquant"> Second attaquant</option>
+      <option value="Faux 9">9Faux 9</option>
+      <option value="Numéro 9"> Numéro 9</option>
+      <option value="Attaquant polyvalent"> Attaquant polyvalent</option>
     </optgroup>
 
   </select>
@@ -376,9 +363,9 @@
   <select [(ngModel)]="joueurs.piedFort" name="piedFort" required>
     <option value="" disabled selected>Choisir le pied fort</option>
     
-    <option value="Droit">🦵 Droit</option>
-    <option value="Gauche">🦵 Gauche</option>
-    <option value="Les deux">⚽ Les deux pieds</option>
+    <option value="Droit"> Droit</option>
+    <option value="Gauche"> Gauche</option>
+    <option value="Les deux"> Les deux pieds</option>
   </select>
 </div>
 
@@ -387,7 +374,7 @@
   <select [(ngModel)]="joueurs.niveau" name="niveau" required>
     <option value="" disabled selected>Choisir un niveau</option>
 
-    <optgroup label="🌱 Jeunes">
+    <optgroup label=" Jeunes">
       <option value="U7">U7 (5-6 ans)</option>
       <option value="U8">U8 (7 ans)</option>
       <option value="U9">U9 (8 ans)</option>
@@ -403,12 +390,12 @@
       <option value="U19">U19 (18 ans)</option>
       <option value="U21">U21 (19-21 ans)</option>
       <option value="U23">U23 (22-23 ans)</option>
-      <option value="Débutant">🌱 Débutant</option>
-      <option value="Intermédiaire">📈 Intermédiaire</option>
-      <option value="Amateur">⚽ Amateur</option>
-      <option value="Amateur confirmé">🏅 Amateur confirmé</option>
-      <option value="Semi-professionnel">🌟 Semi-professionnel</option>
-      <option value="Professionnel">💼 Professionnel</option>
+      <option value="Débutant"> Débutant</option>
+      <option value="Intermédiaire"> Intermédiaire</option>
+      <option value="Amateur"> Amateur</option>
+      <option value="Amateur confirmé"> Amateur confirmé</option>
+      <option value="Semi-professionnel"> Semi-professionnel</option>
+      <option value="Professionnel"> Professionnel</option>
     </optgroup>
 
 
@@ -439,37 +426,38 @@
       <div class="player-info-grid">
 
           <div class="info-item">
-            <span class="icon">📧</span>
+            <span class="icon">
+            </span>
             <span>{{ user.email }}</span>
           </div>
 
           <div class="info-item">
-            <span class="icon">📞</span>
+            <span class="icon"></span>
             <span>{{ user.telephone }}</span>
           </div>
 
           <div class="info-item">
-            <span class="icon">🌍</span>
+            <span class="icon"></span>
             <span>{{ joueurs.nationalite }}</span>
           </div>
 
           <div class="info-item">
-            <span class="icon">📏</span>
+            <span class="icon"></span>
             <span>{{ joueurs.taille }} cm</span>
           </div>
 
           <div class="info-item">
-            <span class="icon">⚖️</span>
+            <span class="icon"></span>
             <span>{{ joueurs.poids }} kg</span>
           </div>
 
           <div class="info-item">
-            <span class="icon">🦶</span>
+            <span class="icon"></span>
             <span>Pied fort : {{ joueurs.piedFort }}</span>
           </div>
 
           <div class="info-item">
-            <span class="icon">🎯</span>
+            <span class="icon"></span>
             <span>Niveau : {{ joueurs.niveau }}</span>
           </div>
 
@@ -520,46 +508,182 @@
     </section>
 
     <!-- ================= SECTION MEDIAS ================= -->
-    <section *ngIf="section === 'medias'" class="card">
-      <h2>Vos Médias</h2>
+<!-- ================= SECTION MEDIAS ================= -->
+<section *ngIf="section === 'medias'" class="card">
+  <h2>🎥 Mes Médias</h2>
 
-      <form (ngSubmit)="createMedia()" class="form-grid">
+  <!-- ── ZONE UPLOAD ── -->
+  <div class="upload-zone">
+    <h3>⬆️ Uploader une vidéo ou un PDF</h3>
 
-        <div class="form-group">
-          <label>Type</label>
-          <input [(ngModel)]="mediaForm.type" name="type" placeholder="VIDEO, CV..." />
-        </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Fichier (PDF ou Vidéo)</label>
+        <input type="file"
+               accept=".pdf,video/*"
+               (change)="onFileSelected($event)" />
+        <span class="file-selected" *ngIf="selectedFile">
+          📎 {{ selectedFile.name }}
+        </span>
+      </div>
 
-        <div class="form-group">
-          <label>URL</label>
-          <input [(ngModel)]="mediaForm.url" name="url" placeholder="https://..." />
-        </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input [(ngModel)]="fileDescription"
+               name="fileDescription"
+               placeholder="Ex: Highlights saison 2024..." />
+      </div>
+    </div>
 
-        <div class="form-group">
-          <label>Description</label>
-          <input [(ngModel)]="mediaForm.description" name="description" />
-        </div>
+    <!-- Erreur -->
+    <div class="msg-error" *ngIf="uploadError">{{ uploadError }}</div>
 
-        <button class="btn-primary full">Ajouter média</button>
+    <!-- Progression -->
+    <div class="progress-wrap" *ngIf="uploading">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="uploadProgress"></div>
+      </div>
+      <span class="progress-pct">{{ uploadProgress }}%</span>
+    </div>
 
-      </form>
+    <!-- Succès -->
+    <div class="msg-success" *ngIf="uploadMessage">{{ uploadMessage }}</div>
 
-      <div class="media-list">
-        <div *ngFor="let media of medias" class="media-item">
+    <button class="btn-primary"
+            (click)="upload()"
+            [disabled]="!selectedFile || uploading">
+      {{ uploading ? '⏳ Upload en cours...' : '⬆️ Uploader' }}
+    </button>
+  </div>
 
-          <div>
-            <h3>{{ media.type }}</h3>
-            <p>{{ media.description }}</p>
-            <a [href]="media.url" target="_blank" class="media-link">Voir</a>
-          </div>
+  <!-- ── MES VIDÉOS ── -->
+  <div class="media-section" *ngIf="mesVideos.length > 0">
+    <h3>🎥 Mes Vidéos ({{ mesVideos.length }})</h3>
 
-          <button class="btn-danger small" (click)="deleteMedia(media.id!)">
-            Supprimer
-          </button>
-
+    <div *ngFor="let video of mesVideos" class="media-item">
+      <div class="media-info">
+        <span class="media-icon">🎬</span>
+        <div>
+          <strong>{{ video.originalFileName }}</strong>
+          <span class="media-meta">
+            {{ video.fileSize }}
+            <span *ngIf="video.description"> · {{ video.description }}</span>
+            <span class="media-date"> · {{ video.uploadTime | date:'dd/MM/yyyy' }}</span>
+          </span>
         </div>
       </div>
-    </section>
+
+      <div class="media-actions">
+        <!-- Lire -->
+        <button class="btn-play"
+                (click)="lireVideo(video.id)"
+                [disabled]="loadingVideo === video.id">
+          <ng-container *ngIf="loadingVideo === video.id">⏳</ng-container>
+          <ng-container *ngIf="loadingVideo !== video.id && activeVideoId !== video.id">Lire</ng-container>
+          <ng-container *ngIf="activeVideoId === video.id && loadingVideo !== video.id">Fermer</ng-container>
+        </button>
+
+        <!-- Télécharger -->
+        <button class="btn-download" (click)="telecharger(video)">⬇️</button>
+
+        <!-- Supprimer -->
+        <button class="btn-danger small" (click)="supprimerFichier(video.id)">🗑</button>
+      </div>
+
+      <!-- Lecteur vidéo intégré -->
+      <div class="video-player" *ngIf="activeVideoId === video.id && blobUrls.has(video.id)">
+        <video controls
+               autoplay
+               [src]="blobUrls.get(video.id)"
+               class="video-element">
+        </video>
+        <button class="close-player" (click)="fermerVideo()">✖ Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MES PDFs ── -->
+  <div class="media-section" *ngIf="mesPdfs.length > 0">
+    <h3>📄 Mes PDFs ({{ mesPdfs.length }})</h3>
+
+    <div *ngFor="let pdf of mesPdfs" class="media-item">
+      <div class="media-info">
+        <span class="media-icon">📄</span>
+        <div>
+          <strong>{{ pdf.originalFileName }}</strong>
+          <span class="media-meta">
+            {{ pdf.fileSize }}
+            <span *ngIf="pdf.description"> · {{ pdf.description }}</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="media-actions">
+        <button class="btn-download" (click)="telecharger(pdf)">Télécharger</button>
+        <button class="btn-danger small" (click)="supprimerFichier(pdf.id)">🗑</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LIENS MÉDIAS existants ── -->
+  <div class="media-section" *ngIf="medias.length > 0">
+    <h3>🔗 Liens Médias</h3>
+
+    <div class="form-grid" style="margin-bottom:16px">
+      <div class="form-group">
+        <label>Type</label>
+        <input [(ngModel)]="mediaForm.type" name="type" placeholder="VIDEO, CV..." />
+      </div>
+      <div class="form-group">
+        <label>URL</label>
+        <input [(ngModel)]="mediaForm.url" name="url" placeholder="https://..." />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input [(ngModel)]="mediaForm.description" name="description" />
+      </div>
+      <button class="btn-primary full" (click)="createMedia()">Ajouter lien</button>
+    </div>
+
+    <div *ngFor="let media of medias" class="media-item">
+      <div class="media-info">
+        <span class="media-icon">🔗</span>
+        <div>
+          <strong>{{ media.type }}</strong>
+          <span class="media-meta">{{ media.description }}</span>
+          <a [href]="media.url" target="_blank" class="media-link">Voir →</a>
+        </div>
+      </div>
+      <button class="btn-danger small" (click)="deleteMedia(media.id!)">🗑</button>
+    </div>
+  </div>
+
+  <!-- Ajouter lien si pas encore de médias -->
+  <div *ngIf="medias.length === 0">
+    <div class="form-grid" style="margin-top:20px">
+      <div class="form-group">
+        <label>Type</label>
+        <input [(ngModel)]="mediaForm.type" name="type" placeholder="VIDEO, CV..." />
+      </div>
+      <div class="form-group">
+        <label>URL</label>
+        <input [(ngModel)]="mediaForm.url" name="url" placeholder="https://..." />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input [(ngModel)]="mediaForm.description" name="description" />
+      </div>
+      <button class="btn-primary full" (click)="createMedia()">Ajouter lien média</button>
+    </div>
+  </div>
+
+  <!-- État vide total -->
+  <div class="empty-state"
+       *ngIf="mesVideos.length === 0 && mesPdfs.length === 0 && medias.length === 0">
+    <p>Aucun média pour le moment.</p>
+    <p>Uploadez une vidéo ou ajoutez un lien ci-dessus !</p>
+  </div>
+</section>
 
         <!-- ================= NOUVELLE SECTION CARTE JOUEUR ================= -->
     <section *ngIf="section === 'carte'" class="card">
@@ -576,15 +700,15 @@
 
         <!-- Infos principales -->
         <div class="player-info-grid">
-          <div class="info-item"><span class="icon">📧</span><span>{{ user.email }}</span></div>
-          <div class="info-item"><span class="icon">📞</span><span>{{ user.telephone }}</span></div>
-          <div class="info-item"><span class="icon">🌍</span><span>{{ joueurs.nationalite }}</span></div>
-          <div class="info-item"><span class="icon">📏</span><span>{{ joueurs.taille }} cm</span></div>
-          <div class="info-item"><span class="icon">⚖️</span><span>{{ joueurs.poids }} kg</span></div>
-          <div class="info-item"><span class="icon">🦶</span><span>Pied fort : {{ joueurs.piedFort }}</span></div>
-          <div class="info-item"><span class="icon">🎯</span><span>Niveau : {{ joueurs.niveau }}</span></div>
-          <div class="info-item" *ngIf="joueurs.dateNaissance"><span class="icon">📅</span><span>{{ joueurs.dateNaissance }}</span></div>
-          <div class="info-item" *ngIf="joueurs.adresse"><span class="icon">🏠</span><span>{{ joueurs.adresse }}</span></div>
+          <div class="info-item"><span class="icon"></span><span>{{ user.email }}</span></div>
+          <div class="info-item"><span class="icon"></span><span>{{ user.telephone }}</span></div>
+          <div class="info-item"><span class="icon"></span><span>{{ joueurs.nationalite }}</span></div>
+          <div class="info-item"><span class="icon"></span><span>{{ joueurs.taille }} cm</span></div>
+          <div class="info-item"><span class="icon"></span><span>{{ joueurs.poids }} kg</span></div>
+          <div class="info-item"><span class="icon"></span><span>Pied fort : {{ joueurs.piedFort }}</span></div>
+          <div class="info-item"><span class="icon"></span><span>Niveau : {{ joueurs.niveau }}</span></div>
+          <div class="info-item" *ngIf="joueurs.dateNaissance"><span class="icon"></span><span>{{ joueurs.dateNaissance }}</span></div>
+          <div class="info-item" *ngIf="joueurs.adresse"><span class="icon"></span><span>{{ joueurs.adresse }}</span></div>
         </div>
 
         <!-- Profil intégré -->
@@ -642,14 +766,6 @@
     </div>
   </div>
 
-  <!--<div class="chat-input">
-    <input
-      [(ngModel)]="newMessage"
-      placeholder="Écrire un message..."
-      (keydown.enter)="sendMessage()"
-    />
-    <button (click)="sendMessage()">➤</button>
-  </div>-->
 
   </div>
 

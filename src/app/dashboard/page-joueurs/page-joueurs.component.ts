@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {  OnInit } from '@angular/core';
+import {  OnInit , OnDestroy} from '@angular/core';
+import { HttpEventType } from '@angular/common/http';
 import { Joueur } from '../../Models/Joueurs.model';
 import { ProfilJoueur } from '../../Models/ProfilJoueurs.model';
 import { Media } from '../../Models/Medias.model';
@@ -14,14 +15,17 @@ import { ChatService } from '../../service/chat.service';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
 import { ChatComponent } from '../../chat/chat.component';
+import { FileService } from '../../service/file.service';
+import { FileModel } from '../../Models/file.model';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-page-joueurs',
-  imports: [CommonModule, FormsModule,ChatComponent],
+  imports: [CommonModule, FormsModule, ChatComponent],
   templateUrl: './page-joueurs.component.html',
   styleUrl: './page-joueurs.component.css'
 })
-export class PageJoueursComponent implements OnInit{
+export class PageJoueursComponent implements OnInit, OnDestroy {
   section: string = 'add-exercice';
 
   joueurs: Joueur = { nom: '', prenoms: "", poste: '' };
@@ -29,15 +33,26 @@ export class PageJoueursComponent implements OnInit{
   medias: Media[] = [];
   user: User = { nomUtilisateur: "", email: '', telephone: '', role: 'JOUEURS',  };
   mediaForm: Media = { type: '', url: '', description: '' };
+  mesVideos: FileModel[] = [];
+  mesPdfs: FileModel[] = [];
 
   emailUtilisateur = '';
-  //emailUtilisateur = JSON.parse(localStorage.getItem('email') || '""');
   email: string = '';
   role: string = '';
+
+  selectedFile: File | null = null;
+  fileDescription: string = '';
+  uploading: boolean = false;
+  uploadProgress: number = 0;
+  uploadMessage: string = '';
+   uploadError: string = '';
+
+  blobUrls: Map<number, SafeUrl> = new Map(); 
+  loadingVideo: number | null = null;          
+  activeVideoId: number | null = null;         
   
   
 
-  // 🔥 CHAT
   messages: ChatMessage[] = [];
   messageContent = '';
   currentUserId!: string;
@@ -52,68 +67,36 @@ export class PageJoueursComponent implements OnInit{
     private profilJoueursService: ProfilJoueursService,
     private userService: UserService,
     private mediasService: MediasService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private fileService: FileService,
+    private sanitizer: DomSanitizer
   ) {}
 
-  /*ngOnInit(): void {
-    this.emailUtilisateur = JSON.parse(localStorage.getItem('email') || '""');
-    if (this.emailUtilisateur) this.loadJoueur();
-  }*/
-
+  
   ngOnInit(): void {
     const userId = this.authService.getUserIdFromToken();
     if (userId) {
       this.loadJoueurById(userId);
       this.loadUser(userId); 
-      //this.chatService.connect(userId);   
+      
+      
     } else {
       console.error("ID utilisateur non trouvé dans le token. Redirection ou gestion d'erreur.");
-      // Optionnel : Rediriger vers connexion si token invalide
+      
     }
     this.emailUtilisateur = JSON.parse(localStorage.getItem('email') || '""');
 
     this.email = localStorage.getItem('email') || '';
     this.role = localStorage.getItem('role') || '';
-    
-  
-  /*if (userId) {
-    this.chatService.connect(userId);
   }
-    
-    const userIdStr = String(userId);
-    this.chatService.connect(userIdStr);
-
-      this.email = localStorage.getItem('email') || '';
-      this.role = localStorage.getItem('role') || '';
-
-       // 🔌 STOMP
-    this.chatService.connect(this.currentUserId);
-
-    this.chatService.getMessages().subscribe(msgs => {
-      this.messages = msgs.filter(
-        m =>
-          m.senderId === this.selectedAgentId ||
-          m.recipientId === this.selectedAgentId
-      );
-    });*/
-  }
-
-  /** 🔹 Charger le joueur connecté 
-  loadJoueur(): void {
-    this.joueursService.getJoueurByEmail(this.emailUtilisateur).subscribe({
-      next: (data) => {
-        this.joueurs = data;
-        console.log("Joueur chargé :", data);
-
-        // Charger profil + médias du joueur existant
-        if (data.id) {
-          this.loadProfil(data.id);
-          this.loadMedias(data.id);
-        }
-      },
-      error: (err) => console.error("Erreur joueur :", err)
+  ngOnDestroy(): void {
+    // Libérer les Blob URLs pour éviter les fuites mémoire
+    this.blobUrls.forEach((url) => {
+      URL.revokeObjectURL(url as any);
     });
-  }*/
+    this.blobUrls.clear();
+  }
+
   loadJoueurById(id: number): void {
     this.joueursService.getById(id).subscribe({
       next: (data) => {
@@ -123,6 +106,8 @@ export class PageJoueursComponent implements OnInit{
         if (data.id) {
           this.loadProfil(data.id);
           this.loadMedias(data.id);
+          this.loadMesVideos(data.id);  
+        this.loadMesPdfs(data.id);   
         
         }
       },
@@ -133,7 +118,7 @@ export class PageJoueursComponent implements OnInit{
       }
     });
   }
-  /** 🔹 Charger profil par joueurId */
+  
   loadProfil(joueurId: number): void {
     this.profilJoueursService.getProfilByJoueurId(joueurId).subscribe({
       next: (data) => {
@@ -146,7 +131,7 @@ export class PageJoueursComponent implements OnInit{
     });
   }
 
-  /** 🔹 Charger médias par joueurId */
+  
   loadMedias(joueurId: number): void {
     this.mediasService.getMediasByJoueurId(joueurId).subscribe({
       next: (data) => {
@@ -159,19 +144,6 @@ export class PageJoueursComponent implements OnInit{
     });
   }
 
-  /** 🔹 Créer un joueur 
-  createJoueur(): void {
-    this.joueursService.createJoueur(this.joueurs).subscribe({
-      next: (data) => {
-        alert('Joueur créé avec succès !');
-        this.joueurs = data;
-        this.loadJoueurById(0);
-      },
-      error: (err) => console.error('Erreur création joueur :', err)
-    });
-  }  */
-
-         /** 🔹 Créer un joueur */
 createJoueur(): void {
   this.joueursService.createJoueur(this.joueurs).subscribe({
     next: (data) => {
@@ -189,7 +161,6 @@ createJoueur(): void {
 }       
 
 
-  /** 🔹 Mettre à jour joueur */
   updateJoueur(): void {
     this.joueursService.updateJoueur(this.joueurs.id!, this.joueurs).subscribe({
       next: () => alert('Joueur mis à jour !'),
@@ -197,14 +168,13 @@ createJoueur(): void {
     });
   }
 
-  /** 🔹 Créer un profil lié AU BON joueur */
   createProfil(): void {
     if (!this.joueurs.id) {
       alert("Impossible de créer un profil : Joueur non chargé !");
       return;
     }
 
-    this.profil.joueur = { id: this.joueurs.id }; // 🔥 IMPORTANT
+    this.profil.joueur = { id: this.joueurs.id }; 
 
     this.profilJoueursService.createProfil(this.profil).subscribe({
       next: () => {
@@ -215,7 +185,6 @@ createJoueur(): void {
     });
   }
 
-  /** 🔹 Mettre à jour profil */
   updateProfil(): void {
     this.profilJoueursService.updateProfil(this.profil.id!, this.profil).subscribe({
       next: () => alert('Profil mis à jour !'),
@@ -223,7 +192,6 @@ createJoueur(): void {
     });
   }
 
-  /** 🔹 Supprimer profil */
   deleteProfil(): void {
     if (this.profil.id && confirm('Supprimer votre profil ?')) {
       this.profilJoueursService.deleteProfil(this.profil.id).subscribe({
@@ -236,7 +204,6 @@ createJoueur(): void {
     }
   }
 
-  /** 🔹 Ajouter un média lié AU BON joueur */
   createMedia(): void {
     if (!this.joueurs.id) {
       alert("Impossible d'ajouter un média : Joueur non chargé !");
@@ -258,7 +225,7 @@ createJoueur(): void {
     });
   }
 
-  /** 🔹 Supprimer média */
+
   deleteMedia(id: number): void {
     if (confirm('Supprimer ce média ?')) {
       this.mediasService.delete(id).subscribe({
@@ -294,17 +261,6 @@ createJoueur(): void {
     });
   }
 
-  /*sendMessage() {
-    if (!this.messageContent || !this.selectedAgentId) return;
-
-    this.chatService.sendMessage({
-      senderId: this.currentUserId,
-      recipientId: this.selectedAgentId,
-      content: this.messageContent
-    });
-
-    this.messageContent = '';
-  }*/
 
   openChat() {
   this.chatOpen = true;
@@ -316,6 +272,177 @@ closeChat() {
 
 
 
+  loadMesVideos1(joueurId: number): void {
+    this.fileService.getVideosByJoueur(joueurId).subscribe({
+      next: (data) => {
+        this.mesVideos = data;
+        console.log('Vidéos chargées:', data);
+      },
+      error: (err) => {
+        console.error('Erreur chargement vidéos:', err);
+        this.mesVideos = [];
+      }
+    });
+  }
+
+  loadMesPdfs1(joueurId: number): void {
+    this.fileService.getFilesByJoueur(joueurId).subscribe({
+      next: (data) => {
+        // ← Filtrer seulement les PDFs
+        this.mesPdfs = data.filter(f => this.fileService.isPdf(f.fileType));
+        console.log('PDFs chargés:', this.mesPdfs);
+      },
+      error: () => this.mesPdfs = []
+    });
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || !input.files[0]) return;
+
+    const file = input.files[0];
+    const allowed = [
+      'application/pdf',
+      'video/mp4',
+      'video/mpeg',
+      'video/webm',
+      'video/quicktime',
+      'video/x-msvideo'
+    ];
+
+    if (!allowed.includes(file.type)) {
+      this.uploadError = '❌ Seuls les fichiers PDF et vidéo (MP4, WebM...) sont acceptés !';
+      this.selectedFile = null;
+      return;
+    }
+
+    this.uploadError = '';
+    this.selectedFile = file;
+  }
+
+  upload(): void {
+    if (!this.selectedFile) return;
+
+    if (!this.joueurs.id) {
+      this.uploadError = '❌ Créez d\'abord votre profil joueur avant d\'uploader !';
+      return;
+    }
+
+    this.uploading = true;
+    this.uploadProgress = 0;
+    this.uploadMessage = '';
+    this.uploadError = '';
+
+    this.fileService.uploadFile(
+      this.selectedFile,
+      this.fileDescription,
+      this.joueurs.id  // ← lier au joueur connecté
+    ).subscribe({
+      next: (event) => {
+        if (event.type === HttpEventType.UploadProgress && event.total) {
+          this.uploadProgress = Math.round(100 * event.loaded / event.total);
+        }
+        if (event.type === HttpEventType.Response) {
+          this.uploading = false;
+          this.uploadProgress = 100;
+          this.uploadMessage = '✅ Fichier uploadé avec succès !';
+          this.selectedFile = null;
+          this.fileDescription = '';
+
+          // ← Recharger les vidéos/PDFs après upload
+          this.loadMesVideos(this.joueurs.id!);
+          this.loadMesPdfs(this.joueurs.id!);
+
+          setTimeout(() => {
+            this.uploadMessage = '';
+            this.uploadProgress = 0;
+          }, 3000);
+        }
+      },
+      error: (err) => {
+        this.uploading = false;
+        this.uploadError = '❌ Erreur upload : ' + (err.error?.message || 'Vérifiez la taille du fichier');
+      }
+    });
+  }
+
+  lireVideo(id: number): void {
+    // Déjà chargée → toggle
+    if (this.blobUrls.has(id)) {
+      this.activeVideoId = this.activeVideoId === id ? null : id;
+      return;
+    }
+
+    this.loadingVideo = id;
+
+    this.fileService.streamVideo(id).subscribe({
+      next: (blob) => {
+        const objectUrl = URL.createObjectURL(blob);
+        const safeUrl = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+        this.blobUrls.set(id, safeUrl);
+        this.activeVideoId = id;
+        this.loadingVideo = null;
+      },
+      error: (err) => {
+        console.error('Erreur streaming vidéo:', err);
+        this.loadingVideo = null;
+      }
+    });
+  }
+
+  fermerVideo(): void {
+    this.activeVideoId = null;
+  }
+
+  
+  telecharger(file: FileModel): void {
+    this.fileService.triggerDownload(file.id, file.originalFileName);
+  }
+
+  
+  supprimerFichier(id: number): void {
+    if (!confirm('Supprimer ce fichier définitivement ?')) return;
+
+    this.fileService.deleteFile(id).subscribe({
+      next: () => {
+        // ← Libérer le Blob URL si chargé
+        if (this.blobUrls.has(id)) {
+          URL.revokeObjectURL(this.blobUrls.get(id) as any);
+          this.blobUrls.delete(id);
+        }
+        if (this.activeVideoId === id) this.activeVideoId = null;
+
+        // ← Recharger les listes
+        this.loadMesVideos(this.joueurs.id!);
+        this.loadMesPdfs(this.joueurs.id!);
+      },
+      error: (err) => alert('Erreur suppression : ' + (err.error?.message || 'Réessayez'))
+    });
+  }
+
+  loadMesVideos(joueurId: number): void {
+  console.log('📹 Chargement vidéos pour joueurId:', joueurId);
+  this.fileService.getVideosByJoueur(joueurId).subscribe({
+    next: (data) => {
+      this.mesVideos = data;
+      console.log('✅ Vidéos reçues:', data.length, data);
+    },
+    error: (err) => {
+      console.error('❌ Erreur chargement vidéos:', err);
+      this.mesVideos = [];
+    }
+  });
+}
+
+loadMesPdfs(joueurId: number): void {
+  this.fileService.getFilesByJoueur(joueurId).subscribe({
+    next: (data) => {
+      this.mesPdfs = data.filter(f => this.fileService.isPdf(f.fileType));
+      console.log('✅ PDFs reçus:', this.mesPdfs.length);
+    },
+    error: () => this.mesPdfs = []
+  });
+}
  
 
   

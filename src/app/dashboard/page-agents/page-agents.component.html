@@ -1,57 +1,34 @@
-
 <app-chat></app-chat>
 
 <div class="layout">
 
-  <!-- ============== SIDEBAR ============== -->
-  <aside class="sidebar">
-    <div class="sidebar-title">🧑‍💼 Agent Dashboard</div>
-
-    <nav>
-      <button class="sidebar-btn" (click)="activeSection = 'profil'">Mon Profil</button>
-      <button class="sidebar-btn" (click)="activeSection = 'joueurs'">Liste des joueurs</button>
-    </nav>
-  </aside>
-
-
   <!-- ================= HEADER ================= -->
- <header class="app-header">
-  <div class="header-left">
-    <img src="/assets/logo.png" class="logo" alt="RelatFoot">
-    <span class="brand">RelatFoot</span>
-  </div>
-
-  <div class="header-right">
-    <div class="avatar">
-      {{ getInitial() }}
+  <header class="app-header">
+    <div class="header-left">
+      <img src="/assets/logo.png" class="logo" alt="RelatFoot">
+      <span class="brand">RelatFoot</span>
     </div>
-
-    <div class="user-info">
-      <span class="email">{{ email }}</span>
-      <span class="role">{{ role }}</span>
+    <div class="header-right">
+      <div class="avatar">{{ getInitial() }}</div>
+      <div class="user-info">
+        <span class="email">{{ email }}</span>
+        <span class="role">{{ role }}</span>
+      </div>
+      <button class="logout-btn" (click)="logout()">Déconnexion</button>
     </div>
-
-    <button class="logout-btn" (click)="logout()">
-      Déconnexion
-    </button>
-  </div>
-</header>
+  </header>
 
   <!-- ================= SIDEBAR ================= -->
   <aside class="sidebar">
     <h3>Menu</h3>
-
-    <button 
-      class="side-btn" 
-      [class.active]="activeSection === 'profil'"
-      (click)="activeSection = 'profil'">
+    <button class="side-btn"
+            [class.active]="activeSection === 'profil'"
+            (click)="activeSection = 'profil'">
       Profil Agent
     </button>
-
-    <button 
-      class="side-btn"
-      [class.active]="activeSection === 'joueurs'"
-      (click)="activeSection = 'joueurs'">
+    <button class="side-btn"
+            [class.active]="activeSection === 'joueurs'"
+            (click)="activeSection = 'joueurs'">
       Liste des joueurs
     </button>
   </aside>
@@ -59,315 +36,193 @@
   <!-- ================= CONTENT ================= -->
   <main class="content">
 
-    <!-- SECTION PROFIL AGENT -->
+    <!-- ═══════════════════════════════════
+         SECTION PROFIL AGENT
+    ════════════════════════════════════ -->
     <section *ngIf="activeSection === 'profil'">
-
       <h2>Profil Agent</h2>
 
       <form>
-
         <div class="grid">
           <div>
             <label>Nom</label>
-            <input type="text" [(ngModel)]="agent.nom" name="nom" />
+            <input type="text" [(ngModel)]="agent.nom" name="nom" placeholder="Votre nom" />
           </div>
-
           <div>
             <label>Prénoms</label>
-            <input type="text" [(ngModel)]="agent.prenoms" name="prenoms" />
+            <input type="text" [(ngModel)]="agent.prenoms" name="prenoms" placeholder="Vos prénoms" />
           </div>
         </div>
 
-        <!--<label>Téléphone</label>
-        <input type="text" [(ngModel)]=".telephone" name="telephone" />-->
-
         <label>Nom de l'agence</label>
-        <input type="text" [(ngModel)]="agent.nomAgence" name="nomAgence" />
+        <input type="text" [(ngModel)]="agent.nomAgence" name="nomAgence" placeholder="Nom de votre agence" />
 
-        <label class="label"> Status d'Agent</label>
-  <select class="input" [(ngModel)]="agent.licence" name="licence" required>
-    <option value="" disabled selected>Choisir une licence</option>
+        <label>Statut d'Agent</label>
+        <select [(ngModel)]="agent.licence" name="licence" required>
+          <option value="" disabled selected>Choisir un statut</option>
+          <optgroup label="Statuts">
+            <option value="Agent agréé FIFA actif">Agent Licencié agréé FIFA actif</option>
+            <option value="Intermédiaire FIFA enregistré">Agent Intermédiaire FIFA enregistré</option>
+            <option value="Agent en cours de certification">En cours de certification</option>
+            <option value="Agent indépendant non licencié">Indépendant non licencié</option>
+          </optgroup>
+        </select>
 
-    <optgroup label="Status">
-      <option value="Agent agréé FIFA actif">✅ Agent Licencié agréé FIFA actif</option>
-      <option value="Intermédiaire FIFA enregistré">📝 Agent Intermédiaire FIFA enregistré</option>
-      <option value="Agent en cours de certification">⏳ En cours de certification</option>
-      <option value="Agent indépendant non licencié">⚠️ Indépendant non licencié</option>
-    </optgroup>
+        <label>Localité de l'Agence</label>
+        <select [(ngModel)]="agent.paysAgence" name="paysAgence" required>
+          <option value="" disabled selected>Choisir le pays de l'agence</option>
+          <optgroup label="🌍 Afrique">
+            <option value="Togo">🇹🇬 Togo</option>
+            <option value="Bénin">🇧🇯 Bénin</option>
+            <option value="Ghana">🇬🇭 Ghana</option>
+            <option value="Sénégal">🇸🇳 Sénégal</option>
+            <option value="Côte d'Ivoire">🇨🇮 Côte d'Ivoire</option>
+            <option value="Cameroun">🇨🇲 Cameroun</option>
+            <option value="Nigeria">🇳🇬 Nigeria</option>
+            <option value="Mali">🇲🇱 Mali</option>
+            <option value="Burkina Faso">🇧🇫 Burkina Faso</option>
+            <option value="Maroc">🇲🇦 Maroc</option>
+          </optgroup>
+          <optgroup label="🌍 Europe">
+            <option value="France">🇫🇷 France</option>
+            <option value="Allemagne">🇩🇪 Allemagne</option>
+            <option value="Espagne">🇪🇸 Espagne</option>
+            <option value="Italie">🇮🇹 Italie</option>
+            <option value="Royaume-Uni">🇬🇧 Royaume-Uni</option>
+            <option value="Portugal">🇵🇹 Portugal</option>
+          </optgroup>
+        </select>
 
-  </select>
-         
-          <label> localité de l'Agence</label>
-  <select [(ngModel)]="agent.paysAgence" name="paysAgence" required>
-    <option value="" disabled selected>Choisir le Pays dans le quelle se trouve l'agence </option>
-    
-    <!-- Afrique -->
-    <optgroup label="🌍 Afrique">
-      <option value="Algérien(ne)">🇩🇿 Algérie</option>
-      <option value="Angolais(e)">🇦🇴 Angola</option>
-      <option value="Béninois(e)">🇧🇯 Bénin</option>
-      <option value="Botswanais(e)">🇧🇼 Botswana</option>
-      <option value="Burkinabé">🇧🇫 Burkina Faso</option>
-      <option value="Burundais(e)">🇧🇮 Burundi</option>
-      <option value="Camerounais(e)">🇨🇲 Cameroun</option>
-      <option value="Cap-Verdien(ne)">🇨🇻 Cap-Vert</option>
-      <option value="Centrafricain(e)">🇨🇫 Centrafrique</option>
-      <option value="Comorien(ne)">🇰🇲 Comores</option>
-      <option value="Congolais(e)">🇨🇬 Congo</option>
-      <option value="Congolais(e) RDC">🇨🇩 Congo RDC</option>
-      <option value="Ivoirien(ne)">🇨🇮 Côte d'Ivoire</option>
-      <option value="Djiboutien(ne)">🇩🇯 Djibouti</option>
-      <option value="Égyptien(ne)">🇪🇬 Égypte</option>
-      <option value="Érythréen(ne)">🇪🇷 Érythrée</option>
-      <option value="Éthiopien(ne)">🇪🇹 Éthiopie</option>
-      <option value="Gabonais(e)">🇬🇦 Gabon</option>
-      <option value="Gambien(ne)">🇬🇲 Gambie</option>
-      <option value="Ghanéen(ne)">🇬🇭 Ghana</option>
-      <option value="Guinéen(ne)">🇬🇳 Guinée</option>
-      <option value="Guinéen(ne) Bissau">🇬🇼 Guinée-Bissau</option>
-      <option value="Équato-Guinéen(ne)">🇬🇶 Guinée Équatoriale</option>
-      <option value="Kenyan(e)">🇰🇪 Kenya</option>
-      <option value="Lesothan(e)">🇱🇸 Lesotho</option>
-      <option value="Libérien(ne)">🇱🇷 Libéria</option>
-      <option value="Libyen(ne)">🇱🇾 Libye</option>
-      <option value="Malgache">🇲🇬 Madagascar</option>
-      <option value="Malawien(ne)">🇲🇼 Malawi</option>
-      <option value="Malien(ne)">🇲🇱 Mali</option>
-      <option value="Mauritanien(ne)">🇲🇷 Mauritanie</option>
-      <option value="Mauricien(ne)">🇲🇺 Maurice</option>
-      <option value="Marocain(e)">🇲🇦 Maroc</option>
-      <option value="Mozambicain(e)">🇲🇿 Mozambique</option>
-      <option value="Namibien(ne)">🇳🇦 Namibie</option>
-      <option value="Nigérien(ne)">🇳🇪 Niger</option>
-      <option value="Nigérian(e)">🇳🇬 Nigéria</option>
-      <option value="Ougandais(e)">🇺🇬 Ouganda</option>
-      <option value="Rwandais(e)">🇷🇼 Rwanda</option>
-      <option value="Sao-Toméen(ne)">🇸🇹 Sao Tomé-et-Príncipe</option>
-      <option value="Sénégalais(e)">🇸🇳 Sénégal</option>
-      <option value="Seychellois(e)">🇸🇨 Seychelles</option>
-      <option value="Sierra-Léonais(e)">🇸🇱 Sierra Leone</option>
-      <option value="Somalien(ne)">🇸🇴 Somalie</option>
-      <option value="Soudanais(e)">🇸🇩 Soudan</option>
-      <option value="Sud-Soudanais(e)">🇸🇸 Soudan du Sud</option>
-      <option value="Sud-Africain(e)">🇿🇦 Afrique du Sud</option>
-      <option value="Swazilan(e)">🇸🇿 Eswatini</option>
-      <option value="Tanzanien(ne)">🇹🇿 Tanzanie</option>
-      <option value="Tchadien(ne)">🇹🇩 Tchad</option>
-      <option value="Togolais(e)">🇹🇬 Togo</option>
-      <option value="Tunisien(ne)">🇹🇳 Tunisie</option>
-      <option value="Zambien(ne)">🇿🇲 Zambie</option>
-      <option value="Zimbabwéen(ne)">🇿🇼 Zimbabwe</option>
-    </optgroup>
+        <label>Adresse agence — Ville — Quartier</label>
+        <input type="text" [(ngModel)]="agent.adresseAgence" name="adresseAgence" placeholder="Ex: Lomé, Tokoin" />
 
-    <!-- Europe -->
-    <optgroup label="🌍 Europe">
-      <option value="Albanais(e)">🇦🇱 Albanie</option>
-      <option value="Allemand(e)">🇩🇪 Allemagne</option>
-      <option value="Andorran(e)">🇦🇩 Andorre</option>
-      <option value="Autrichien(ne)">🇦🇹 Autriche</option>
-      <option value="Belge">🇧🇪 Belgique</option>
-      <option value="Bosniaque">🇧🇦 Bosnie-Herzégovine</option>
-      <option value="Bulgare">🇧🇬 Bulgarie</option>
-      <option value="Chypriote">🇨🇾 Chypre</option>
-      <option value="Croate">🇭🇷 Croatie</option>
-      <option value="Danois(e)">🇩🇰 Danemark</option>
-      <option value="Espagnol(e)">🇪🇸 Espagne</option>
-      <option value="Estonien(ne)">🇪🇪 Estonie</option>
-      <option value="Finlandais(e)">🇫🇮 Finlande</option>
-      <option value="Français(e)">🇫🇷 France</option>
-      <option value="Grec(que)">🇬🇷 Grèce</option>
-      <option value="Hongrois(e)">🇭🇺 Hongrie</option>
-      <option value="Irlandais(e)">🇮🇪 Irlande</option>
-      <option value="Islandais(e)">🇮🇸 Islande</option>
-      <option value="Italien(ne)">🇮🇹 Italie</option>
-      <option value="Letton(ne)">🇱🇻 Lettonie</option>
-      <option value="Liechtensteinois(e)">🇱🇮 Liechtenstein</option>
-      <option value="Lituanien(ne)">🇱🇹 Lituanie</option>
-      <option value="Luxembourgeois(e)">🇱🇺 Luxembourg</option>
-      <option value="Maltais(e)">🇲🇹 Malte</option>
-      <option value="Moldave">🇲🇩 Moldavie</option>
-      <option value="Monégasque">🇲🇨 Monaco</option>
-      <option value="Monténégrin(e)">🇲🇪 Monténégro</option>
-      <option value="Norvégien(ne)">🇳🇴 Norvège</option>
-      <option value="Néerlandais(e)">🇳🇱 Pays-Bas</option>
-      <option value="Polonais(e)">🇵🇱 Pologne</option>
-      <option value="Portugais(e)">🇵🇹 Portugal</option>
-      <option value="Roumain(e)">🇷🇴 Roumanie</option>
-      <option value="Britannique">🇬🇧 Royaume-Uni</option>
-      <option value="Russe">🇷🇺 Russie</option>
-      <option value="Serbe">🇷🇸 Serbie</option>
-      <option value="Slovaque">🇸🇰 Slovaquie</option>
-      <option value="Slovène">🇸🇮 Slovénie</option>
-      <option value="Suédois(e)">🇸🇪 Suède</option>
-      <option value="Suisse">🇨🇭 Suisse</option>
-      <option value="Tchèque">🇨🇿 Tchéquie</option>
-      <option value="Ukrainien(ne)">🇺🇦 Ukraine</option>
-    </optgroup>
-
-    <!-- Amérique -->
-    <optgroup label="🌎 Amérique">
-      <option value="Américain(e)">🇺🇸 États-Unis</option>
-      <option value="Argentin(e)">🇦🇷 Argentine</option>
-      <option value="Bolivien(ne)">🇧🇴 Bolivie</option>
-      <option value="Brésilien(ne)">🇧🇷 Brésil</option>
-      <option value="Canadien(ne)">🇨🇦 Canada</option>
-      <option value="Chilien(ne)">🇨🇱 Chili</option>
-      <option value="Colombien(ne)">🇨🇴 Colombie</option>
-      <option value="Costaricien(ne)">🇨🇷 Costa Rica</option>
-      <option value="Cubain(e)">🇨🇺 Cuba</option>
-      <option value="Dominicain(e)">🇩🇴 République Dominicaine</option>
-      <option value="Équatorien(ne)">🇪🇨 Équateur</option>
-      <option value="Guatémaltèque">🇬🇹 Guatemala</option>
-      <option value="Haïtien(ne)">🇭🇹 Haïti</option>
-      <option value="Hondurien(ne)">🇭🇳 Honduras</option>
-      <option value="Jamaïcain(e)">🇯🇲 Jamaïque</option>
-      <option value="Mexicain(e)">🇲🇽 Mexique</option>
-      <option value="Nicaraguayen(ne)">🇳🇮 Nicaragua</option>
-      <option value="Panaméen(ne)">🇵🇦 Panama</option>
-      <option value="Paraguayen(ne)">🇵🇾 Paraguay</option>
-      <option value="Péruvien(ne)">🇵🇪 Pérou</option>
-      <option value="Salvadorien(ne)">🇸🇻 Salvador</option>
-      <option value="Trinidadien(ne)">🇹🇹 Trinité-et-Tobago</option>
-      <option value="Uruguayen(ne)">🇺🇾 Uruguay</option>
-      <option value="Vénézuélien(ne)">🇻🇪 Venezuela</option>
-    </optgroup>
-
-    <!-- Asie -->
-    <optgroup label="🌏 Asie">
-      <option value="Afghan(e)">🇦🇫 Afghanistan</option>
-      <option value="Saoudien(ne)">🇸🇦 Arabie Saoudite</option>
-      <option value="Arménien(ne)">🇦🇲 Arménie</option>
-      <option value="Azerbaïdjanais(e)">🇦🇿 Azerbaïdjan</option>
-      <option value="Bahreïni(e)">🇧🇭 Bahreïn</option>
-      <option value="Bangladais(e)">🇧🇩 Bangladesh</option>
-      <option value="Cambodgien(ne)">🇰🇭 Cambodge</option>
-      <option value="Chinois(e)">🇨🇳 Chine</option>
-      <option value="Nord-Coréen(ne)">🇰🇵 Corée du Nord</option>
-      <option value="Sud-Coréen(ne)">🇰🇷 Corée du Sud</option>
-      <option value="Émirati(e)">🇦🇪 Émirats Arabes Unis</option>
-      <option value="Géorgien(ne)">🇬🇪 Géorgie</option>
-      <option value="Indien(ne)">🇮🇳 Inde</option>
-      <option value="Indonésien(ne)">🇮🇩 Indonésie</option>
-      <option value="Irakien(ne)">🇮🇶 Irak</option>
-      <option value="Iranien(ne)">🇮🇷 Iran</option>
-      <option value="Israélien(ne)">🇮🇱 Israël</option>
-      <option value="Japonais(e)">🇯🇵 Japon</option>
-      <option value="Jordanien(ne)">🇯🇴 Jordanie</option>
-      <option value="Kazakhstanais(e)">🇰🇿 Kazakhstan</option>
-      <option value="Koweïtien(ne)">🇰🇼 Koweït</option>
-      <option value="Kirghiz(e)">🇰🇬 Kirghizistan</option>
-      <option value="Laotien(ne)">🇱🇦 Laos</option>
-      <option value="Libanais(e)">🇱🇧 Liban</option>
-      <option value="Malaisien(ne)">🇲🇾 Malaisie</option>
-      <option value="Maldivien(ne)">🇲🇻 Maldives</option>
-      <option value="Mongol(e)">🇲🇳 Mongolie</option>
-      <option value="Birman(e)">🇲🇲 Myanmar</option>
-      <option value="Népalais(e)">🇳🇵 Népal</option>
-      <option value="Omanais(e)">🇴🇲 Oman</option>
-      <option value="Ouzbek(e)">🇺🇿 Ouzbékistan</option>
-      <option value="Pakistanais(e)">🇵🇰 Pakistan</option>
-      <option value="Palestinien(ne)">🇵🇸 Palestine</option>
-      <option value="Philippine">🇵🇭 Philippines</option>
-      <option value="Qatari(e)">🇶🇦 Qatar</option>
-      <option value="Singapourien(ne)">🇸🇬 Singapour</option>
-      <option value="Sri-Lankais(e)">🇱🇰 Sri Lanka</option>
-      <option value="Syrien(ne)">🇸🇾 Syrie</option>
-      <option value="Tadjik(e)">🇹🇯 Tadjikistan</option>
-      <option value="Taïwanais(e)">🇹🇼 Taïwan</option>
-      <option value="Thaïlandais(e)">🇹🇭 Thaïlande</option>
-      <option value="Turc(que)">🇹🇷 Turquie</option>
-      <option value="Turkmène">🇹🇲 Turkménistan</option>
-      <option value="Vietnamien(ne)">🇻🇳 Vietnam</option>
-      <option value="Yéménite">🇾🇪 Yémen</option>
-    </optgroup>
-
-    <!-- Océanie -->
-    <optgroup label="🌏 Océanie">
-      <option value="Australien(ne)">🇦🇺 Australie</option>
-      <option value="Fidjien(ne)">🇫🇯 Fidji</option>
-      <option value="Néo-Zélandais(e)">🇳🇿 Nouvelle-Zélande</option>
-      <option value="Papouasien(ne)">🇵🇬 Papouasie-Nouvelle-Guinée</option>
-      <option value="Samoan(e)">🇼🇸 Samoa</option>
-      <option value="Tongien(ne)">🇹🇴 Tonga</option>
-      <option value="Vanuatais(e)">🇻🇺 Vanuatu</option>
-    </optgroup>
-
-  </select>
-        
-        <label>Adresse agence -Ville - Quartier</label>
-        <input type="text" [(ngModel)]="agent.adresseAgence" name="adresseAgence" />
-
-
-        <button 
-          class="save-btn"
-          *ngIf="isFirstTime"
-          (click)="createAgent()">
+        <button class="save-btn" *ngIf="isFirstTime" (click)="createAgent()">
           Créer mon profil
         </button>
-
-        <button 
-          class="save-btn"
-          *ngIf="!isFirstTime"
-          (click)="updateAgent()">
+        <button class="save-btn" *ngIf="!isFirstTime" (click)="updateAgent()">
           Mettre à jour
         </button>
-
       </form>
     </section>
 
-
-    <!-- SECTION LISTE JOUEURS -->
+    <!-- ═══════════════════════════════════
+         SECTION LISTE JOUEURS
+    ════════════════════════════════════ -->
     <section *ngIf="activeSection === 'joueurs'">
-
       <h2>Liste des joueurs</h2>
 
-      <h3>Recherche</h3>
+      <!-- Filtres recherche -->
       <div class="filters">
-
-        <!--<input placeholder="Nom" [(ngModel)]="searchNom" (input)="applySearch()" />
-        <input placeholder="Prénoms" [(ngModel)]="searchprenoms" (input)="applySearch()" />
-        <input placeholder="Poste" [(ngModel)]="searchPoste" (input)="applySearch()" />
-        <input placeholder="Nationalité" [(ngModel)]="searchnationalite" (input)="applySearch()" />
-        <input placeholder="Niveau" [(ngModel)]="searchniveau" (input)="applySearch()" />
-        <input placeholder="Taille" [(ngModel)]="searchTaille" (input)="applySearch()" />-->
-
+        <input placeholder="Rechercher par nom..." [(ngModel)]="searchNom" (input)="applySearch()" />
+        <input placeholder="Poste..." [(ngModel)]="searchPoste" (input)="applySearch()" />
+        <input placeholder="Nationalité..." [(ngModel)]="searchnationalite" (input)="applySearch()" />
+        <input placeholder="Niveau..." [(ngModel)]="searchniveau" (input)="applySearch()" />
       </div>
 
-      <!-- TABLE JOUEURS -->
-      <table class="joueurs-table">
+      <!-- ── TABLE JOUEURS ── -->
+      <div class="table-wrap">
+        <table class="joueurs-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nom</th>
+              <th>Prénoms</th>
+              <th>Poste</th>
+              <th>Nationalité</th>
+              <th>Niveau</th>
+              <th>Taille</th>
+              <th>Fiche</th>
+              <th>Contact</th>
+              <th>Vidéos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let j of filteredJoueurs; let i = index">
 
-        <thead>
-          <tr>
-            <th>Nom</th>
-            <th>Prénoms</th>
-            <th>Poste</th>
-            <th>Nationalité</th>
-            <th>Niveau</th>
-            <th>Taille</th>
-            <th>Actions</th>
-            <th>Contacter Par E-mail </th>
-          </tr>
-        </thead>
+              <!-- ── Ligne joueur ── -->
+              <tr [class.row-selected]="selectedJoueur?.id === j.id">
+                <td class="td-num">{{ i + 1 }}</td>
+                <td><strong>{{ j.nom }}</strong></td>
+                <td>{{ j.prenoms }}</td>
+                <td><span class="badge-poste">{{ j.poste }}</span></td>
+                <td>{{ j.nationalite }}</td>
+                <td><span class="badge-niveau">{{ j.niveau }}</span></td>
+                <td>{{ j.taille }} cm</td>
 
-        <tbody>
-          <tr *ngFor="let j of filteredJoueurs">
-            <td>{{ j.nom }}</td>
-            <td>{{ j.prenoms }}</td>
-            <td>{{ j.poste }}</td>
-            <td>{{ j.nationalite }}</td>
-            <td>{{ j.niveau }}</td>
-            <td>{{ j.taille }} cm</td>
-            <td>
-              <button class="view-btn" (click)="openDrawer(j)">Voir</button>
-            </td>
-            <td>
-              <button class="email-btn" (click)="contactByEmail()">
-              ✉️ Contacter le joueur
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                <!-- Voir fiche -->
+                <td>
+                  <button class="view-btn" (click)="openDrawer(j)">
+                    Fiche
+                  </button>
+                </td>
+
+                <!-- Contacter -->
+                <td>
+                  <button class="email-btn" (click)="selectedJoueur = j; contactByEmail()">
+                    Email
+                  </button>
+                </td>
+
+                <!-- Vidéos — bouton toggle par joueur -->
+                <td>
+                  <button class="video-toggle-btn"
+                          (click)="toggleVideosJoueur(j)"
+                          [class.active]="videoRowJoueurId === j.id">
+                    🎥
+                    <span class="video-count" *ngIf="videoCountMap.get(j.id!) as count">
+                      {{ count }}
+                    </span>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- ── Ligne vidéos dépliable (sous la ligne joueur) ── -->
+              <tr class="video-expand-row" *ngIf="videoRowJoueurId === j.id">
+                <td colspan="10">
+                  <div class="video-expand-panel">
+
+                    <!-- Chargement -->
+                    <div class="video-loading" *ngIf="loadingVideosRow">
+                      <span class="spinner"></span> Chargement des vidéos...
+                    </div>
+
+                    <!-- Aucune vidéo -->
+                    <div class="video-empty" *ngIf="!loadingVideosRow && videosJoueur.length === 0">
+                      Aucune vidéo uploadée par ce joueur.
+                    </div>
+
+                    <!-- Liste des vidéos -->
+                    <div class="video-row-list" *ngIf="!loadingVideosRow && videosJoueur.length > 0">
+                      <div *ngFor="let video of videosJoueur" class="video-row-card">
+                        <div class="vrc-icon">🎬</div>
+                        <div class="vrc-info">
+                          <span class="vrc-name">{{ video.originalFileName }}</span>
+                          <span class="vrc-meta">{{ video.fileSize }}
+                            <ng-container *ngIf="video.description"> · {{ video.description }}</ng-container>
+                          </span>
+                        </div>
+                        <div class="vrc-actions">
+                          <button class="vrc-btn-play"
+                                  (click)="lireVideoJoueur(video.id, video.originalFileName)"
+                                  [disabled]="loadingVideo === video.id">
+                            <ng-container *ngIf="loadingVideo === video.id">⏳</ng-container>
+                            <ng-container *ngIf="loadingVideo !== video.id">Lire</ng-container>
+                          </button>
+                          <button class="vrc-btn-dl" (click)="telechargerVideo(video)">
+                            ⬇️ DL
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </td>
+              </tr>
+
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
 
     </section>
 
@@ -378,188 +233,57 @@
     © 2025 RelatFoot — Plateforme de mise en relation joueurs / agents
   </footer>
 
+</div><!-- fin .layout -->
 
+<!-- ═══════════════════════════════════════════════
+     MODAL OVERLAY
+════════════════════════════════════════════════ -->
+<div class="modal-overlay" *ngIf="drawerOpen()" (click)="closeDrawer()"></div>
 
-  <!-- ============= DRAWER DETAILS JOUEUR ============= 
-  <div class="drawer-overlay" *ngIf="drawerOpen()" (click)="closeDrawer()"></div>
-
-  <div class="drawer" *ngIf="drawerOpen()">
-    <button class="close-btn" (click)="closeDrawer()">✖</button>
-
-    <h3>Détails du joueur</h3>
-
-    <p><strong>Nom :</strong> {{ selectedJoueur?.nom }}</p>
-    <p><strong>Prénoms :</strong> {{ selectedJoueur?.prenoms }}</p>
-    <p><strong>Poste :</strong> {{ selectedJoueur?.poste }}</p>
-    <p><strong>Nationalité :</strong> {{ selectedJoueur?.nationalite }}</p>
-    <p><strong>Niveau :</strong> {{ selectedJoueur?.niveau }}</p>
-    <p><strong>Taille :</strong> {{ selectedJoueur?.taille }} cm</p>
-
-    <h4>Médias :</h4>
-    <div *ngFor="let m of selectedJoueur?.medias">
-      <video *ngIf="m.type === 'VIDEO'" width="100%" controls>
-        <source [src]="m.url" type="video/mp4" />
-      </video>
-
-      <img *ngIf="m.type === 'IMAGE'" [src]="m.url" width="100%" />
-    </div>
-  </div>-->
-
-</div>
-  <!-- ============== MAIN CONTENT ============== 
-  <main class="main">
-
-    <!-- ----------- PROFIL AGENT ----------- 
-    <section *ngIf="activeSection==='profil'" class="card">
-
-      <h2 class="section-title">Informations de l’agent</h2>
-
-      <div class="grid-2">
-
-        <div>
-          <label class="label">Nom Agence</label>
-          <input class="input" [(ngModel)]="agent.nomAgence">
-        </div>
-
-        <div>
-  
-</div>
-
-        <div>
-          <label class="label">Adresse Agence</label>
-          <input class="input" [(ngModel)]="agent.adresseAgence">
-        </div>
-
-        <div>
-          <label class="label">Pays Agence</label>
-          <input class="input" [(ngModel)]="agent.paysAgence">
-        </div>
-
-      </div>
-
-      <div class="btn-right">
-        <button class="btn" (click)="createAgent()">
-          Enregistrer
-        </button>
-      </div>
-
-    </section>
-
-    <!-- ----------- LISTE JOUEURS ----------- 
-    <section *ngIf="activeSection==='joueurs'">
-
-      <h2 class="section-title">Liste des joueurs</h2>
-
-      <!-- BARRE DE RECHERCHE 
-      <div class="grid-3">
-        <input class="input" placeholder="Nom" [(ngModel)]="searchNom" (input)="applySearch()">
-        <input class="input" placeholder="Poste" [(ngModel)]="searchPoste" (input)="applySearch()">
-        <input class="input" placeholder="Taille" [(ngModel)]="searchTaille" (input)="applySearch()">
-      </div>
-
-      <!-- GRILLE DES JOUEURS -
-      <div class="grid-cards">
-        <div *ngFor="let j of filteredJoueurs" class="card-player">
-          <div class="player-name">{{ j.nom }}</div>
-          <div class="player-info">{{ j.poste }}</div>
-          <div class="player-sub">Taille : {{ j.taille }} cm</div>
-
-          <button class="btn" (click)="openDrawer(j)">Voir</button>
-        </div>
-      </div>
-
-    </section>
-
-  </main>
-</div>
-
-<!-- ============== DRAWER JOUEUR ============== 
-
-<div *ngIf="drawerOpen()" class="drawer-overlay" (click)="closeDrawer()"></div>
-
-<div *ngIf="drawerOpen()" class="drawer">
-  <button class="drawer-close" (click)="closeDrawer()">✖</button>
-
-  <h2 class="drawer-title">Informations du joueur</h2>
-
-  <div *ngIf="selectedJoueur">
-
-    <p><strong>Nom :</strong> {{ selectedJoueur.nom }}</p>
-    <p><strong>Poste :</strong> {{ selectedJoueur.poste }}</p>
-    <p><strong>Taille :</strong> {{ selectedJoueur.taille }} cm</p>
-
-    <h3 class="drawer-subtitle">Profil</h3>
-    <pre class="profil-box">{{ selectedJoueur.profil | json }}</pre>
-
-    <h3 class="drawer-subtitle">Médias</h3>
-
-    <div class="medias-grid">
-      <img *ngFor="let m of selectedJoueur.medias" [src]="m.url">
-    </div>
-
-  </div>-->
-
-  
-
-
-  <div class="modal-overlay" *ngIf="drawerOpen()" (click)="closeDrawer()"></div>
-
-  <div class="modal-card" *ngIf="drawerOpen()">
+<!-- ═══════════════════════════════════════════════
+     MODAL CARD — FICHE JOUEUR (pour PDF)
+     ← PAS DE VIDÉO ICI, uniquement les infos PDF
+════════════════════════════════════════════════ -->
+<div class="modal-card" *ngIf="drawerOpen()">
 
   <button class="close-btn" (click)="closeDrawer()">✖</button>
-    <!--<div class="card-actions">
-    <button class="pdf-btn" (click)="exportPdf()">
-    📄 Exporter en PDF
-    </button>-->
-    <div class="card-actions">
-    <button class="pdf-btn" (click)="exportPdf()">📄 Export PDF</button>
-    <!--<button class="email-btn" (click)="contactByEmail()">✉️ Contacter</button>-->
-    </div>
 
-  
+  <div class="card-actions">
+    <button class="pdf-btn" (click)="exportPdf()"> Export PDF</button>
+  </div>
 
-  <section class="card" id="playerCardPdf" >
-    
-    <!-- <h2> Curriculum Vitae </h2> -->
+  <!-- Zone capturée pour le PDF -->
+  <div id="playerCardPdf">
 
     <div *ngIf="selectedJoueur.id" class="player-card">
 
-       <!-- LOGO 
-      <div class="pdf-header">
-        <img src="assets/logo.png" class="pdf-logo">
-        <h2>FICHE JOUEUR</h2>
-      </div>-->
-
-      <!-- En-tête -->
+      <!-- En-tête joueur -->
       <div class="player-header">
-        <div class="player-avatar">
-          {{ selectedJoueur.nom.charAt(0) }}
-        </div>
-
+        <div class="player-avatar">{{ selectedJoueur.nom.charAt(0) }}</div>
         <div class="player-main">
           <h2>{{ selectedJoueur.nom }} {{ selectedJoueur.prenoms }}</h2>
           <span class="player-poste">{{ selectedJoueur.poste }}</span>
         </div>
       </div>
 
-      <!-- Infos principales -->
+      <!-- Infos -->
       <div class="player-info-grid">
-        <div class="info-item"><span class="icon">📧</span>{{ user.email }}</div>
-        <div class="info-item"><span class="icon">📞</span>{{ user.telephone }}</div>
-        <div class="info-item"><span class="icon">🌍</span>{{ selectedJoueur.nationalite }}</div>
-        <div class="info-item"><span class="icon">📏</span>{{ selectedJoueur.taille }} cm</div>
-        <div class="info-item"><span class="icon">⚖️</span>{{ selectedJoueur.poids }} kg</div>
-        <div class="info-item"><span class="icon">🦶</span>Pied fort : {{ selectedJoueur.piedFort }}</div>
-        <div class="info-item"><span class="icon">🎯</span>Niveau : {{ selectedJoueur.niveau }}</div>
+        <div class="info-item">Mail {{ user.email }}</div>
+        <div class="info-item">Tel {{ user.telephone }}</div>
+        <div class="info-item">Pays {{ selectedJoueur.nationalite }}</div>
+        <div class="info-item">Taille {{ selectedJoueur.taille }} cm</div>
+        <div class="info-item">Poids {{ selectedJoueur.poids }} kg</div>
+        <div class="info-item"> Pied fort : {{ selectedJoueur.piedFort }}</div>
+        <div class="info-item"> Niveau : {{ selectedJoueur.niveau }}</div>
         <div class="info-item" *ngIf="selectedJoueur.dateNaissance">
-          <span class="icon">📅</span>{{ selectedJoueur.dateNaissance }}
+          Naissance  {{ selectedJoueur.dateNaissance }}
         </div>
         <div class="info-item" *ngIf="selectedJoueur.adresse">
-          <span class="icon">🏠</span>{{ selectedJoueur.adresse }}
+          Adresse {{ selectedJoueur.adresse }}
         </div>
       </div>
 
-      <!-- Profil -->
+      <!-- Profil texte -->
       <div *ngIf="profil.id" class="info-box">
         <h3>Profil</h3>
         <p><strong>Biographie :</strong> {{ profil.biographie }}</p>
@@ -567,18 +291,50 @@
         <p><strong>Palmarès :</strong> {{ profil.palmares }}</p>
       </div>
 
-      <!-- Médias -->
+      <!-- Liens médias (URLs) — apparaissent dans le PDF -->
       <div *ngIf="medias.length" class="media-list">
-        <h3>Médias</h3>
+        <h3>Liens Médias</h3>
         <div *ngFor="let media of medias" class="media-item">
           <h4>{{ media.type }}</h4>
           <p>{{ media.description }}</p>
-          <!--<a [href]="media.url" target="_blank">Voir</a>-->
-          <h6>{{ media.url }}</h6>
+          <small>{{ media.url }}</small>
         </div>
       </div>
 
-    </div>
+      <!-- NOTE : les vidéos ne sont PAS ici → elles sont dans le tableau -->
 
-  </section>
+    </div><!-- fin player-card -->
+  </div><!-- fin #playerCardPdf -->
+
+</div><!-- fin modal-card -->
+
+<!-- ═══════════════════════════════════════════════
+     LECTEUR VIDÉO FLOTTANT — HORS MODAL, HORS PDF
+════════════════════════════════════════════════ -->
+<div class="video-player-overlay"
+     *ngIf="videoPlayerVisible && activeVideoId !== null"
+     [class.minimized]="isMinimized">
+
+  <div class="video-player-header">
+    <span class="video-player-title">🎥 {{ activeVideoName }}</span>
+    <div class="video-player-controls">
+      <button class="btn-minimize" (click)="toggleMinimize()" [title]="isMinimized ? 'Agrandir' : 'Réduire'">
+        {{ isMinimized ? '⬆' : '⬇' }}
+      </button>
+      <button class="btn-close-player" (click)="fermerVideo()" title="Fermer">✕</button>
+    </div>
+  </div>
+
+  <video *ngIf="!isMinimized"
+         controls
+         autoplay
+         [src]="blobUrls.get(activeVideoId!)"
+         class="video-element">
+    Votre navigateur ne supporte pas la lecture vidéo.
+  </video>
+
 </div>
+
+
+
+

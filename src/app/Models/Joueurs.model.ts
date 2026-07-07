@@ -19,4 +19,5 @@ export interface Joueur  {
   profil?: ProfilJoueur;
   medias?: Media[];
   user?: { id: number };
+  file?: File;
 }

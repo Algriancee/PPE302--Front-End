@@ -1,160 +1,248 @@
 <div class="admin-container">
 
-  <!-- ================= HEADER ================= -->
+  <!-- ── HEADER ── -->
   <header class="app-header">
-  <div class="header-left">
-    <img src="/assets/logo.png" class="logo" alt="RelatFoot">
-    <span class="brand">RelatFoot</span>
-  </div>
-
-  <div class="header-right">
-    <div class="avatar">
-      {{ getInitial() }}
+    <div class="header-left">
+      <img src="/assets/logo.png" class="logo" alt="RelatFoot">
+      <span class="brand">RelatFoot</span>
     </div>
-
-    <div class="user-info">
-      <span class="email">{{ email }}</span>
-      <span class="role">{{ role }}</span>
+    <div class="header-right">
+      <div class="avatar">{{ getInitial() }}</div>
+      <div class="user-info">
+        <span class="email">{{ email }}</span>
+        <span class="role">{{ role }}</span>
+      </div>
+      <button class="logout-btn" (click)="logout()">Déconnexion</button>
     </div>
+  </header>
 
-    <button class="logout-btn" (click)="logout()">
-      Déconnexion
-    </button>
-  </div>
-</header>
-
-  <!-- ================= BODY ================= -->
+  <!-- ── BODY ── -->
   <div class="content-wrapper">
 
     <!-- SIDEBAR -->
-     <!-- SIDEBAR -->
     <aside class="sidebar">
-      <h2> MENU </h2>
-      <button (click)="activeSection='joueurs'">Joueurs</button>
-      <button (click)="activeSection='agents'">Agents</button>
-      <button (click)="activeSection='create'">Créer User</button>
+      <h2>MENU</h2>
+      <button [class.active]="activeSection==='joueurs'"
+              (click)="activeSection='joueurs'">👤 Joueurs</button>
+      <button [class.active]="activeSection==='agents'"
+              (click)="activeSection='agents'">🧑‍💼 Agents</button>
+      <button [class.active]="activeSection==='create'"
+              (click)="activeSection='create'">➕ Créer User</button>
     </aside>
 
-    <!-- MAIN -->
-    <!-- JOUEURS -->
+    <!-- ── JOUEURS ── -->
     <section *ngIf="activeSection==='joueurs'">
       <h2>Liste des joueurs</h2>
       <table>
-        <tr>
-          <th>Nom</th><!--<th>Email</th>--><th>Poste</th><th>Actions</th>
-        </tr>
-        <tr *ngFor="let j of filteredJoueurs">
-          <td>{{ j.nom }} {{ j.prenoms }}</td>
-          <!--<td>{{ j.email }}</td>-->
-          <td>{{ j.poste }}</td>
-          <td>
-            <button (click)="openJoueur(j)">Voir</button>
-            <button class="danger" (click)="deleteJoueur(j.id)">Supprimer</button>
-          </td>
-        </tr>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Prénoms</th>
+            <th>Poste</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let j of filteredJoueurs">
+            <td>{{ j.nom }}</td>
+            <td>{{ j.prenoms }}</td>
+            <td>{{ j.poste }}</td>
+            <td>
+              <button (click)="openJoueur(j)">👁 Voir</button>
+              <button class="danger" (click)="deleteJoueur(j.id)">🗑 Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </section>
 
-    <!-- AGENTS -->
+    <!-- ── AGENTS ── -->
     <section *ngIf="activeSection==='agents'">
       <h2>Liste des agents</h2>
       <table>
-        <tr>
-          <th>Agence</th><!--<th>Email</th>--><th>Pays</th><th>Actions</th>
-        </tr>
-        <tr *ngFor="let a of filteredAgents">
-          <td>{{ a.nomAgence }}</td>
-          <!--<td>{{ user.email }}</td>-->
-          <td>{{ a.paysAgence }}</td>
-          <td>
-            <button (click)="openAgent(a)">Voir</button>
-            <button class="danger" (click)="deleteAgent(a.id)">Supprimer</button>
-          </td>
-        </tr>
+        <thead>
+          <tr>
+            <th>Agence</th>
+            <th>Pays</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let a of filteredAgents">
+            <td>{{ a.nomAgence }}</td>
+            <td>{{ a.paysAgence }}</td>
+            <td>
+              <button (click)="openAgent(a)">👁 Voir</button>
+              <button class="danger" (click)="deleteAgent(a.id)">🗑 Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </section>
+
+    <!-- ── CRÉER USER ── -->
     <section *ngIf="activeSection==='create'" class="card">
-      <h2>Créer un utilisateur</h2>
+      <h2>➕ Créer un utilisateur</h2>
 
       <label>Nom utilisateur</label>
-      <input [(ngModel)]="newUser.nomUtilisateur" placeholder="Nom utilisateur">
+      <input [(ngModel)]="newUser.nomUtilisateur" placeholder="Nom utilisateur" />
 
       <label>Email</label>
-      <input [(ngModel)]="newUser.email" placeholder="Email">
+      <input [(ngModel)]="newUser.email" placeholder="Email" />
 
       <label>Mot de passe</label>
-      <input type="password" [(ngModel)]="newUser.password" placeholder="Mot de passe">
+      <input type="password" [(ngModel)]="newUser.password" placeholder="Mot de passe" />
 
       <label>Téléphone</label>
-      <input [(ngModel)]="newUser.telephone" placeholder="Téléphone">
+      <input [(ngModel)]="newUser.telephone" placeholder="Téléphone" />
 
       <label>Rôle</label>
       <select [(ngModel)]="newUser.role">
-        <option value="USER">USER</option>
         <option value="JOUEURS">JOUEUR</option>
         <option value="AGENTS">AGENT</option>
         <option value="ADMIN">ADMIN</option>
       </select>
 
-      <button class="save-btn" (click)="createUser2()">Créer</button>
+      <button class="save-btn" (click)="createUser2()">✅ Créer</button>
     </section>
-  </div>
-  <!-- ================= MODAL UTILISATEUR ================= -->
+
+  </div><!-- fin content-wrapper -->
+
+  <!-- ── MODAL OVERLAY ── -->
   <div class="modal-overlay" *ngIf="drawerOpen()" (click)="closeDrawer()"></div>
 
+  <!-- ── MODAL CARD ── -->
   <div class="modal-card" *ngIf="drawerOpen()">
-      <button class="close-btn" (click)="closeDrawer()">✖</button>
+    <button class="close-btn" (click)="closeDrawer()">✖</button>
 
-      <!-- ======= JOUEUR ======= -->
-      <ng-container *ngIf="selectedType==='joueur' && selectedJoueur">
-        <h2>Profil Joueur</h2>
+    <!-- ======= JOUEUR ======= -->
+    <ng-container *ngIf="selectedType==='joueur' && selectedJoueur">
+      <h2>👤 Profil Joueur</h2>
 
-        <div class="header">
-          <div class="avatar">{{ selectedJoueur.nom.charAt(0) }}</div>
-          <div>
-            <h3>{{ selectedJoueur.nom }} {{ selectedJoueur.prenoms }}</h3>
-            <span class="badge">{{ selectedJoueur.poste }}</span>
+      <!-- En-tête -->
+      <div class="header">
+        <div class="avatar">{{ selectedJoueur.nom.charAt(0) }}</div>
+        <div>
+          <h3>{{ selectedJoueur.nom }} {{ selectedJoueur.prenoms }}</h3>
+          <span class="badge">{{ selectedJoueur.poste }}</span>
+        </div>
+      </div>
+
+      <!-- Infos -->
+      <div class="grid">
+        <div>📧 {{ user.email }}</div>
+        <div>📞 {{ user.telephone }}</div>
+        <div>🌍 {{ selectedJoueur.nationalite }}</div>
+        <div>📏 {{ selectedJoueur.taille }} cm</div>
+        <div>⚖️ {{ selectedJoueur.poids }} kg</div>
+        <div>🎯 {{ selectedJoueur.niveau }}</div>
+      </div>
+
+      <!-- Liens médias -->
+      <div *ngIf="medias.length" class="box">
+        <h4>🔗 Liens Médias</h4>
+        <a *ngFor="let m of medias" [href]="m.url" target="_blank">▶ {{ m.type }}</a>
+      </div>
+
+      <!-- ── VIDÉOS DU JOUEUR (admin peut supprimer) ── -->
+      <div class="videos-admin-section">
+        <h4>🎥 Vidéos uploadées</h4>
+
+        <!-- Chargement -->
+        <div class="video-loading" *ngIf="loadingVideos">
+          <span class="spinner"></span> Chargement des vidéos...
+        </div>
+
+        <!-- Aucune vidéo -->
+        <div class="video-empty" *ngIf="!loadingVideos && videosJoueur.length === 0">
+          📭 Aucune vidéo pour ce joueur.
+        </div>
+
+        <!-- Liste vidéos -->
+        <div *ngIf="!loadingVideos && videosJoueur.length > 0"
+             class="admin-video-list">
+          <div *ngFor="let video of videosJoueur" class="admin-video-card">
+
+            <div class="avc-left">
+              <div class="avc-icon">🎬</div>
+              <div class="avc-info">
+                <span class="avc-name">{{ video.originalFileName }}</span>
+                <span class="avc-meta">{{ video.fileSize }}
+                  <ng-container *ngIf="video.description"> · {{ video.description }}</ng-container>
+                </span>
+              </div>
+            </div>
+
+            <div class="avc-actions">
+              <!-- Lire -->
+              <button class="avc-btn-play"
+                      (click)="lireVideoJoueur(video.id, video.originalFileName)"
+                      [disabled]="loadingVideo === video.id">
+                <ng-container *ngIf="loadingVideo === video.id">⏳</ng-container>
+                <ng-container *ngIf="loadingVideo !== video.id && activeVideoId !== video.id">▶ Lire</ng-container>
+                <ng-container *ngIf="activeVideoId === video.id && loadingVideo !== video.id">⏹</ng-container>
+              </button>
+
+              <!-- Télécharger -->
+              <button class="avc-btn-dl" (click)="telechargerVideo(video)" title="Télécharger">
+                ⬇️
+              </button>
+
+              <!-- Supprimer (admin) -->
+              <button class="avc-btn-del" (click)="supprimerVideoAdmin(video.id)" title="Supprimer">
+                🗑
+              </button>
+            </div>
+
           </div>
         </div>
+      </div>
 
-        <div class="grid">
-          <div>📧 {{ user.email }}</div>
-          <div>📞 {{ user.telephone }}</div>
-          <div>🌍 {{ selectedJoueur.nationalite }}</div>
-          <div>📏 {{ selectedJoueur.taille }} cm</div>
-          <div>⚖️ {{ selectedJoueur.poids }} kg</div>
-          <div>🎯 {{ selectedJoueur.niveau }}</div>
+    </ng-container>
+
+    <!-- ======= AGENT ======= -->
+    <ng-container *ngIf="selectedType==='agent' && selectedAgent">
+      <h2>🧑‍💼 Profil Agent</h2>
+
+      <div class="header">
+        <div class="avatar">{{ selectedAgent.nom.charAt(0) }}</div>
+        <div>
+          <h3>{{ selectedAgent.nom }} {{ selectedAgent.prenoms }}</h3>
+          <span class="badge agent">AGENT</span>
         </div>
+      </div>
 
-        <div *ngIf="medias.length" class="box">
-          <h4>Médias</h4>
-          <a *ngFor="let m of medias" [href]="m.url" target="_blank">▶ {{ m.type }}</a>
-        </div>
-      </ng-container>
+      <div class="grid">
+        <div>📧 {{ user.email }}</div>
+        <div>📞 {{ user.telephone }}</div>
+        <div *ngIf="selectedAgent.nomAgence">🏢 {{ selectedAgent.nomAgence }}</div>
+        <div *ngIf="selectedAgent.paysAgence">🌍 {{ selectedAgent.paysAgence }}</div>
+        <div *ngIf="selectedAgent.licence">📄 {{ selectedAgent.licence }}</div>
+      </div>
+    </ng-container>
 
-      <!-- ======= AGENT ======= -->
-      <ng-container *ngIf="selectedType==='agent' && selectedAgent">
-        <h2>Profil Agent</h2>
+  </div><!-- fin modal-card -->
 
-        <div class="header">
-          <div class="avatar">{{ selectedAgent.nom.charAt(0) }}</div>
-          <div>
-            <h3>{{ selectedAgent.nom }} {{ selectedAgent.prenoms }}</h3>
-            <span class="badge agent">AGENT</span>
-          </div>
-        </div>
+</div><!-- fin admin-container -->
 
-        <div class="grid">
-          <div>📧 {{ user.email }}</div>
-          <div>📞 {{ user.telephone }}</div>
-          <div *ngIf="selectedAgent.nomAgence">🏢 {{ selectedAgent.nomAgence }}</div>
-          <div *ngIf="selectedAgent.paysAgence">🌍 {{ selectedAgent.paysAgence }}</div>
-          <div *ngIf="selectedAgent.licence">📄 {{ selectedAgent.licence }}</div>
-        </div>
-      </ng-container>
+<!-- ── LECTEUR VIDÉO FLOTTANT ── -->
+<div class="video-player-overlay"
+     *ngIf="videoPlayerVisible && activeVideoId !== null"
+     [class.minimized]="isMinimized">
+
+  <div class="video-player-header">
+    <span class="video-player-title">🎥 {{ activeVideoName }}</span>
+    <div class="video-player-controls">
+      <button class="btn-minimize" (click)="toggleMinimize()">
+        {{ isMinimized ? '⬆' : '⬇' }}
+      </button>
+      <button class="btn-close-player" (click)="fermerVideo()">✕</button>
+    </div>
   </div>
 
+  <video *ngIf="!isMinimized"
+         controls autoplay
+         [src]="blobUrls.get(activeVideoId!)"
+         class="video-element">
+  </video>
 </div>
-
-
-  
